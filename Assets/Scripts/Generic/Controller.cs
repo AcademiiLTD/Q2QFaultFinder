@@ -31,6 +31,8 @@ public abstract class Controller : MonoBehaviour
 
 public enum ControllerEvent
 {
-
+    GRABBED_CONNECTOR,
+    PLACED_CONNECTOR,
+    FINISHED_SETUP
 }
 
