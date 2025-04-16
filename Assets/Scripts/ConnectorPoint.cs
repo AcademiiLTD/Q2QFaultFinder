@@ -18,11 +18,18 @@ public class ConnectorPoint : MonoBehaviour
         }
     }
 
-    public bool PlacedConnectorIsCorrect(ConnectorType connectorType)
+    public bool TryPlaceConnector(Connector placedConnector)
     {
-        if (connectorType == _correctConnectorType)
+        if (placedConnector._connectorType == _correctConnectorType)
         {
+            placedConnector.transform.SetParent(this.transform, false);
+            placedConnector.transform.localPosition = Vector3.zero;
+            placedConnector.SetVisibility(false);
+            placedConnector.SetInteractable(false);
+
+            _myImage.enabled = false;
             _visual.SetActive(true);
+            _connectedCorrectly = true;
             return true;
         }
         else
@@ -30,12 +37,17 @@ public class ConnectorPoint : MonoBehaviour
             return false;
         }
     }
+
+    public void ResetConnectorPoint()
+    {
+        
+    }
 }
 
 public enum ConnectorType
 {
-    One,
-    Two,
-    Three,
-    Four
+    Neutral,
+    Live,
+    Feed,
+    Common
 }

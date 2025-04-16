@@ -34,9 +34,6 @@ public class CableSetupController : Controller
             case ControllerEvent.STARTED_SETUP:
                 BeginSetup();
                 break;
-            case ControllerEvent.PLACED_CONNECTOR:
-                EvaluateConnectorPoints();
-                break;
             case ControllerEvent.FINISHED_SETUP:
                 _completionWindow.SetActive(true);
                 break;
@@ -65,6 +62,36 @@ public class CableSetupController : Controller
     {
         Debug.Log("Released");
 
+        Connector releasedConnector = connector.GetComponent<Connector>();
+        ConnectorPoint connectorPoint = CheckForConnectorPoint(data);
+
+        if (connectorPoint == null)
+        {
+            //Didn't find anything, put connector back into container
+            _currentGrabTarget.SetParent(_connectorContainer, false);
+            _currentGrabTarget = null;
+            return;
+        }
+
+        //Found connector point, check whether they match
+
+        if (connectorPoint.TryPlaceConnector(releasedConnector))
+        {
+            //They match, this is correct
+            EvaluateConnectorPoints();
+        }
+        else
+        {
+            //No match, incorrect
+            _currentGrabTarget.SetParent(_connectorContainer, false);
+            _currentGrabTarget = null;
+        }
+        
+
+    }
+
+    private ConnectorPoint CheckForConnectorPoint(PointerEventData data)
+    {
         var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(data, results);
 
@@ -73,20 +100,10 @@ public class CableSetupController : Controller
             if (result.gameObject.TryGetComponent<ConnectorPoint>(out ConnectorPoint connectorPoint))
             {
                 if (connectorPoint.Connected) break;
-                _currentGrabTarget.SetParent(connectorPoint.transform, false);
-                _currentGrabTarget.transform.localPosition = Vector3.zero;
                 Debug.Log("Found " + connectorPoint.gameObject);
-                return;
+                return connectorPoint;
             }
         }
-
-        _currentGrabTarget.SetParent(_connectorContainer, false);
-        _currentGrabTarget = null;
-
-    }
-
-    private ConnectorPoint CheckForConnectorPoint()
-    {
         return null;
     }
 
