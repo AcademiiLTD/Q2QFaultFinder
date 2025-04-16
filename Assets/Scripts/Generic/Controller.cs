@@ -31,8 +31,12 @@ public abstract class Controller : MonoBehaviour
 
 public enum ControllerEvent
 {
+    STARTED_SETUP,
+    STARTED_FAULT_FINDING,
     GRABBED_CONNECTOR,
+    RELEASED_CONNECTOR,
     PLACED_CONNECTOR,
-    FINISHED_SETUP
+    FINISHED_SETUP,
+    SUBMITTED_SCORE
 }
 

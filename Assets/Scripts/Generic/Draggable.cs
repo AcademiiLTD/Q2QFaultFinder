@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using System;
 
-public class Draggable : MonoBehaviour, IDragHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public UnityEvent OnStartedDrag, OnFinishedDrag;
+    public static event Action<Transform, PointerEventData> OnGrabbedDraggable, OnReleasedDraggable;
 
     public void OnBeginDrag(PointerEventData data)
     {
-        OnStartedDrag.Invoke();
+        OnGrabbedDraggable(transform, data);
     }
 
     public void OnDrag(PointerEventData data)
@@ -21,6 +22,6 @@ public class Draggable : MonoBehaviour, IDragHandler
 
     public void OnEndDrag(PointerEventData data)
     {
-        OnFinishedDrag.Invoke();
+        OnReleasedDraggable(transform, data);
     }
 }
