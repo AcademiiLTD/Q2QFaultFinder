@@ -10,9 +10,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     public static event Action<Transform, PointerEventData> OnGrabbedDraggable, OnReleasedDraggable;
 
+    /// <summary>
+    /// VISUAL ELEMENTS ONLY
+    /// </summary>
+    public UnityEvent OnDragStart, OnDragEnd;
+
     public void OnBeginDrag(PointerEventData data)
     {
         OnGrabbedDraggable(transform, data);
+        OnDragStart.Invoke();
     }
 
     public void OnDrag(PointerEventData data)
@@ -23,5 +29,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData data)
     {
         OnReleasedDraggable(transform, data);
+        OnDragEnd.Invoke();
+
     }
 }

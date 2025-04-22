@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class ConnectorPoint : MonoBehaviour
 {
     [SerializeField] private Image _myImage;
-    [SerializeField] private GameObject _visual;
+    [SerializeField] private GameObject _visual, _indicator;
     [SerializeField] private ConnectorType _correctConnectorType;
+    [SerializeField] private string _hintText;
     private bool _connectedCorrectly;
 
     public bool Connected
@@ -29,11 +30,13 @@ public class ConnectorPoint : MonoBehaviour
 
             _myImage.enabled = false;
             _visual.SetActive(true);
+            _indicator.SetActive(false);
             _connectedCorrectly = true;
             return true;
         }
         else
         {
+            //Populate dialogue
             return false;
         }
     }
