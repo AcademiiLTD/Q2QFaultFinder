@@ -6,13 +6,16 @@ using UnityEngine.UI;
 public class LineSegmentView : MonoBehaviour
 {
     [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private Image _lineImage;
+    [SerializeField] private Image _lineImage, _startPoint, _endPoint;
 
     private Vector2 _firstPosition, _secondPosition;
 
     public void SetFirstPosition(Vector2 position)
     {
         _firstPosition = position;
+        _startPoint.enabled = true;
+        _startPoint.transform.position = _firstPosition;
+
         //_lineRenderer.positionCount++;
         //_lineRenderer.SetPosition(0, position);
     }
@@ -27,17 +30,23 @@ public class LineSegmentView : MonoBehaviour
 
     private void CreateLine()
     {
+
         Vector2 dir = _firstPosition - _secondPosition;
-        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        _lineImage.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         Vector3 midPoint = (_firstPosition + _secondPosition) / 2f;
-        transform.localScale = new Vector3(dir.magnitude, 1f, 1f);
-        transform.position = midPoint;
+        _lineImage.transform.localScale = new Vector3(dir.magnitude, 1f, 1f);
+        _lineImage.transform.position = midPoint;
+
+        _startPoint.enabled = true;
+        _startPoint.transform.position = _firstPosition;
+        _endPoint.enabled = true;
+        _endPoint.transform.position = _secondPosition;
 
         _lineImage.enabled = true;
     }
 
     public float Length()
     {
-        return transform.localScale.x;
+        return _lineImage.transform.localScale.x;
     }
 }
