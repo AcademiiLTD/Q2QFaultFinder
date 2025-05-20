@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,4 +25,19 @@ public enum Month
     OCT,
     NOV,
     DEC
+}
+
+[Serializable]
+public class LineSegment
+{
+    public CableType cableType;
+    public float length;
+}
+
+public enum CableType
+{
+    CNE,
+    PILC_cu,
+    CONSAC,
+    PILC_al
 }
