@@ -31,7 +31,9 @@ public enum Month
 public class LineSegment
 {
     public CableType cableType;
-    public float length;
+    public int length;
+    public bool isFault;
+    public int faultDistance;
 }
 
 public enum CableType

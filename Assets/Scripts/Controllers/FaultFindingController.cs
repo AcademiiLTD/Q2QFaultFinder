@@ -7,8 +7,10 @@ public class FaultFindingController : Controller
 {
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private Transform _mapTransform;
-    [SerializeField] private List<LineSegmentView> _lineSegments;
+    [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private MapView _mapView;
+    [SerializeField] private FaultFindingScenario _currentScenario;
+    private List<LineSegment> _inputLineSegments;
 
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
 
@@ -16,10 +18,25 @@ public class FaultFindingController : Controller
     {
         base.OnEnable();
         MapView.OnMapClicked += TappedMap;
+        RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentScenario);
     }
+
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
-       
+       switch (eventType)
+        {
+            case ControllerEvent.STARTED_FAULT_FINDING:
+                _currentScenario = (FaultFindingScenario)eventData;
+                break;
+            case ControllerEvent.FINISHED_SEGMENT:
+                EvaluateDeviceLineSegments((List<LineSegment>)eventData);
+                break;
+        }
+    }
+
+    public void SetUpScenario()
+    {
+
     }
 
     private void TappedMap(Vector2 tapPosition)
@@ -31,7 +48,7 @@ public class FaultFindingController : Controller
         {
             _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, _mapTransform).GetComponent<LineSegmentView>();
             _previousLineSegment = _currentLineSegmentView;
-            _lineSegments.Add(_currentLineSegmentView);
+            _lineSegmentsDisplays.Add(_currentLineSegmentView);
             _currentLineSegmentView.SetFirstPosition(tapPosition);
         }
         else
@@ -47,7 +64,7 @@ public class FaultFindingController : Controller
     private void EvaluateSegmentLengths()
     {
         float totalLength = 0f;
-        foreach (LineSegmentView lineSegment in _lineSegments)
+        foreach (LineSegmentView lineSegment in _lineSegmentsDisplays)
         {
             totalLength += lineSegment.Length();
         }
@@ -60,15 +77,15 @@ public class FaultFindingController : Controller
     public void UndoSegment()
     {
 
-        if (_lineSegments.Count > 0)
+        if (_lineSegmentsDisplays.Count > 0)
         {
-            Destroy(_lineSegments[_lineSegments.Count - 1].gameObject);
-            _lineSegments.RemoveAt(_lineSegments.Count - 1);
+            Destroy(_lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1].gameObject);
+            _lineSegmentsDisplays.RemoveAt(_lineSegmentsDisplays.Count - 1);
         }
 
-        if (_lineSegments.Count > 0)
+        if (_lineSegmentsDisplays.Count > 0)
         {
-            _previousLineSegment = _lineSegments[_lineSegments.Count - 1];
+            _previousLineSegment = _lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1];
         }
         else
         {
@@ -76,5 +93,43 @@ public class FaultFindingController : Controller
         }
 
             EvaluateSegmentLengths();
+    }
+
+    private void EvaluateDeviceLineSegments(List<LineSegment> segments)
+    {
+        //First, do some immediate failure conditions
+
+
+        int totalLength = 0;
+        foreach (LineSegment segment in segments)
+        {
+            totalLength += segment.length;
+        }
+
+        int scenarioTotalLength = 0;
+        foreach (LineSegment segment in _currentScenario._lineSegments)
+        {
+            scenarioTotalLength += segment.length;
+        }
+
+        if (totalLength <= scenarioTotalLength)
+        {
+            RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
+        }
+        else
+        {
+            int actualFaultDistance = scenarioTotalLength - (scenarioTotalLength - segments[segments.Count - 1].faultDistance);
+
+            int difference = scenarioTotalLength - totalLength;
+
+            int totalLengthMinusFault = scenarioTotalLength - segments[segments.Count - 1].faultDistance;
+            RaiseControllerEvent(ControllerEvent.FINISHED_TEST, totalLengthMinusFault);
+        }
+
+    }
+
+    private void CalculateFinalFaultLocation(List<LineSegment> segments)
+    {
+
     }
 }

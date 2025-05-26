@@ -37,9 +37,6 @@ public class CableSetupController : Controller
             case ControllerEvent.FINISHED_SETUP:
                 _completionWindow.SetActive(true);
                 break;
-            case ControllerEvent.SUBMITTED_SCORE:
-
-                break;
         }
     }
 

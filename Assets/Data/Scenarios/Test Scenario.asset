@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Test Scenario
   m_EditorClassIdentifier: 
   _lineSegments:
+  - cableType: 1
+    length: 12
+  - cableType: 2
+    length: 32
   - cableType: 0
-    length: 0
-  - cableType: 0
-    length: 0
-  month: 0
+    length: 6
+  - cableType: 2
+    length: 5
+  month: 7
   mapImage: {fileID: 0}
