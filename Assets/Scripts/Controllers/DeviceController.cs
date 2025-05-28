@@ -24,7 +24,7 @@ public class DeviceController : Controller
                 _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
                 break;
             case ControllerEvent.SELECTED_CABLE_TYPE:
-                _currentLineSegment.cableType = (CableType)eventData;
+                _currentLineSegment.cable = (CableType)eventData;
                 _deviceView.ShowCableSizeInput();
                 break;
             case ControllerEvent.SELECTED_CABLE_SIZE:
@@ -62,8 +62,8 @@ public class DeviceController : Controller
 
     public void SubmitCableType(int cable)
     {
-        CableType cableType = (CableType)cable;
-        RaiseControllerEvent(ControllerEvent.SELECTED_CABLE_TYPE, cableType);
+        //CableType cableType = (CableType)cable; //worry about this later
+        //RaiseControllerEvent(ControllerEvent.SELECTED_CABLE_TYPE, cableType);
     }
 
     public void SubmitCableSize(int size)
@@ -80,5 +80,8 @@ public class DeviceController : Controller
     {
         _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, totalLengthMinusFault);
     }
+
+
+
 
 }

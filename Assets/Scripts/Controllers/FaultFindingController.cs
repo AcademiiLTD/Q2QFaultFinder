@@ -9,7 +9,7 @@ public class FaultFindingController : Controller
     [SerializeField] private Transform _mapTransform;
     [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private MapView _mapView;
-    [SerializeField] private FaultFindingScenario _currentScenario;
+    [SerializeField] private FaultFindingScenario _currentScenario, _placeholderSubmission;
     private List<LineSegment> _inputLineSegments;
 
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
@@ -29,7 +29,7 @@ public class FaultFindingController : Controller
                 _currentScenario = (FaultFindingScenario)eventData;
                 break;
             case ControllerEvent.FINISHED_SEGMENT:
-                EvaluateDeviceLineSegments((List<LineSegment>)eventData);
+                //EvaluateDeviceLineSegments((List<LineSegment>)eventData);
                 break;
         }
     }
@@ -97,39 +97,107 @@ public class FaultFindingController : Controller
 
     private void EvaluateDeviceLineSegments(List<LineSegment> segments)
     {
-        //First, do some immediate failure conditions
+        //Get what the trip round time is
+        //Use this to compare against the user submission
+        float roundTripTime = RoundTripTime(_currentScenario._lineSegments);
+        float currentTripTime = 0f;
+        bool faultReached = false;
 
-
-        int totalLength = 0;
         foreach (LineSegment segment in segments)
         {
-            totalLength += segment.length;
+            //Calculate the travel time
+            //currentTripTime += TravelTimeInSection(segment.length, segment.cable.velocityFactor);
+            
+            //If it's lower than what it should be, fault is further along, continue
+            if (currentTripTime >= roundTripTime) faultReached = true;
+
         }
 
-        int scenarioTotalLength = 0;
-        foreach (LineSegment segment in _currentScenario._lineSegments)
+        if (faultReached)
         {
-            scenarioTotalLength += segment.length;
-        }
-
-        if (totalLength <= scenarioTotalLength)
-        {
-            RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
+            //Do more stuff
         }
         else
         {
-            int actualFaultDistance = scenarioTotalLength - (scenarioTotalLength - segments[segments.Count - 1].faultDistance);
-
-            int difference = scenarioTotalLength - totalLength;
-
-            int totalLengthMinusFault = scenarioTotalLength - segments[segments.Count - 1].faultDistance;
-            RaiseControllerEvent(ControllerEvent.FINISHED_TEST, totalLengthMinusFault);
+            //Ask user for another section
         }
 
     }
 
-    private void CalculateFinalFaultLocation(List<LineSegment> segments)
+    [ContextMenu("TEST FAULT ALGORITHM")]
+    public void TestFaultAlgorithm()
     {
+        //This is how long the signal takes
+        //This is independent of whatever the user submitted
+        //We use this to compare between the real scenario and the user submission
+        float roundTripTime = RoundTripTime(_currentScenario._lineSegments);
+        Debug.Log($"Round trip time: {roundTripTime}");
+        //float SubmittedRoundTripTime = RoundTripTime(_placeholderSubmission._lineSegments);
 
+        Debug.Log($"Real distance: {FaultDistance(_currentScenario._lineSegments, roundTripTime)}");
+        Debug.Log($"Submitted distance: {FaultDistance(_placeholderSubmission._lineSegments, roundTripTime)}");
+
+        //Debug.Log($"Real fault trip time is {roundTripTime}, user submitted trip time is {SubmittedRoundTripTime}");
+    }
+
+
+    private float RoundTripTime(List<LineSegment> segments)
+    {
+        float roundTripTime = 0f;
+        float totalDistance = 0f;
+        bool foundFault = false;
+        foreach (LineSegment segment in segments)
+        {
+            if (foundFault) break;
+
+            totalDistance += segment.length;
+            float distanceToUse = 0f;
+
+            if (totalDistance > _currentScenario.faultDistance)
+            {
+                //Fault is in this section
+                //Find difference and subtract before applying
+                //We can also break the loop now
+                distanceToUse = totalDistance - (totalDistance - _currentScenario.faultDistance);
+
+                foundFault = true;
+            }
+            else
+            {
+                distanceToUse = segment.length;
+            }
+
+            //Debug.Log($"{totalDistance} ::: {segment.length} ::: {distanceToUse}");
+
+            float thisSegmentTripTime = TripTimeInSection(distanceToUse, segment.cable.velocityFactor);
+            roundTripTime += thisSegmentTripTime;
+        }
+
+        roundTripTime *= 2;
+        roundTripTime *= 1000000;
+        return roundTripTime;
+    }
+
+    private float FaultDistance(List<LineSegment> segments, float roundTripTime)
+    {
+        roundTripTime *= 0.5f; //Halve this to find one way trip time
+        float distanceToFault = 0f; //This is the part to find
+
+        foreach (LineSegment segment in segments)
+        {
+
+        }
+
+        return distanceToFault;
+    }
+
+    private float TripTimeInSection(float distance, float velocityfactor)
+    {
+        return distance / (1000 * velocityfactor * 299792.485f);
+    }
+
+    private float DistanceBasedOnTripTime(float tripTime, float velocityFactor)
+    {
+        return (tripTime / 2) * velocityFactor * 299792.485f;
     }
 }

@@ -9,6 +9,7 @@ public class FaultFindingScenario : ScriptableObject
     public List<LineSegment> _lineSegments;
     public Month month;
     public Sprite mapImage;
+    public float faultDistance;
 }
 
 public enum Month
@@ -30,16 +31,6 @@ public enum Month
 [Serializable]
 public class LineSegment
 {
-    public CableType cableType;
-    public int length;
-    public bool isFault;
-    public int faultDistance;
-}
-
-public enum CableType
-{
-    CNE,
-    PILC_cu,
-    CONSAC,
-    PILC_al
+    public CableType cable;
+    public float length;
 }
