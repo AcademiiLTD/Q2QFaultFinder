@@ -81,7 +81,60 @@ public class DeviceController : Controller
         _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, totalLengthMinusFault);
     }
 
+    public static float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
+    {
+        float remainingDistance = faultDistanceMeters;
+        float totalTimeSeconds = 0f;
+        float SpeedOfLight = 299792.485f;
 
+
+        foreach (var segment in segments)
+        {
+            if (remainingDistance <= segment.length)
+            {
+                // Fault is within this segment
+                float faultInSegmentKm = remainingDistance / 1000f;
+                totalTimeSeconds += faultInSegmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                break;
+            }
+            else
+            {
+                float segmentKm = segment.length / 1000f;
+                totalTimeSeconds += segmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                remainingDistance -= segment.length;
+            }
+        }
+
+        return totalTimeSeconds * 2f * 1e6f; // Convert seconds to µs for round-trip
+    }
+
+    public static float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    {
+        float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
+        float distanceTravelled = 0f;
+        float SpeedOfLight = 299792.485f;
+
+        foreach (var segment in segments)
+        {
+            float segmentLengthKm = segment.length / 1000f;
+            float segmentTime = segmentLengthKm / (segment.cable.velocityFactor * SpeedOfLight);
+
+            if (oneWayTime <= segmentTime)
+            {
+                // Fault is in this segment
+                float distanceInSegmentKm = oneWayTime * segment.cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentM = distanceInSegmentKm * 1000f;
+                return distanceTravelled + distanceInSegmentM;
+            }
+
+            // Move to next segment
+            oneWayTime -= segmentTime;
+            distanceTravelled += segment.length;
+        }
+
+        // If fault is beyond the network
+        return -1f;
+    }
 
 
 }
