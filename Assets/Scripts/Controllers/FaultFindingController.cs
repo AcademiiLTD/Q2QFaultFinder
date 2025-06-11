@@ -10,6 +10,7 @@ public class FaultFindingController : Controller
     [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private MapView _mapView;
     [SerializeField] private FaultFindingScenario _currentScenario, _placeholderSubmission;
+    [SerializeField] private GameObject _faultFindingContainer;
     private List<LineSegment> _inputLineSegments;
 
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
@@ -18,7 +19,7 @@ public class FaultFindingController : Controller
     {
         base.OnEnable();
         MapView.OnMapClicked += TappedMap;
-        RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentScenario);
+        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentScenario);
     }
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
@@ -26,17 +27,10 @@ public class FaultFindingController : Controller
        switch (eventType)
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
+                _faultFindingContainer.gameObject.SetActive(true);
                 _currentScenario = (FaultFindingScenario)eventData;
                 break;
-            case ControllerEvent.FINISHED_SEGMENT:
-                //EvaluateDeviceLineSegments((List<LineSegment>)eventData);
-                break;
         }
-    }
-
-    public void SetUpScenario()
-    {
-
     }
 
     private void TappedMap(Vector2 tapPosition)

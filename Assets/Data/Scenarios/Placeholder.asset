@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08fe0677b710af46a30d63b32ff6e2f, type: 3}
   m_Name: Placeholder
   m_EditorClassIdentifier: 
+  description: This is a placeholder scenario
+  date: 13/4/2018
   _lineSegments:
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
     length: 10
+    thickness: 0
   month: 7
   mapImage: {fileID: 0}
   faultDistance: 2

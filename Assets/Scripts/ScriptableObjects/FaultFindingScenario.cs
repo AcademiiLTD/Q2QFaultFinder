@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fault Finding Scenario")]
 public class FaultFindingScenario : ScriptableObject
 {
+    public string description;
+    public string date;
     public List<LineSegment> _lineSegments;
     public Month month;
     public Sprite mapImage;
@@ -33,4 +35,5 @@ public class LineSegment
 {
     public CableType cable;
     public float length;
+    public float thickness;
 }
