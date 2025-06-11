@@ -13,6 +13,7 @@ public class DeviceController : Controller
     [SerializeField] private List<CableType> _cableTypes;
 
     private float _faultDistanceMeters;
+    private float _roundTripTime;
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
@@ -20,6 +21,7 @@ public class DeviceController : Controller
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
                 _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
+                _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
                 Debug.Log(_faultDistanceMeters);
                 break;
             case ControllerEvent.START_NEW_SECTION:
@@ -45,16 +47,19 @@ public class DeviceController : Controller
                 RaiseControllerEvent(ControllerEvent.FINISHED_SEGMENT, _savedLineSegments);
                 break;
             case ControllerEvent.FINISHED_SEGMENT:
-                float roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _savedLineSegments);
-                float estimatedFaultDistance = CalculateFaultDistance(roundTripTime, _savedLineSegments);
-                Debug.Log(estimatedFaultDistance);
-                if (estimatedFaultDistance == -1 || estimatedFaultDistance == 0)
+                float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
+                Debug.Log("current fault estimate: " + estimatedFaultDistance);
+                if (estimatedFaultDistance == -1)
                 {
                     RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
                 }
-                break;
+                else
+                {
+                    RaiseControllerEvent(ControllerEvent.FINISHED_TEST, estimatedFaultDistance);
+                }
+                    break;
             case ControllerEvent.FINISHED_TEST:
-                DisplayFaultDistance((int)eventData);
+                DisplayFaultDistance((float)eventData);
                 break;
 
         }
@@ -94,7 +99,22 @@ public class DeviceController : Controller
 
     private void DisplayFaultDistance(float faultDistance)
     {
-        _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, 1);
+        float totalDistance = 0f;
+
+        foreach (LineSegment segment in _savedLineSegments)
+        {
+            totalDistance += segment.length;
+        }
+
+        if (_savedLineSegments.Count > 1)
+        {
+            for (int i = 0; i < _savedLineSegments.Count - 1; i++)
+            {
+                faultDistance -= _savedLineSegments[i].length;
+            }
+        }
+
+        _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, faultDistance);
     }
 
     public static float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)

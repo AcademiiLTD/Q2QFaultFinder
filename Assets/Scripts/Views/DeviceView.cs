@@ -70,11 +70,11 @@ public class DeviceView : MonoBehaviour
         return int.Parse(_sectionLengthText.text);
     }
 
-    public void ShowFinalFaultLocation(int segmentCount, int roundedMetersDistance)
+    public void ShowFinalFaultLocation(int segmentCount, float givenDistance)
     {
         DisableAllScreens();
         _faultDisplay.SetActive(true);
-        _faultDisplayText.text = $"FAULT IS {roundedMetersDistance} METERS INTO SECTION {segmentCount}";
+        _faultDisplayText.text = $"FAULT IS {givenDistance} METERS INTO SECTION {segmentCount}";
     }
 
     private void DisableAllScreens()
