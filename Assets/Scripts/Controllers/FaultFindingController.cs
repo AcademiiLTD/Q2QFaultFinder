@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class FaultFindingController : Controller
 {
+    [SerializeField] private List<Color> _availableColours;
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private Transform _mapTransform;
     [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;

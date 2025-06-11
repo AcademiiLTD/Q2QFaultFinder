@@ -10,6 +10,7 @@ public class ColourSelector : MonoBehaviour
 
     public void SetColour(Color colour)
     {
+        gameObject.SetActive(true);
         _myColour = colour;
         _thumbnailImage.color = colour;
     }
