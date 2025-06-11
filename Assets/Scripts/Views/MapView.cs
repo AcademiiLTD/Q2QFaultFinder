@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class MapView : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField] private List<Color> _availableLineColours;
+    [SerializeField] private List<ColourSelector> _colourSelectors;
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
 
     public static event Action<Vector2> OnMapClicked;
