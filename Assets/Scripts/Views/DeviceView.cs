@@ -74,7 +74,7 @@ public class DeviceView : MonoBehaviour
     {
         DisableAllScreens();
         _faultDisplay.SetActive(true);
-        _faultDisplayText.text = $"FAULT IS {givenDistance} METERS INTO SECTION {segmentCount}";
+        _faultDisplayText.text = $"FAULT IS {givenDistance.ToString("0.00")} METERS INTO SECTION {segmentCount}";
     }
 
     private void DisableAllScreens()

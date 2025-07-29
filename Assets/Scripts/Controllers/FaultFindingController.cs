@@ -6,22 +6,12 @@ using UnityEngine.EventSystems;
 public class FaultFindingController : Controller
 {
     [SerializeField] private List<Color> _availableColours;
-    [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private Transform _mapTransform;
-    [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
+
     [SerializeField] private MapView _mapView;
-    [SerializeField] private FaultFindingScenario _currentScenario, _placeholderSubmission;
+    [SerializeField] private FaultFindingScenario _currentScenario;
     [SerializeField] private GameObject _faultFindingContainer;
-    private List<LineSegment> _inputLineSegments;
-
-    private LineSegmentView _currentLineSegmentView, _previousLineSegment;
-
-    private void OnEnable()
-    {
-        base.OnEnable();
-        MapView.OnMapClicked += TappedMap;
-        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentScenario);
-    }
+    [SerializeField] private FinalResultPopupView _finalResultView;
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
@@ -31,64 +21,15 @@ public class FaultFindingController : Controller
                 _faultFindingContainer.gameObject.SetActive(true);
                 _currentScenario = (FaultFindingScenario)eventData;
                 break;
+            case ControllerEvent.SUBMIT_GUESS:
+                SubmitUserGuess((float)eventData);
+                break;
         }
     }
 
-    private void TappedMap(Vector2 tapPosition)
+    public void SubmitUserGuess(float userGuess)
     {
-        Debug.Log("Tapped map at " + tapPosition);
-
-        //No line segment, this is the first tap
-        if (_currentLineSegmentView == null)
-        {
-            _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, _mapTransform).GetComponent<LineSegmentView>();
-            _previousLineSegment = _currentLineSegmentView;
-            _lineSegmentsDisplays.Add(_currentLineSegmentView);
-            _currentLineSegmentView.SetFirstPosition(tapPosition);
-        }
-        else
-        {
-            _currentLineSegmentView.SetSecondPosition(tapPosition);
-
-            EvaluateSegmentLengths();
-            _currentLineSegmentView = null;
-        }
-        //Line segment already exists, this is the second tap
+        _finalResultView.SetResultText(userGuess);
+        PlayerPrefs.SetString($"{_currentScenario.name}", $"{userGuess.ToString()}");
     }
-
-    private void EvaluateSegmentLengths()
-    {
-        float totalLength = 0f;
-        foreach (LineSegmentView lineSegment in _lineSegmentsDisplays)
-        {
-            totalLength += lineSegment.Length();
-        }
-
-
-        _mapView.SetPreviousSegmentLength(_previousLineSegment == null ? 0f :  _previousLineSegment.Length());
-        _mapView.SetTotalSegmentsLength(totalLength);
-    }
-
-    public void UndoSegment()
-    {
-
-        if (_lineSegmentsDisplays.Count > 0)
-        {
-            Destroy(_lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1].gameObject);
-            _lineSegmentsDisplays.RemoveAt(_lineSegmentsDisplays.Count - 1);
-        }
-
-        if (_lineSegmentsDisplays.Count > 0)
-        {
-            _previousLineSegment = _lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1];
-        }
-        else
-        {
-            _previousLineSegment = null;
-        }
-
-            EvaluateSegmentLengths();
-    }
-
-
 }

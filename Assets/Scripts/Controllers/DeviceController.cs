@@ -14,6 +14,7 @@ public class DeviceController : Controller
 
     private float _faultDistanceMeters;
     private float _roundTripTime;
+    private float _currentUserFaultGuess;
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
@@ -48,6 +49,7 @@ public class DeviceController : Controller
                 break;
             case ControllerEvent.FINISHED_SEGMENT:
                 float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
+                Debug.Log($"Trip time:{_roundTripTime}");
                 Debug.Log("current fault estimate: " + estimatedFaultDistance);
                 if (estimatedFaultDistance == -1)
                 {
@@ -57,7 +59,7 @@ public class DeviceController : Controller
                 {
                     RaiseControllerEvent(ControllerEvent.FINISHED_TEST, estimatedFaultDistance);
                 }
-                    break;
+                break;
             case ControllerEvent.FINISHED_TEST:
                 DisplayFaultDistance((float)eventData);
                 break;
@@ -99,6 +101,8 @@ public class DeviceController : Controller
 
     private void DisplayFaultDistance(float faultDistance)
     {
+        _currentUserFaultGuess = faultDistance;
+
         float totalDistance = 0f;
 
         foreach (LineSegment segment in _savedLineSegments)
@@ -115,6 +119,12 @@ public class DeviceController : Controller
         }
 
         _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, faultDistance);
+    }
+
+    public void SubmitUserFaultGuess()
+    {
+        float finalDifference = Mathf.Abs(_faultDistanceMeters - _currentUserFaultGuess);
+        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, finalDifference);
     }
 
     public static float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)

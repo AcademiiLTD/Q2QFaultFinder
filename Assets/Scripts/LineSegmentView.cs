@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LineSegmentView : MonoBehaviour
 {
-    [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private Image _lineImage, _startPoint, _endPoint;
+    [SerializeField] private Image _lineImage, _startPoint, _endPoint, _lengthLabel;
+    [SerializeField] private TextMeshProUGUI _lengthLabelText;
 
     private Vector2 _firstPosition, _secondPosition;
 
@@ -15,17 +16,12 @@ public class LineSegmentView : MonoBehaviour
         _firstPosition = position;
         _startPoint.enabled = true;
         _startPoint.transform.position = _firstPosition;
-
-        //_lineRenderer.positionCount++;
-        //_lineRenderer.SetPosition(0, position);
     }
 
     public void SetSecondPosition(Vector2 position)
     {
         _secondPosition = position;
         CreateLine();
-        //_lineRenderer.positionCount++;
-        //_lineRenderer.SetPosition(1, position);
     }
 
     private void CreateLine()
@@ -48,5 +44,18 @@ public class LineSegmentView : MonoBehaviour
     public float Length()
     {
         return _lineImage.transform.localScale.x;
+    }
+
+    public void SetColour(Color colour)
+    {
+        _lineImage.color = colour;
+    }
+
+    public void SetLength(string lengthValue)
+    {
+        _lengthLabelText.text = lengthValue;
+        _lengthLabel.transform.position = _lineImage.transform.position + new Vector3(0f, 50f, 0f);
+        _lengthLabel.gameObject.SetActive(true);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_lengthLabel.rectTransform);
     }
 }
