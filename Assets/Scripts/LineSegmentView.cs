@@ -9,41 +9,51 @@ public class LineSegmentView : MonoBehaviour
     [SerializeField] private Image _lineImage, _startPoint, _endPoint, _lengthLabel;
     [SerializeField] private TextMeshProUGUI _lengthLabelText;
 
-    private Vector2 _firstPosition, _secondPosition;
+    //private Vector2 _firstPosition, _secondPosition;
 
     public void SetFirstPosition(Vector2 position)
     {
-        _firstPosition = position;
+        //_firstPosition = position;
         _startPoint.enabled = true;
-        _startPoint.transform.position = _firstPosition;
+        _startPoint.transform.position = position;
     }
 
     public void SetSecondPosition(Vector2 position)
     {
-        _secondPosition = position;
+        //_secondPosition = position;
+        _endPoint.enabled = true;
+        _endPoint.transform.position = position;
         CreateLine();
     }
 
     private void CreateLine()
     {
+        Vector2 startPosition = _startPoint.transform.localPosition;
+        Vector2 endPosition = _endPoint.transform.localPosition;
 
-        Vector2 dir = _firstPosition - _secondPosition;
+        Vector2 dir = startPosition - endPosition;
         _lineImage.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-        Vector3 midPoint = (_firstPosition + _secondPosition) / 2f;
-        _lineImage.transform.localScale = new Vector3(dir.magnitude, 1f, 1f);
+        Vector3 midPoint = (startPosition + endPosition) / 2f;
+        _lineImage.rectTransform.sizeDelta = new Vector2(Mathf.Abs(dir.magnitude), 1f);
         _lineImage.transform.position = midPoint;
-
-        _startPoint.enabled = true;
-        _startPoint.transform.position = _firstPosition;
-        _endPoint.enabled = true;
-        _endPoint.transform.position = _secondPosition;
-
         _lineImage.enabled = true;
+        //Vector2 dir = _firstPosition - _secondPosition;
+        //_lineImage.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        //Vector3 midPoint = (_firstPosition + _secondPosition) / 2f;
+        //_lineImage.transform.localScale = new Vector3(dir.magnitude, 1f, 1f);
+        //_lineImage.transform.position = midPoint;
+
+        //_startPoint.enabled = true;
+        //_startPoint.transform.position = _firstPosition;
+        //_endPoint.enabled = true;
+        //_endPoint.transform.position = _secondPosition;
+
+        //_lineImage.enabled = true;
     }
 
     public float Length()
     {
-        return _lineImage.transform.localScale.x;
+        return _lineImage.rectTransform.sizeDelta.x;
     }
 
     public void SetColour(Color colour)

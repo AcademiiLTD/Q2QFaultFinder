@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MapView : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField] private Image _mapBackgroundImage;
     [SerializeField] private List<Color> _lineColours;
     [SerializeField] private List<ColourSelector> _colourSelectors;
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
@@ -16,6 +18,7 @@ public class MapView : MonoBehaviour, IPointerDownHandler
     private Color _currentColour;
     private List<LineSegment> _inputLineSegments;
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
+    private float _mapMetersPerPixel;
 
 
     public static event Action<Vector2> OnMapClicked;
@@ -37,6 +40,13 @@ public class MapView : MonoBehaviour, IPointerDownHandler
         OnMapClicked(data.position);
     }
 
+    public void SetUpMap(Sprite mapSprite, float metersPerPixel)
+    {
+        _mapMetersPerPixel = metersPerPixel;
+        _mapBackgroundImage.sprite = mapSprite;
+        _mapBackgroundImage.gameObject.SetActive(true);
+    }
+
     public void SetLineColour(int colourIndex)
     {
         _currentColour = _lineColours[colourIndex];
@@ -44,8 +54,11 @@ public class MapView : MonoBehaviour, IPointerDownHandler
 
     public void SetPreviousSegmentLength(float distance)
     {
-        _previousSegmentDistanceText.text = distance.ToString();
-        _previousLineSegment.SetLength(distance.ToString("0.00"));
+        Debug.Log(distance);
+        Debug.Log(_mapMetersPerPixel);
+        float scaledDistance = distance / _mapMetersPerPixel;
+        _previousSegmentDistanceText.text = $"{scaledDistance.ToString("0.00")}m";
+        _previousLineSegment.SetLength($"{scaledDistance.ToString("0.00")}m");
     }
 
     public void SetTotalSegmentsLength(float distance)
@@ -67,7 +80,7 @@ public class MapView : MonoBehaviour, IPointerDownHandler
         //No line segment, this is the first tap
         if (_currentLineSegmentView == null)
         {
-            _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, transform).GetComponent<LineSegmentView>();
+            _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
             _previousLineSegment = _currentLineSegmentView;
             _lineSegmentsDisplays.Add(_currentLineSegmentView);
             _currentLineSegmentView.SetFirstPosition(tapPosition);

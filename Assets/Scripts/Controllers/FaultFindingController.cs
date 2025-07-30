@@ -11,7 +11,7 @@ public class FaultFindingController : Controller
     [SerializeField] private MapView _mapView;
     [SerializeField] private FaultFindingScenario _currentScenario;
     [SerializeField] private GameObject _faultFindingContainer;
-    [SerializeField] private FinalResultPopupView _finalResultView;
+    [SerializeField] private FaultFindingView _faultFindingView;
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
@@ -19,7 +19,6 @@ public class FaultFindingController : Controller
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
                 _faultFindingContainer.gameObject.SetActive(true);
-                _currentScenario = (FaultFindingScenario)eventData;
                 break;
             case ControllerEvent.SUBMIT_GUESS:
                 SubmitUserGuess((float)eventData);
@@ -29,7 +28,7 @@ public class FaultFindingController : Controller
 
     public void SubmitUserGuess(float userGuess)
     {
-        _finalResultView.SetResultText(userGuess);
+        _faultFindingView.DisplayuserGuess(userGuess);
         PlayerPrefs.SetString($"{_currentScenario.name}", $"{userGuess.ToString()}");
     }
 }
