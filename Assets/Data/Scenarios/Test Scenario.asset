@@ -16,15 +16,15 @@ MonoBehaviour:
   date: 03/02/2012
   _lineSegments:
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 4
+    length: 40
     thickness: 120
   - cable: {fileID: 11400000, guid: fcafdb5c932665146851f72eab835ecd, type: 2}
-    length: 3
+    length: 30
     thickness: 70
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 8
+    length: 48
     thickness: 240
   month: 7
-  mapImage: {fileID: 0}
-  faultDistance: 6
-  mapMetersPerPixel: 0
+  mapImage: {fileID: 21300000, guid: b0a208acc4aae254dba9ae5fc96e7a4a, type: 3}
+  faultDistance: 83
+  mapMetersPerPixel: 5.5
