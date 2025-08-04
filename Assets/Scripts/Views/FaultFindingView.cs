@@ -8,7 +8,6 @@ public class FaultFindingView : MonoBehaviour
 
     public void DisplayuserGuess(float userGuess)
     {
-
         _finalResultView.SetResultText(userGuess);
         gameObject.SetActive(true);
     }

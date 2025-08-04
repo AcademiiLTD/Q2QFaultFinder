@@ -6,8 +6,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MapView : MonoBehaviour, IPointerDownHandler
+public class MapView : MonoBehaviour
 {
+    [SerializeField] private CanvasGroup _mapCanvasGroup;
+
     [SerializeField] private Image _mapBackgroundImage;
     [SerializeField] private List<Color> _lineColours;
     [SerializeField] private List<ColourSelector> _colourSelectors;
@@ -20,24 +22,10 @@ public class MapView : MonoBehaviour, IPointerDownHandler
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
     private float _mapMetersPerPixel;
 
-
-    public static event Action<Vector2> OnMapClicked;
-
-    private void OnEnable()
-    {
-        MapView.OnMapClicked += TappedMap;
-        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentScenario);
-    }
-
     private void Awake()
     {
         PopulateColourSelectors();
         _currentColour = _lineColours[0];
-    }
-
-    public void OnPointerDown(PointerEventData data)
-    {
-        OnMapClicked(data.position);
     }
 
     public void SetUpMap(Sprite mapSprite, float metersPerPixel)
@@ -73,7 +61,7 @@ public class MapView : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    private void TappedMap(Vector2 tapPosition)
+    public void PlaceLineSegment(Vector2 tapPosition)
     {
         Debug.Log("Tapped map at " + tapPosition);
 

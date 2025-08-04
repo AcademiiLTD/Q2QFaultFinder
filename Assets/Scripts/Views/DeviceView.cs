@@ -14,10 +14,21 @@ public class DeviceView : MonoBehaviour
     {
         ShowMonthInput();
     }
-    public void SetDeviceActive(bool state)
+    public void ToggleDeviceActive()
     {
+        bool state;
+        if (_canvasGroup.interactable)
+        {
+            state = false;
+        }
+        else
+        {
+            state = true;
+        }
+
         _canvasGroup.alpha = state ? 1 : 0;
         _canvasGroup.interactable = state;
+        _canvasGroup.blocksRaycasts = state;
     }
 
     public void StartNewLineSegment(int segmentCount)

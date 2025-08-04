@@ -182,5 +182,8 @@ public class DeviceController : Controller
         return -1f;
     }
 
-
+    public void DeviceButtonPressed()
+    {
+        _deviceView.ToggleDeviceActive();
+    }
 }

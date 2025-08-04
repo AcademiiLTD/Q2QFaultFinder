@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScenarioListController : Controller
+public class MainMenuController : Controller
 {
-    [SerializeField] private ScenarioListView _scenarioListView;
-    [SerializeField] private List<FaultFindingScenario> _scenarios;
+    [SerializeField] private MainMenuView _mainMenuView;
+
     private FaultFindingScenario _currentSelectedScenario;
 
     private void Start()
     {
-        _scenarioListView.PopulateList(_scenarios);
+        _mainMenuView.PopulateList(GlobalData.Instance._availableFaultFindingScenarios);
     }
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
-        
+
     }
 
     public void ChangeSelectedScenario(int index)
     {
-        _currentSelectedScenario = _scenarios[index];
-        _scenarioListView.PopulateDescriptionWindow(_currentSelectedScenario.description);
+        _currentSelectedScenario = GlobalData.Instance._availableFaultFindingScenarios[index];
+        _mainMenuView.PopulateDescriptionWindow(_currentSelectedScenario.description);
     }
 
     public void StartSelectedScenario()
     {
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
+        _mainMenuView.ShowFaultFinding();
+        _currentSelectedScenario = null;
     }
 
+    public void GoToSetupScene()
+    {
+
+    }
 }

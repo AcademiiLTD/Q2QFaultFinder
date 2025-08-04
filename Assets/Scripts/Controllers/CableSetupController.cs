@@ -129,4 +129,9 @@ public class CableSetupController : Controller
     {
 
     }
+
+    public void ResetCableSetup()
+    {
+
+    }
 }
