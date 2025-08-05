@@ -34,8 +34,8 @@ public class LineSegmentView : MonoBehaviour
         Vector2 dir = startPosition - endPosition;
         _lineImage.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         Vector3 midPoint = (startPosition + endPosition) / 2f;
-        _lineImage.rectTransform.sizeDelta = new Vector2(Mathf.Abs(dir.magnitude), 1f);
-        _lineImage.transform.position = midPoint;
+        _lineImage.rectTransform.sizeDelta = new Vector2(Mathf.Abs(dir.magnitude), 20f);
+        _lineImage.transform.localPosition = midPoint;
         _lineImage.enabled = true;
         //Vector2 dir = _firstPosition - _secondPosition;
         //_lineImage.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
@@ -64,7 +64,7 @@ public class LineSegmentView : MonoBehaviour
     public void SetLength(string lengthValue)
     {
         _lengthLabelText.text = lengthValue;
-        _lengthLabel.transform.position = _lineImage.transform.position + new Vector3(0f, 50f, 0f);
+        _lengthLabel.transform.localPosition = _lineImage.transform.localPosition + new Vector3(0f, 50f, 0f);
         _lengthLabel.gameObject.SetActive(true);
         LayoutRebuilder.ForceRebuildLayoutImmediate(_lengthLabel.rectTransform);
     }
