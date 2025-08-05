@@ -50,6 +50,7 @@ public class MapView : View
         }
         _lineSegmentsDisplays.Clear();
 
+        EvaluateSegmentLengths();
     }
 
     public void SetLineColour(int colourIndex)
@@ -68,8 +69,9 @@ public class MapView : View
 
     public void SetTotalSegmentsLength(float distance)
     {
-        _totalSegmentsDistanceText.text = distance.ToString();
+        _totalSegmentsDistanceText.text = $"{distance.ToString("0.00")}m";
     }
+
     public void PopulateColourSelectors()
     {
         for (int i = 0; i < _lineColours.Count; i++)
@@ -110,21 +112,6 @@ public class MapView : View
             totalLength += lineSegment.Length();
         }
 
-
-        if (_previousLineSegment == null) return;
-        SetPreviousSegmentLength(_previousLineSegment == null ? 0f : _previousLineSegment.Length());
-        SetTotalSegmentsLength(totalLength);
-    }
-
-    public void UndoSegment()
-    {
-
-        if (_lineSegmentsDisplays.Count > 0)
-        {
-            Destroy(_lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1].gameObject);
-            _lineSegmentsDisplays.RemoveAt(_lineSegmentsDisplays.Count - 1);
-        }
-
         if (_lineSegmentsDisplays.Count > 0)
         {
             _previousLineSegment = _lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1];
@@ -134,6 +121,19 @@ public class MapView : View
             _previousLineSegment = null;
         }
 
+        SetPreviousSegmentLength(_previousLineSegment == null ? 0f : _previousLineSegment.Length());
+        SetTotalSegmentsLength(totalLength);
+    }
+
+    public void UndoSegment()
+    {
+        if (_lineSegmentsDisplays.Count > 0)
+        {
+            Destroy(_lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1].gameObject);
+            _lineSegmentsDisplays.RemoveAt(_lineSegmentsDisplays.Count - 1);
+        }
+
         EvaluateSegmentLengths();
+
     }
 }

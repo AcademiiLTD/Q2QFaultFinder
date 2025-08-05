@@ -23,11 +23,11 @@ public class DeviceController : Controller
             case ControllerEvent.STARTED_FAULT_FINDING:
                 _savedLineSegments.Clear();
                 _currentLineSegment = null;
-
+                _currentLineSegmentCount = 1;
                 _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
                 _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
                 _deviceView.ToggleView(false);
-                _deviceView.StartNewLineSegment(1);
+                _deviceView.StartNewLineSegment(_currentLineSegmentCount);
                 _deviceView.ShowMonthInput();
                 Debug.Log(_faultDistanceMeters);
                 break;
