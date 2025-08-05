@@ -5,45 +5,50 @@ using UnityEngine.EventSystems;
 
 public class FaultFindingController : Controller
 {
-    [SerializeField] private FaultFindingScenario _currentScenario;
-
     [Header("Views")]
-    [SerializeField] private MapView _mapView;
-    [SerializeField] private DeviceView _deviceView;
     [SerializeField] private FaultFindingView _faultFindingView;
     [SerializeField] private FinalResultPopupView _finalResultPopupView;
 
-    private void OnEnable()
-    {
-        base.OnEnable();
-        ClickableMap.OnMapClicked += TappedMap;
-    }
+
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
        switch (eventType)
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
-                _faultFindingView.ToggleView(true);
+                StartNewFaultFindingScenario();
                 break;
             case ControllerEvent.SUBMIT_GUESS:
                 SubmitUserGuess((float)eventData);
                 break;
             case ControllerEvent.GO_TO_MAIN_MENU:
                 _faultFindingView.ToggleView(false);
-                _finalResultPopupView.gameObject.SetActive(false);
+                _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
                 break;
         }
+    }
+
+    private void StartNewFaultFindingScenario()
+    {
+        _faultFindingView.ToggleView(true);
+        _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
     public void SubmitUserGuess(float userGuess)
     {
         _finalResultPopupView.SetResultText(userGuess);
-        PlayerPrefs.SetFloat($"{_currentScenario.name}", userGuess);
+        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", userGuess);
     }
 
-    private void TappedMap(Vector2 tapPosition)
+    //Called from final result popup main menu button
+    public void ReturnToMainMenu()
     {
-        _mapView.PlaceLineSegment(tapPosition);
+        RaiseControllerEvent(ControllerEvent.GO_TO_MAIN_MENU, null);
+    }
+
+
+    public void RestartCurrentScenario()
+    {
+        RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
     }
 }

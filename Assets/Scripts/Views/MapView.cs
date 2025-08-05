@@ -16,7 +16,6 @@ public class MapView : View
     [SerializeField] private GameObject _lineSegmentPrefab;
 
     private Color _currentColour;
-    private List<LineSegment> _inputLineSegments;
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
     private float _mapMetersPerPixel;
 
@@ -31,6 +30,26 @@ public class MapView : View
         _mapMetersPerPixel = metersPerPixel;
         _mapBackgroundImage.sprite = mapSprite;
         _mapBackgroundImage.gameObject.SetActive(true);
+
+        //Make sure everything is reset
+        if (_currentLineSegmentView != null)
+        {
+            Destroy(_currentLineSegmentView.gameObject);
+            _currentLineSegmentView = null;
+        }
+
+        if (_previousLineSegment != null)
+        {
+            Destroy(_previousLineSegment.gameObject);
+            _previousLineSegment = null;
+        }
+
+        foreach (LineSegmentView lineSegmentView in _lineSegmentsDisplays)
+        {
+            Destroy(lineSegmentView.gameObject); //Should be pooled if performance requires
+        }
+        _lineSegmentsDisplays.Clear();
+
     }
 
     public void SetLineColour(int colourIndex)

@@ -6,6 +6,12 @@ public class MapController : Controller
 {
     [SerializeField] private MapView _mapView;
 
+    private void OnEnable()
+    {
+        base.OnEnable();
+        ClickableMap.OnMapClicked += TappedMap;
+    }
+
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
         switch (eventType)
@@ -15,5 +21,10 @@ public class MapController : Controller
                 _mapView.SetUpMap(scenario.mapImage, scenario.mapMetersPerPixel);
                 break;
         }
+    }
+
+    private void TappedMap(Vector2 tapPosition)
+    {
+        _mapView.PlaceLineSegment(tapPosition);
     }
 }

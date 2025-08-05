@@ -9,11 +9,6 @@ public class DeviceView : View
     [SerializeField] private GameObject _consacSizeSelector, _waveconSizeSelector;
     [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText;
 
-    private void Start()
-    {
-        ShowMonthInput();
-    }
-
     public void ToggleDeviceActive()
     {
         bool state;

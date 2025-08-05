@@ -21,8 +21,14 @@ public class DeviceController : Controller
         switch (eventType) 
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
+                _savedLineSegments.Clear();
+                _currentLineSegment = null;
+
                 _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
                 _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
+                _deviceView.ToggleView(false);
+                _deviceView.StartNewLineSegment(1);
+                _deviceView.ShowMonthInput();
                 Debug.Log(_faultDistanceMeters);
                 break;
             case ControllerEvent.START_NEW_SECTION:
@@ -70,11 +76,6 @@ public class DeviceController : Controller
     public void RestartSection()
     {
         RaiseControllerEvent(ControllerEvent.RESTART_SECTION, null);
-    }
-
-    public void StartNewTest()
-    {
-        RaiseControllerEvent(ControllerEvent.RESTART_TEST, null);
     }
 
     public void SelectMonth(int month)
