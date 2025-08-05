@@ -15,7 +15,12 @@ public class MainMenuController : Controller
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {
-
+        switch (eventType) 
+        {
+            case ControllerEvent.GO_TO_MAIN_MENU:
+                _mainMenuView.ToggleView(true);
+                break;
+        }
     }
 
     public void ChangeSelectedScenario(int index)
@@ -27,12 +32,13 @@ public class MainMenuController : Controller
     public void StartSelectedScenario()
     {
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
-        _mainMenuView.ShowFaultFinding();
+        _mainMenuView.ToggleView(false);
         _currentSelectedScenario = null;
     }
 
-    public void GoToSetupScene()
+    public void StartCableSetup()
     {
-
+        RaiseControllerEvent(ControllerEvent.STARTED_SETUP, null);
+        _mainMenuView.ToggleView(false);
     }
 }

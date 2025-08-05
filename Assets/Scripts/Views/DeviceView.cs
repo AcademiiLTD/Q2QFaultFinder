@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DeviceView : MonoBehaviour
+public class DeviceView : View
 {
     [SerializeField] private GameObject _monthSelector, _cableType, _cableSize, _cableLength, _faultDisplay;
     [SerializeField] private GameObject _consacSizeSelector, _waveconSizeSelector;
     [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText;
-    [SerializeField] CanvasGroup _canvasGroup;
 
     private void Start()
     {
         ShowMonthInput();
     }
+
     public void ToggleDeviceActive()
     {
         bool state;
-        if (_canvasGroup.interactable)
+        if (_viewCanvasGroup.interactable)
         {
             state = false;
         }
@@ -26,9 +26,9 @@ public class DeviceView : MonoBehaviour
             state = true;
         }
 
-        _canvasGroup.alpha = state ? 1 : 0;
-        _canvasGroup.interactable = state;
-        _canvasGroup.blocksRaycasts = state;
+        _viewCanvasGroup.alpha = state ? 1 : 0;
+        _viewCanvasGroup.interactable = state;
+        _viewCanvasGroup.blocksRaycasts = state;
     }
 
     public void StartNewLineSegment(int segmentCount)

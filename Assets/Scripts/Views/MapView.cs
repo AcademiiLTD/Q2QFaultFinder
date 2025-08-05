@@ -6,10 +6,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MapView : MonoBehaviour
+public class MapView : View
 {
-    [SerializeField] private CanvasGroup _mapCanvasGroup;
-
     [SerializeField] private Image _mapBackgroundImage;
     [SerializeField] private List<Color> _lineColours;
     [SerializeField] private List<ColourSelector> _colourSelectors;
@@ -73,6 +71,7 @@ public class MapView : MonoBehaviour
             _lineSegmentsDisplays.Add(_currentLineSegmentView);
             _currentLineSegmentView.SetFirstPosition(tapPosition);
             _currentLineSegmentView.SetColour(_currentColour);
+            _currentLineSegmentView.transform.SetAsFirstSibling();
         }
         else
         {

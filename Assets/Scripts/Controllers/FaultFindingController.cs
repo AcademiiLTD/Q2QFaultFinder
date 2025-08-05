@@ -5,13 +5,13 @@ using UnityEngine.EventSystems;
 
 public class FaultFindingController : Controller
 {
-    [SerializeField] private Transform _mapTransform;
     [SerializeField] private FaultFindingScenario _currentScenario;
 
     [Header("Views")]
     [SerializeField] private MapView _mapView;
     [SerializeField] private DeviceView _deviceView;
     [SerializeField] private FaultFindingView _faultFindingView;
+    [SerializeField] private FinalResultPopupView _finalResultPopupView;
 
     private void OnEnable()
     {
@@ -24,17 +24,21 @@ public class FaultFindingController : Controller
        switch (eventType)
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
-                //_faultFindingContainer.gameObject.SetActive(true);
+                _faultFindingView.ToggleView(true);
                 break;
             case ControllerEvent.SUBMIT_GUESS:
                 SubmitUserGuess((float)eventData);
+                break;
+            case ControllerEvent.GO_TO_MAIN_MENU:
+                _faultFindingView.ToggleView(false);
+                _finalResultPopupView.gameObject.SetActive(false);
                 break;
         }
     }
 
     public void SubmitUserGuess(float userGuess)
     {
-        _faultFindingView.DisplayuserGuess(userGuess);
+        _finalResultPopupView.SetResultText(userGuess);
         PlayerPrefs.SetFloat($"{_currentScenario.name}", userGuess);
     }
 

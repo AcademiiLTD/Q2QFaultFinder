@@ -50,7 +50,8 @@ public enum ControllerEvent
     FINISHED_TEST,
     RESTART_TEST,
     RESTART_SECTION,
-    SUBMIT_GUESS
+    SUBMIT_GUESS,
+    GO_TO_MAIN_MENU
 
 }
 
