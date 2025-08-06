@@ -26,7 +26,7 @@ public class DeviceController : Controller
                 _currentLineSegmentCount = 1;
                 _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
                 _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
-                _deviceView.ToggleView(false);
+                _deviceView.ManualSetDeviceActive(false);
                 _deviceView.StartNewLineSegment(_currentLineSegmentCount);
                 _deviceView.ShowMonthInput();
                 Debug.Log(_faultDistanceMeters);

@@ -35,6 +35,8 @@ public class CableSetupController : Controller
         {
             case ControllerEvent.STARTED_SETUP:
                 _cableSetupView.ToggleView(true);
+                _cableSetupView.ToggleIntroWindow(true);
+                _cableSetupView.ToggleCompletionWindow(true);
                 BeginSetup();
                 break;
             case ControllerEvent.FINISHED_SETUP:

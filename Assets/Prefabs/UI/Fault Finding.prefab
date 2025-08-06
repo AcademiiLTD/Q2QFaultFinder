@@ -1830,6 +1830,7 @@ GameObject:
   - component: {fileID: 2998558952308099885}
   - component: {fileID: 3161248619857103753}
   - component: {fileID: 2896295111082683910}
+  - component: {fileID: 6473863692717196354}
   m_Layer: 5
   m_Name: Fault Finding
   m_TagString: Untagged
@@ -2028,6 +2029,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewCanvasGroup: {fileID: 9056895819795313945}
+  _viewAnimator: {fileID: 6473863692717196354}
+  _fadeInView: 0
+--- !u!95 &6473863692717196354
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233510724022629283}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 960f8f7a718a10e4f81ce869e3aa9d5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3551132240522559983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,6 +2506,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewCanvasGroup: {fileID: 6693124059477328040}
+  _viewAnimator: {fileID: 0}
+  _fadeInView: 0
   _monthSelector: {fileID: 2108285236599025627}
   _cableType: {fileID: 1160794768050657014}
   _cableSize: {fileID: 3697340717994649675}
@@ -2961,6 +2987,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewCanvasGroup: {fileID: 5466679091651331423}
+  _viewAnimator: {fileID: 0}
+  _fadeInView: 0
   _mapBackgroundImage: {fileID: 3222854807674978249}
   _lineColours:
   - {r: 1, g: 0.5254902, b: 0.8577117, a: 1}

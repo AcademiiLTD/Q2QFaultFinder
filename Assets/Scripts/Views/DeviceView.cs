@@ -26,6 +26,13 @@ public class DeviceView : View
         _viewCanvasGroup.blocksRaycasts = state;
     }
 
+    public void ManualSetDeviceActive(bool state)
+    {
+        _viewCanvasGroup.alpha = state ? 1f : 0f;
+        _viewCanvasGroup.interactable = state;
+        _viewCanvasGroup.blocksRaycasts = state;
+    }
+
     public void StartNewLineSegment(int segmentCount)
     {
         ShowCableTypeInput(segmentCount);

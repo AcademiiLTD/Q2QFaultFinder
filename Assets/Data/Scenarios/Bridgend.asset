@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b08fe0677b710af46a30d63b32ff6e2f, type: 3}
-  m_Name: Test Scenario
+  m_Name: Bridgend
   m_EditorClassIdentifier: 
   description: Scenario based in Bridgend
   date: 03/02/2012
   _lineSegments:
-  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 40
+  - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
+    length: 89
     thickness: 120
   - cable: {fileID: 11400000, guid: fcafdb5c932665146851f72eab835ecd, type: 2}
-    length: 30
+    length: 25
     thickness: 70
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 48
+    length: 56
+    thickness: 240
+  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
+    length: 35
     thickness: 240
   month: 7
-  mapImage: {fileID: 21300000, guid: b0a208acc4aae254dba9ae5fc96e7a4a, type: 3}
-  faultDistance: 83
+  mapImage: {fileID: 21300000, guid: 32c63dd0c76c72041bcbc247877bf99d, type: 3}
+  faultDistance: 151
   mapMetersPerPixel: 5.5

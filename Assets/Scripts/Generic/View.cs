@@ -6,7 +6,8 @@ public class View : MonoBehaviour
 {
     [SerializeField] protected CanvasGroup _viewCanvasGroup;
     [SerializeField] protected Animator _viewAnimator;
-    [SerializeField] private bool _fadeInView;
+    [SerializeField] private bool _startsVisible;
+    private Coroutine _fadeCoroutine;
 
     private void OnValidate()
     {
@@ -27,18 +28,13 @@ public class View : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (_viewAnimator) _viewAnimator.SetBool("Visible", _startsVisible);
+    }
+
     public void ToggleView(bool state)
     {
-        if (_fadeInView)
-        {
-            //use animator
-        }
-        else
-        {
-            _viewCanvasGroup.alpha = state ? 1f : 0f;
-            _viewCanvasGroup.interactable = state;
-            _viewCanvasGroup.blocksRaycasts = state;
-        }
-
+        if (_viewAnimator) _viewAnimator.SetBool("Visible", state);
     }
 }
