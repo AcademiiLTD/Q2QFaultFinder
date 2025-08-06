@@ -43,7 +43,10 @@ public class ConnectorPoint : MonoBehaviour
 
     public void ResetConnectorPoint()
     {
-        
+        _myImage.enabled = true;
+        _visual.SetActive(false);
+        _indicator.SetActive(true);
+        _connectedCorrectly = false;
     }
 }
 

@@ -62,9 +62,7 @@ public class MapView : View
     {
         Debug.Log(distance);
         Debug.Log(_mapMetersPerPixel);
-        float scaledDistance = distance / _mapMetersPerPixel;
-        _previousSegmentDistanceText.text = $"{scaledDistance.ToString("0.00")}m";
-        _previousLineSegment.SetLength($"{scaledDistance.ToString("0.00")}m");
+        _previousSegmentDistanceText.text = $"{distance.ToString("0.00")}m";
     }
 
     public void SetTotalSegmentsLength(float distance)
@@ -90,7 +88,7 @@ public class MapView : View
             _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
             _previousLineSegment = _currentLineSegmentView;
             _lineSegmentsDisplays.Add(_currentLineSegmentView);
-            _currentLineSegmentView.SetFirstPosition(tapPosition);
+            _currentLineSegmentView.SetFirstPosition(tapPosition, _mapMetersPerPixel);
             _currentLineSegmentView.SetColour(_currentColour);
             _currentLineSegmentView.transform.SetAsFirstSibling();
         }
@@ -121,7 +119,7 @@ public class MapView : View
             _previousLineSegment = null;
         }
 
-        SetPreviousSegmentLength(_previousLineSegment == null ? 0f : _previousLineSegment.Length());
+        SetPreviousSegmentLength(_previousLineSegment != null ? _previousLineSegment.Length() : 0f);
         SetTotalSegmentsLength(totalLength);
     }
 

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CableSetupController : Controller
 {
+    [SerializeField] private CableSetupView _cableSetupView;
     [SerializeField] private GameObject _completionWindow;
     [SerializeField] private Transform _connectorContainer, _cableSetupContainer;
     [SerializeField] private List<GameObject> _grabbableConnectors;
@@ -32,10 +34,14 @@ public class CableSetupController : Controller
         switch (eventType)
         {
             case ControllerEvent.STARTED_SETUP:
+                _cableSetupView.ToggleView(true);
                 BeginSetup();
                 break;
             case ControllerEvent.FINISHED_SETUP:
                 _completionWindow.SetActive(true);
+                break;
+            case ControllerEvent.GO_TO_MAIN_MENU:
+                _cableSetupView.ToggleView(false);
                 break;
         }
     }
@@ -45,7 +51,18 @@ public class CableSetupController : Controller
         foreach (GameObject connector in _grabbableConnectors)
         {
             connector.transform.SetParent(_connectorContainer, false);
+            Image connectorImage = connector.GetComponent<Image>();
+            connectorImage.enabled = true;
+            connectorImage.raycastTarget = true;
         }
+
+        foreach (ConnectorPoint point in _connectorPoints)
+        {
+            point.ResetConnectorPoint();
+        }
+
+        _completionWindow.gameObject.SetActive(false);
+
     }
 
     private void PickedUpConnector(Transform connector, PointerEventData data)
@@ -125,13 +142,8 @@ public class CableSetupController : Controller
         return true;
     }
 
-    private void FinishedSetup()
+    public void ReturnToMainMenu()
     {
-
-    }
-
-    public void ResetCableSetup()
-    {
-
+        RaiseControllerEvent(ControllerEvent.GO_TO_MAIN_MENU, null);
     }
 }
