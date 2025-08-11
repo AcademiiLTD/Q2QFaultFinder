@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FaultFindingView : View
 {
-    [SerializeField] private GameObject _helpContainer;
+    [SerializeField] private GameObject _helpContainer, _landingPopup;
 
     public void ToggleHelpContainer()
     {
@@ -16,5 +16,10 @@ public class FaultFindingView : View
         {
             _helpContainer.SetActive(true);
         }
+    }
+
+    public void EnableLandingPopup()
+    {
+        _landingPopup.SetActive(true);
     }
 }

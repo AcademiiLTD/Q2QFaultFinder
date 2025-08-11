@@ -31,6 +31,11 @@ public class FaultFindingController : Controller
     private void StartNewFaultFindingScenario()
     {
         _faultFindingView.ToggleView(true);
+        if (PlayerPrefs.GetInt("Finished Scenario") == 0)
+        {
+            _faultFindingView.EnableLandingPopup();
+        }
+
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
@@ -38,6 +43,7 @@ public class FaultFindingController : Controller
     {
         _finalResultPopupView.SetResultText(userGuess);
         PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", userGuess);
+        PlayerPrefs.SetInt("Finished Scenario", 1);
     }
 
     //Called from final result popup main menu button
