@@ -14,13 +14,13 @@ public class FinalResultPopupView : MonoBehaviour
         Color textColour = Color.black;
         switch (finalResultDifference)
         {
-            case > 1f:
+            case > 5f:
                 textColour = _incorrectColour;
                 break;
-            case > 0.5f:
+            case > 3f:
                 textColour = _medianColour;
                 break;
-            case <= 0.5f:
+            case <= 1f:
                 textColour = _correctColour;
                 break;
         }

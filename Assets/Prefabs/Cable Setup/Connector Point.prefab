@@ -95,6 +95,7 @@ MonoBehaviour:
   _visual: {fileID: 5203389364227882120}
   _indicator: {fileID: 4733771460267557646}
   _correctConnectorType: 0
+  _hintText: 
 --- !u!95 &4743719874597179189
 Animator:
   serializedVersion: 5
@@ -181,8 +182,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6ecdf73b3cdd0b8499a9fa1bbdc899db, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: cce345bc66673c84990895a240bb4f00, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

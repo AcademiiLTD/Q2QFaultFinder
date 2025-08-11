@@ -7,7 +7,7 @@ public class DeviceView : View
 {
     [SerializeField] private GameObject _monthSelector, _cableType, _cableSize, _cableLength, _faultDisplay;
     [SerializeField] private GameObject _consacSizeSelector, _waveconSizeSelector;
-    [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText;
+    [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText, _cableThicknessTypeText;
 
     public void ToggleDeviceActive()
     {
@@ -26,6 +26,8 @@ public class DeviceView : View
         _viewCanvasGroup.blocksRaycasts = state;
     }
 
+
+
     public void ManualSetDeviceActive(bool state)
     {
         _viewCanvasGroup.alpha = state ? 1f : 0f;
@@ -36,6 +38,7 @@ public class DeviceView : View
     public void StartNewLineSegment(int segmentCount)
     {
         ShowCableTypeInput(segmentCount);
+        _sectionLengthText.text = "";
     }
 
     public void ShowMonthInput()
@@ -51,10 +54,11 @@ public class DeviceView : View
         _sectionCountText.text = $"SELECT CABLE TYPE IN SECTION {segmentCount.ToString()}";
     }
 
-    public void ShowCableSizeInput()
+    public void ShowCableSizeInput(string cableName)
     {
         DisableAllScreens();
         _cableSize.SetActive(true);
+        _cableThicknessTypeText.text = $"SELECT {cableName.ToUpper()} THICKNESS";
     }
 
     public void ShowSectionLengthInput()

@@ -22,7 +22,7 @@ public class DeviceController : Controller
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
                 _savedLineSegments.Clear();
-                _currentLineSegment = null;
+                _currentLineSegment = new LineSegment();
                 _currentLineSegmentCount = 1;
                 _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
                 _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
@@ -40,8 +40,9 @@ public class DeviceController : Controller
                 _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
                 break;
             case ControllerEvent.SELECTED_CABLE_TYPE:
-                _currentLineSegment.cable = (CableType)eventData;
-                _deviceView.ShowCableSizeInput();
+                CableType cableType = (CableType)eventData;
+                _currentLineSegment.cable = cableType;
+                _deviceView.ShowCableSizeInput(cableType.name.ToString());
                 break;
             case ControllerEvent.SELECTED_CABLE_THICKNESS:
                 _currentLineSegment.thickness = (int)eventData;
@@ -75,7 +76,22 @@ public class DeviceController : Controller
 
     public void RestartSection()
     {
-        RaiseControllerEvent(ControllerEvent.RESTART_SECTION, null);
+        _currentLineSegment = new LineSegment();
+        _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+    }
+
+    public void RestartTest()
+    {
+        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
+
+        _savedLineSegments.Clear();
+        _currentLineSegment = new LineSegment();
+        _currentLineSegmentCount = 1;
+        _faultDistanceMeters = GlobalData.Instance.CurrentActiveScenario.faultDistance;
+        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, GlobalData.Instance.CurrentActiveScenario._lineSegments);
+        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        _deviceView.ShowMonthInput();
+        _deviceView.ManualSetDeviceActive(true);
     }
 
     public void SelectMonth(int month)
@@ -135,8 +151,10 @@ public class DeviceController : Controller
         float SpeedOfLight = 299792.485f;
 
 
-        foreach (var segment in segments)
+        foreach (LineSegment segment in segments)
         {
+            //Check cable type against real scenario
+            //If cable thickness is wrong, add variance
             if (remainingDistance <= segment.length)
             {
                 // Fault is within this segment
