@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuView : View
 {
-    [SerializeField] private TextMeshProUGUI _scenarioDescriptionWindow;
+    [SerializeField] private TextMeshProUGUI _scenarioDescriptionText;
+    [SerializeField] private Image _scenarioThumbnailImage;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
     [SerializeField] private GameObject _beginButton;
 
-    public void PopulateDescriptionWindow(string description)
+    public void PopulateDescriptionWindow(string description, Sprite image)
     {
-        _scenarioDescriptionWindow.text = description;
+        _scenarioDescriptionText.text = description;
+        _scenarioThumbnailImage.sprite = image;
         _beginButton.SetActive(true);
     }
 

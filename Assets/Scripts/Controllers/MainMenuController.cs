@@ -26,7 +26,7 @@ public class MainMenuController : Controller
     public void ChangeSelectedScenario(int index)
     {
         _currentSelectedScenario = GlobalData.Instance._availableFaultFindingScenarios[index];
-        _mainMenuView.PopulateDescriptionWindow(_currentSelectedScenario.description);
+        _mainMenuView.PopulateDescriptionWindow(_currentSelectedScenario.description, _currentSelectedScenario.mapImage);
     }
 
     public void StartSelectedScenario()
@@ -34,7 +34,7 @@ public class MainMenuController : Controller
         GlobalData.Instance.CurrentActiveScenario = _currentSelectedScenario;
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
         _mainMenuView.ToggleView(false);
-        _currentSelectedScenario = null;
+        //_currentSelectedScenario = null;
     }
 
     public void StartCableSetup()
