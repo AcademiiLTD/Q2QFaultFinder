@@ -17,6 +17,7 @@ public class FaultFindingController : Controller
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
                 StartNewFaultFindingScenario();
+                _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
                 break;
             case ControllerEvent.SUBMIT_GUESS:
                 SubmitUserGuess((float)eventData);
@@ -50,6 +51,7 @@ public class FaultFindingController : Controller
     public void ReturnToMainMenu()
     {
         RaiseControllerEvent(ControllerEvent.GO_TO_MAIN_MENU, null);
+        GlobalData.Instance.CurrentActiveScenario = null;
     }
 
 

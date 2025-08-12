@@ -27,7 +27,7 @@ MonoBehaviour:
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
     length: 35
     thickness: 240
-  month: 7
+  month: 1
   mapImage: {fileID: 21300000, guid: 32c63dd0c76c72041bcbc247877bf99d, type: 3}
   faultDistance: 151
   mapMetersPerPixel: 5.5

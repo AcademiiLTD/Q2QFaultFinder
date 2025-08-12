@@ -21,10 +21,11 @@ public class DeviceController : Controller
         switch (eventType) 
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
+                FaultFindingScenario scenario = ((FaultFindingScenario)eventData);
                 _savedLineSegments.Clear();
                 _currentLineSegment = new LineSegment();
                 _currentLineSegmentCount = 1;
-                _faultDistanceMeters = ((FaultFindingScenario)eventData).faultDistance;
+                _faultDistanceMeters = scenario.faultDistance;
                 _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
                 _deviceView.ManualSetDeviceActive(false);
                 _deviceView.StartNewLineSegment(_currentLineSegmentCount);
@@ -144,7 +145,7 @@ public class DeviceController : Controller
         RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, finalDifference);
     }
 
-    public static float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
+    public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
     {
         float remainingDistance = faultDistanceMeters;
         float totalTimeSeconds = 0f;
@@ -173,28 +174,49 @@ public class DeviceController : Controller
         return totalTimeSeconds * 2f * 1e6f; // Convert seconds to µs for round-trip
     }
 
-    public static float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    //Used to calculate the user's final guess
+    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
     {
         float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
         float distanceTravelled = 0f;
         float SpeedOfLight = 299792.485f;
 
-        foreach (var segment in segments)
+        List<LineSegment> scenarioSegments = GlobalData.Instance.CurrentActiveScenario._lineSegments;
+
+        for (int i = 0; i < segments.Count; i++)
         {
-            float segmentLengthKm = segment.length / 1000f;
-            float segmentTime = segmentLengthKm / (segment.cable.velocityFactor * SpeedOfLight);
+            float segmentLengthKm = segments[i].length / 1000f;
+            float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SpeedOfLight);
+            Debug.Log($"Segment before: {segmentTime}");
+            if (segments[i].thickness != scenarioSegments[i].thickness)
+            {
+                segmentTime *= Random.Range(0.9f, 1.1f); //Adding variance
+                Debug.Log($"Segment after variance: {segmentTime}");
+
+            }
+
+
 
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * segment.cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
-                return distanceTravelled + distanceInSegmentM;
+                float finalValue = distanceTravelled + distanceInSegmentM;
+                if (_selectedMonth != GlobalData.Instance.CurrentActiveScenario.month)
+                {
+                    Debug.Log($"Before final variance: {finalValue}");
+                    finalValue *= Random.Range(0.9f, 1.1f); //Variance
+                    Debug.Log($"After final variance: {finalValue}");
+
+                    return finalValue;
+                }
+                else return finalValue;
             }
 
             // Move to next segment
             oneWayTime -= segmentTime;
-            distanceTravelled += segment.length;
+            distanceTravelled += segments[i].length;
         }
 
         // If fault is beyond the network
