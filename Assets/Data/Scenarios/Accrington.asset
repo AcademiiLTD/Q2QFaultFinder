@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08fe0677b710af46a30d63b32ff6e2f, type: 3}
+  m_Name: Accrington
+  m_EditorClassIdentifier: 
+  description: Scenario in Accrington
+  date: 3/12/2024
+  _lineSegments:
+  - cable: {fileID: 11400000, guid: fcafdb5c932665146851f72eab835ecd, type: 2}
+    length: 0
+    thickness: 0
+  - cable: {fileID: 11400000, guid: 02357df6149c9004a846d7560f4fa8f2, type: 2}
+    length: 0
+    thickness: 0
+  - cable: {fileID: 11400000, guid: 02357df6149c9004a846d7560f4fa8f2, type: 2}
+    length: 0
+    thickness: 0
+  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
+    length: 0
+    thickness: 0
+  - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
+    length: 0
+    thickness: 0
+  - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
+    length: 0
+    thickness: 0
+  month: 11
+  mapImage: {fileID: 0}
+  faultDistance: 99
+  mapMetersPerPixel: 5.95

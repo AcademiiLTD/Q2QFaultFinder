@@ -9,7 +9,7 @@ public class FinalResultPopupView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private Color _correctColour, _medianColour, _incorrectColour;
 
-    public void SetResultText(float finalResultDifference)
+    public void SetResultText(float finalResultDifference, float previousBestGuess = -1f)
     {
         Color textColour = Color.black;
         switch (finalResultDifference)
@@ -28,6 +28,14 @@ public class FinalResultPopupView : MonoBehaviour
         string hexColour = textColour.ToHexString();
 
         gameObject.SetActive(true);
-        _resultText.text = $"Your guess was <color=#{hexColour}>{finalResultDifference.ToString("0.00")}</color> meters from the fault";
+        if (previousBestGuess == -1f)
+        {
+            _resultText.text = $"Your guess was <color=#{hexColour}>{finalResultDifference.ToString("0.00")}</color> meters from the fault";
+        }
+        else
+        {
+            _resultText.text = $"Your guess was <color=#{hexColour}>{finalResultDifference.ToString("0.00")}</color> meters from the fault" +
+                $"\nYour previous best guess was {previousBestGuess.ToString("0.00")}";
+        }
     }
 }
