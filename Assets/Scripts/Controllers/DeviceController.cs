@@ -142,7 +142,8 @@ public class DeviceController : Controller
     public void SubmitUserFaultGuess()
     {
         float finalDifference = Mathf.Abs(_faultDistanceMeters - _currentUserFaultGuess);
-        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, finalDifference);
+        UserGuess guess = new UserGuess(finalDifference, _savedLineSegments);
+        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, guess);
     }
 
     public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)

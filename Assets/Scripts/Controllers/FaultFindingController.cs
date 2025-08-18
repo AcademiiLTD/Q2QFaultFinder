@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class FaultFindingController : Controller
                 _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
                 break;
             case ControllerEvent.SUBMIT_GUESS:
-                SubmitUserGuess((float)eventData);
+                SubmitUserGuess((UserGuess)eventData);
                 break;
             case ControllerEvent.GO_TO_MAIN_MENU:
                 _faultFindingView.ToggleView(false);
@@ -40,10 +41,10 @@ public class FaultFindingController : Controller
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
-    public void SubmitUserGuess(float userGuess)
+    public void SubmitUserGuess(UserGuess userGuess)
     {
         _finalResultPopupView.SetResultText(userGuess);
-        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", userGuess);
+        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", userGuess._userGuess);
         PlayerPrefs.SetInt("Finished Scenario", 1);
     }
 
@@ -58,5 +59,32 @@ public class FaultFindingController : Controller
     public void RestartCurrentScenario()
     {
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
+    }
+}
+
+[Serializable]
+public class UserGuess
+{
+    public float _userGuess;
+    public bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
+
+    public UserGuess(float guess, List<LineSegment> segments)
+    {
+        _userGuess = guess;
+
+        List<LineSegment> scenarioSegments = GlobalData.Instance.CurrentActiveScenario._lineSegments;
+
+        for (int i = 0; i < segments.Count; i++)
+        {
+            if (segments[i].cable != scenarioSegments[i].cable)
+            {
+                _cableTypesCorrect = false;
+            }
+
+            if (segments[i].thickness != scenarioSegments[i].thickness)
+            {
+                _cableThicknessCorrect = false;
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ public enum ControllerEvent
     RESTART_TEST,
     RESTART_SECTION,
     SUBMIT_GUESS,
-    GO_TO_MAIN_MENU
-
+    GO_TO_MAIN_MENU,
+    EVALUATE_SUBMITTED_SEGMENTS
 }
 
