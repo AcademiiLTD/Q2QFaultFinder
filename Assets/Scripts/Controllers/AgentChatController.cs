@@ -14,6 +14,7 @@ public class AgentChatController : Controller
     [SerializeField] private TMP_InputField _inputField;
 
     private bool _waitingForResponse;
+    private AppState _appState = AppState.MENU;
 
     private void Start()
     {
@@ -41,14 +42,38 @@ public class AgentChatController : Controller
     {
         switch (eventType)
         {
-    
+            case ControllerEvent.STARTED_SETUP:
+                _appState = AppState.SETUP;
+                break;
+            case ControllerEvent.STARTED_FAULT_FINDING:
+                _appState = AppState.FAULT_FINDING;
+                break;
+            case ControllerEvent.GO_TO_MAIN_MENU:
+                _appState = AppState.MENU;
+                break;
         }
     }
 
     private void SendTextMessage()
     {
+        string appStateInfo = "";
+
+        switch (_appState)
+        {
+            case AppState.SETUP:
+                appStateInfo = "I am in the setup scene. ";
+                break;
+            case AppState.FAULT_FINDING:
+                appStateInfo = "I am in the fault finding scene. ";
+                break;
+            case AppState.MENU:
+                appStateInfo = "I am in the main menu. ";
+                break;
+        }
+
         string userMessage = _inputField.text;
         _chatView.CreateNewMessage("User", userMessage, MessageType.USER);
+        userMessage = appStateInfo + userMessage;
         _inputField.text = "";
         //RaiseControllerEvent(ControllerEvent.MESSAGE_SENT, userMessage);
         _waitingForResponse = true;
@@ -120,4 +145,11 @@ public class ResponseData
 {
     public string response;
     public string sessionID;
+}
+
+public enum AppState
+{
+    MENU,
+    SETUP,
+    FAULT_FINDING
 }

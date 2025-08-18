@@ -683,7 +683,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 16caf1181fb8a3346b1772823e705ad9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7ad0dc55cff242f45a5cef3b08f80fdd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -1559,6 +1559,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1452889541810587125, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
+      objectReference: {fileID: 0}
     - target: {fileID: 1646667530756993479, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -2007,6 +2011,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1823469090}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357029447814622758, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8544369238699844457, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.00024414062
@@ -2037,7 +2073,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1001 &4215482893143903847
 PrefabInstance:
@@ -2426,6 +2462,38 @@ PrefabInstance:
     - target: {fileID: 3383056129482647498, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1823469090}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472955281647083758, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4086524726443702728, guid: 2b4cf285fa9911e41bbfbb52b4fd9fa2, type: 3}
       propertyPath: m_Camera
@@ -3091,9 +3159,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _apiKey: 76b6bcc7ad4d640a830952ed7d60df11
   _apiURL: https://api.convai.com/
-  _characterKey: ed248a82-e91a-11ef-a4c8-42010a7be016
+  _characterKey: b76c199c-7c1c-11f0-a1b4-42010a7be01f
   _sessionID: -1
-  _customCharacterName: Brebo
+  _customCharacterName: Harper
   _chatView: {fileID: 7563849910360438664}
   _inputField: {fileID: 443940515}
 --- !u!1660057539 &9223372036854775807
@@ -3102,9 +3170,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 79147716}
   - {fileID: 1339668161}
-  - {fileID: 4770673589584648606}
   - {fileID: 3018820559259983962}
   - {fileID: 4215482893143903847}
+  - {fileID: 4770673589584648606}
   - {fileID: 4226015776974885325}
   - {fileID: 196985962}
   - {fileID: 1326795100}
