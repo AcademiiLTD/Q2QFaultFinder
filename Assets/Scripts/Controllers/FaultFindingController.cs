@@ -11,6 +11,17 @@ public class FaultFindingController : Controller
     [SerializeField] private FinalResultPopupView _finalResultPopupView;
 
 
+    private void Start()
+    {
+        if (PlayerPrefs.GetInt("FinishedScenario") == 0)
+        {
+            foreach (FaultFindingScenario scenario in GlobalData.Instance._availableFaultFindingScenarios)
+            {
+                PlayerPrefs.SetFloat(scenario.name, -1f);
+                Debug.Log($"Set float {scenario.name} to -1f");
+            }
+        }    
+    }
 
     protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
     {

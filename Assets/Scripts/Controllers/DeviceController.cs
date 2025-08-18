@@ -191,7 +191,7 @@ public class DeviceController : Controller
             Debug.Log($"Segment before: {segmentTime}");
             if (segments[i].thickness != scenarioSegments[i].thickness)
             {
-                segmentTime *= Random.Range(0.9f, 1.1f); //Adding variance
+                segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
                 Debug.Log($"Segment after variance: {segmentTime}");
 
             }
@@ -207,7 +207,7 @@ public class DeviceController : Controller
                 if (_selectedMonth != GlobalData.Instance.CurrentActiveScenario.month)
                 {
                     Debug.Log($"Before final variance: {finalValue}");
-                    finalValue *= Random.Range(0.9f, 1.1f); //Variance
+                    finalValue *= Random.Range(1.01f, 1.1f); //Variance
                     Debug.Log($"After final variance: {finalValue}");
 
                     return finalValue;
