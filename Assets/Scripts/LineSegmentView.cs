@@ -70,6 +70,11 @@ public class LineSegmentView : MonoBehaviour
         {
             Vector2 startPosition = _startPoint.transform.localPosition;
             _endPoint.transform.position = Input.mousePosition;
+            _endPoint.transform.localPosition = new Vector3(
+                Mathf.Clamp(_endPoint.transform.localPosition.x, -960f, 960f),
+                Mathf.Clamp(_endPoint.transform.localPosition.y, -540f, 540f),
+                0f);
+
             Vector2 endPosition = _endPoint.transform.localPosition;
 
             Vector2 dir = startPosition - endPosition;
