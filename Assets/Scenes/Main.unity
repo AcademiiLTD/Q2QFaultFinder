@@ -3328,6 +3328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialogue Box
       objectReference: {fileID: 0}
+    - target: {fileID: 6872249106263644356, guid: d08d502efa2377345b2bcbf5f7b68768, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

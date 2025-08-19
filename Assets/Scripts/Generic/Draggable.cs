@@ -30,6 +30,5 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         OnReleasedDraggable(transform, data);
         OnDragEnd.Invoke();
-
     }
 }

@@ -39,6 +39,8 @@ public class LineSegmentView : MonoBehaviour
     {
         _placingLine = true;
         _endPoint.enabled = true;
+        _lengthLabel.gameObject.SetActive(true);
+        _lineImage.enabled = true;
 
         while (_placingLine)
         {
@@ -56,12 +58,17 @@ public class LineSegmentView : MonoBehaviour
             Vector3 midPoint = (startPosition + endPosition) / 2f;
             _lineImage.rectTransform.sizeDelta = new Vector2(Mathf.Abs(dir.magnitude), 20f);
             _lineImage.transform.localPosition = midPoint;
-            _lineImage.enabled = true;
+
 
             _lineScaledDistance = _lineImage.rectTransform.sizeDelta.x / _mapMetersPerPixel;
             _lengthLabelText.text = $"{_lineScaledDistance.ToString("0.00")}m";
             _lengthLabel.transform.localPosition = _lineImage.transform.localPosition + new Vector3(0f, 50f, 0f);
-            _lengthLabel.gameObject.SetActive(true);
+            Debug.Log(_lengthLabel.transform.position);
+            _lengthLabel.transform.localPosition = new Vector3(
+                Mathf.Clamp(_lengthLabel.transform.localPosition.x, -860f, 860f),
+                Mathf.Clamp(_lengthLabel.transform.localPosition.y, -500f, 500f),
+                0f);
+
             LayoutRebuilder.ForceRebuildLayoutImmediate(_lengthLabel.rectTransform);
             yield return null;
         }
