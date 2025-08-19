@@ -77,19 +77,12 @@ public class DeviceController : Controller
 
     public void RestartSection()
     {
-        //if (_savedLineSegments.Count > 0)
-        //{
-        //    _savedLineSegments.RemoveAt(_savedLineSegments.Count - 1);
-        //    _currentLineSegmentCount -= 1;
-        //}
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
     }
 
     public void RestartTest()
     {
-        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
-
         _savedLineSegments.Clear();
         _currentLineSegment = new LineSegment();
         _currentLineSegmentCount = 1;

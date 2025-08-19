@@ -75,7 +75,6 @@ public class AgentChatController : Controller
         _chatView.CreateNewMessage("User", userMessage, MessageType.USER);
         userMessage = appStateInfo + userMessage;
         _inputField.text = "";
-        //RaiseControllerEvent(ControllerEvent.MESSAGE_SENT, userMessage);
         _waitingForResponse = true;
         _chatView.ToggleChatWindow(false);
         CreateAPIForm(userMessage);
@@ -86,21 +85,18 @@ public class AgentChatController : Controller
         ResponseData responseData = (ResponseData)data;
         if (_sessionID == "-1")
         {
-            //RaiseControllerEvent(ControllerEvent.NEW_SESSION, null);
             _sessionID = responseData.sessionID;
         }
 
         _chatView.CreateNewMessage(_customCharacterName, responseData.response, MessageType.AGENT);
         _chatView.ToggleChatWindow(true);
         _waitingForResponse = false;
-        //RaiseControllerEvent(ControllerEvent.MESSAGE_RECEIVED, responseData);
     }
 
     public void ResetSession()
     {
         _sessionID = "-1";
         _chatView.ClearMessageList();
-        //RaiseControllerEvent(ControllerEvent.RESET_SESSION, null);
     }
 
     private void CreateAPIForm(string userMessage)

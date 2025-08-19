@@ -7,8 +7,7 @@ public class CableType : ScriptableObject
 {
     public float thickness;
     public CableMaterial material;
-    public float velocityFactor; //Not sure how to actually use this yet
-    //Contains GENERIC, REUSED DATA about the cable (material, thickness' e.c.t.)
+    public float velocityFactor;
 }
 
 public enum CableMaterial

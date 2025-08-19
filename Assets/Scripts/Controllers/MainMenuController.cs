@@ -34,7 +34,6 @@ public class MainMenuController : Controller
         GlobalData.Instance.CurrentActiveScenario = _currentSelectedScenario;
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
         _mainMenuView.ToggleView(false);
-        //_currentSelectedScenario = null;
     }
 
     public void StartCableSetup()
