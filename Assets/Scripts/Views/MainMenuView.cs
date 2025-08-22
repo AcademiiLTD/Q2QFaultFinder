@@ -6,16 +6,19 @@ using UnityEngine.UI;
 
 public class MainMenuView : View
 {
-    [SerializeField] private TextMeshProUGUI _scenarioDescriptionText;
-    [SerializeField] private Image _scenarioThumbnailImage;
+    [SerializeField] private TextMeshProUGUI _scenarioDescriptionText, _scenarioDateText, _scenarioNameText;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
-    [SerializeField] private GameObject _beginButton;
+    [SerializeField] private GameObject _setupMenu, _faultFindingListMenu, _faultFindingDetailsMenu; 
 
-    public void PopulateDescriptionWindow(string description, Sprite image)
+    public void PopulateDescriptionWindow(FaultFindingScenario scenario)
     {
-        _scenarioDescriptionText.text = description;
-        _scenarioThumbnailImage.sprite = image;
-        _beginButton.SetActive(true);
+        _scenarioDescriptionText.text = scenario.description;
+        _scenarioDateText.text = scenario.date.ToString();
+        _scenarioNameText.text = scenario.name;
+
+        _faultFindingListMenu.SetActive(false);
+        _faultFindingDetailsMenu.SetActive(true);
+
     }
 
     public void PopulateList(List<FaultFindingScenario> scenarios)
@@ -27,7 +30,7 @@ public class MainMenuView : View
 
         for (int i = 0; i < scenarios.Count; i++)
         {
-            _scenarioListItems[i].PopulateItem($"{scenarios[i].name}:{scenarios[i].date}");
+            _scenarioListItems[i].PopulateItem($"{scenarios[i].name}: {scenarios[i].date}");
             _scenarioListItems[i].gameObject.SetActive(true);
         }
     }
