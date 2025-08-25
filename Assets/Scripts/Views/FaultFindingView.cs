@@ -7,6 +7,7 @@ public class FaultFindingView : View
 {
     [SerializeField] private GameObject _helpContainer, _landingPopup;
     [SerializeField] private TextMeshProUGUI _dateText;
+    [SerializeField] private List<GameObject> _walkthroughContainers;
 
     public void ToggleHelpContainer()
     {
@@ -28,5 +29,15 @@ public class FaultFindingView : View
     public void SetDate(string newDate)
     {
         _dateText.text = newDate;
+    }
+
+    public void EnableWalkthroughContainer(int index)
+    {
+        foreach (GameObject obj in _walkthroughContainers)
+        {
+            obj.SetActive(false);
+        }
+
+        if (index != -1) _walkthroughContainers[index].SetActive(true);
     }
 }

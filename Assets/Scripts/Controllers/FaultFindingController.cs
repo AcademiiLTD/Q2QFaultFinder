@@ -9,7 +9,8 @@ public class FaultFindingController : Controller
     [Header("Views")]
     [SerializeField] private FaultFindingView _faultFindingView;
     [SerializeField] private FinalResultPopupView _finalResultPopupView;
-
+    [SerializeField] private bool _isWalkthroughMode = false;
+    private int _walkthroughIndex = 0;
 
     private void Start()
     {
@@ -38,18 +39,31 @@ public class FaultFindingController : Controller
                 _faultFindingView.ToggleView(false);
                 _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
                 break;
+            case ControllerEvent.SELECTED_MONTH:
+            case ControllerEvent.SELECTED_CABLE_THICKNESS:
+            case ControllerEvent.SUBMIT_LENGTH_INPUT:
+            case ControllerEvent.FINISHED_SEGMENT:
+                ProgressWalkthrough();
+                break;
         }
     }
 
     private void StartNewFaultFindingScenario()
     {
+        _walkthroughIndex = -1;
         _faultFindingView.ToggleView(true);
         if (PlayerPrefs.GetInt("Finished Scenario") == 0)
         {
+            _isWalkthroughMode = true;
             _faultFindingView.EnableLandingPopup();
+            ProgressWalkthrough();
+        }
+        else
+        {
+            _isWalkthroughMode = false;
         }
 
-        _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
+            _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
     public void SubmitUserGuess(UserGuess userGuess)
@@ -66,10 +80,17 @@ public class FaultFindingController : Controller
         GlobalData.Instance.CurrentActiveScenario = null;
     }
 
-
     public void RestartCurrentScenario()
     {
         RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
+    }
+
+    private void ProgressWalkthrough()
+    {
+        if (_isWalkthroughMode == false) return;
+
+        _walkthroughIndex++;
+        _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
     }
 }
 
