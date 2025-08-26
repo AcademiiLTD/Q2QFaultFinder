@@ -2566,7 +2566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _faultFindingView: {fileID: 2896295111082683910}
   _finalResultPopupView: {fileID: 8570188895258097606}
-  _walkthroughControllerEvents: 07000000090000000c0000000d0000000d000000
+  _walkthroughControllerEvents: 07000000090000000c000000090000000c0000000d000000
 --- !u!114 &2998558952308099885
 MonoBehaviour:
   m_ObjectHideFlags: 0

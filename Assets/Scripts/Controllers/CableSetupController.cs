@@ -12,6 +12,7 @@ public class CableSetupController : Controller
     [SerializeField] private List<GameObject> _grabbableConnectors;
     [SerializeField] private List<ConnectorPoint> _connectorPoints;
     [SerializeField] private Transform _currentGrabTarget;
+    private int _cableIndex;
 
     private void OnEnable()
     {
@@ -50,13 +51,19 @@ public class CableSetupController : Controller
 
     private void BeginSetup()
     {
+        _cableIndex = 0;
+
         foreach (GameObject connector in _grabbableConnectors)
         {
             connector.transform.SetParent(_connectorContainer, false);
             Image connectorImage = connector.GetComponent<Image>();
-            connectorImage.enabled = true;
-            connectorImage.raycastTarget = true;
+            connectorImage.enabled = false;
+            connectorImage.raycastTarget = false;
         }
+
+        Image currentConnectorImage = _grabbableConnectors[_cableIndex].GetComponent<Image>();
+        currentConnectorImage.enabled = true;
+        currentConnectorImage.raycastTarget = true;
 
         foreach (ConnectorPoint point in _connectorPoints)
         {

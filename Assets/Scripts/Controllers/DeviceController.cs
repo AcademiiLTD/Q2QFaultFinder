@@ -20,6 +20,7 @@ public class DeviceController : Controller
     {
         switch (eventType) 
         {
+            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
             case ControllerEvent.STARTED_FAULT_FINDING:
                 FaultFindingScenario scenario = ((FaultFindingScenario)eventData);
                 _savedLineSegments.Clear();

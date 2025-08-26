@@ -32,7 +32,11 @@ public class FaultFindingController : Controller
        switch (eventType)
         {
             case ControllerEvent.STARTED_FAULT_FINDING:
-                StartNewFaultFindingScenario();
+                StartNewFaultFindingScenario(false);
+                _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
+                break;
+            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
+                StartNewFaultFindingScenario(true);
                 _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
                 break;
             case ControllerEvent.SUBMIT_GUESS:
@@ -42,27 +46,19 @@ public class FaultFindingController : Controller
                 _faultFindingView.ToggleView(false);
                 _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
                 break;
-            case ControllerEvent.SELECTED_MONTH:
-            case ControllerEvent.SELECTED_CABLE_THICKNESS:
-            case ControllerEvent.SUBMIT_LENGTH_INPUT:
-            case ControllerEvent.FINISHED_SEGMENT:
-                //if (PlayerPrefs.GetInt("Finished Scenario") == 0) ProgressWalkthrough();
-                break;
         }
 
-        if (eventType == _walkthroughControllerEvents[_walkthroughIndex])
+        if (_isWalkthroughMode && _walkthroughIndex > -1 &&  eventType == _walkthroughControllerEvents[_walkthroughIndex])
         {
-            if (PlayerPrefs.GetInt("Finished Scenario") == 0) ProgressWalkthrough();
-
+            ProgressWalkthrough();
         }
     }
 
-    private void StartNewFaultFindingScenario()
+    private void StartNewFaultFindingScenario(bool walkthroughMode)
     {
-        _walkthroughIndex = -1;
-        _faultFindingView.ToggleView(true);
-        if (PlayerPrefs.GetInt("Finished Scenario") == 0)
+        if (walkthroughMode)
         {
+            _walkthroughIndex = -1;
             _isWalkthroughMode = true;
             _faultFindingView.EnableLandingPopup();
             ProgressWalkthrough();
@@ -70,9 +66,11 @@ public class FaultFindingController : Controller
         else
         {
             _isWalkthroughMode = false;
+            _faultFindingView.EnableWalkthroughContainer(-1);
         }
 
-            _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
+        _faultFindingView.ToggleView(true);
+        _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
     public void SubmitUserGuess(UserGuess userGuess)
@@ -96,11 +94,18 @@ public class FaultFindingController : Controller
 
     private void ProgressWalkthrough()
     {
-        if (_isWalkthroughMode == false) return;
-
         _walkthroughIndex++;
-        _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
-        _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
+        Debug.Log("Walkthrough index: " + _walkthroughIndex);
+
+        if (_walkthroughIndex < _walkthroughControllerEvents.Count) 
+        {
+            _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
+            _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
+        }
+        else
+        {
+            _faultFindingView.EnableWalkthroughContainer(-1);
+        }
     }
 }
 

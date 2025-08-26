@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuController : Controller
 {
     [SerializeField] private MainMenuView _mainMenuView;
+    [SerializeField] private Toggle _walkthroughToggle;
 
     private FaultFindingScenario _currentSelectedScenario;
 
@@ -32,7 +34,16 @@ public class MainMenuController : Controller
     public void StartSelectedScenario()
     {
         GlobalData.Instance.CurrentActiveScenario = _currentSelectedScenario;
-        RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
+        if (_walkthroughToggle.isOn)
+        {
+            RaiseControllerEvent(ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE, _currentSelectedScenario);
+
+        }
+        else
+        {
+            RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
+
+        }
         _mainMenuView.ToggleView(false);
     }
 
