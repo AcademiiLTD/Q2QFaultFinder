@@ -9,8 +9,11 @@ public class FaultFindingController : Controller
     [Header("Views")]
     [SerializeField] private FaultFindingView _faultFindingView;
     [SerializeField] private FinalResultPopupView _finalResultPopupView;
-    [SerializeField] private bool _isWalkthroughMode = false;
+    [SerializeField] private List<ControllerEvent> _walkthroughControllerEvents;
+    private ControllerEvent _currentWalkthroughEventListener;
     private int _walkthroughIndex = 0;
+    private bool _isWalkthroughMode = false;
+
 
     private void Start()
     {
@@ -43,8 +46,14 @@ public class FaultFindingController : Controller
             case ControllerEvent.SELECTED_CABLE_THICKNESS:
             case ControllerEvent.SUBMIT_LENGTH_INPUT:
             case ControllerEvent.FINISHED_SEGMENT:
-                ProgressWalkthrough();
+                //if (PlayerPrefs.GetInt("Finished Scenario") == 0) ProgressWalkthrough();
                 break;
+        }
+
+        if (eventType == _walkthroughControllerEvents[_walkthroughIndex])
+        {
+            if (PlayerPrefs.GetInt("Finished Scenario") == 0) ProgressWalkthrough();
+
         }
     }
 
@@ -90,6 +99,7 @@ public class FaultFindingController : Controller
         if (_isWalkthroughMode == false) return;
 
         _walkthroughIndex++;
+        _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
         _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
     }
 }

@@ -38,6 +38,6 @@ public class FaultFindingView : View
             obj.SetActive(false);
         }
 
-        if (index != -1) _walkthroughContainers[index].SetActive(true);
+        if (index != -1 && index < _walkthroughContainers.Count) _walkthroughContainers[index].SetActive(true);
     }
 }
