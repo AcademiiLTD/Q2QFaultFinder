@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08fe0677b710af46a30d63b32ff6e2f, type: 3}
   m_Name: Accrington
   m_EditorClassIdentifier: 
-  description: Scenario in Accrington
+  description: 'Weld has been on circuit since 23/07/2024. Tested on 18/11/2024.
+    No SELF result at this point.
+
+
+    A few inconsistencies expected in cable records
+    here. Accrington is notorious for pool records and has perhaps generated a wider
+    zone.
+
+
+    Fault expected to be on Church St.'
   date: 3/12/2024
   _lineSegments:
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}

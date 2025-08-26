@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fault Finding Scenario")]
 public class FaultFindingScenario : ScriptableObject
 {
+    [TextArea]
     public string description;
     public string date;
     public List<LineSegment> _lineSegments;

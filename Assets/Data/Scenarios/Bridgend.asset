@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08fe0677b710af46a30d63b32ff6e2f, type: 3}
   m_Name: Bridgend
   m_EditorClassIdentifier: 
-  description: Scenario based in Bridgend
+  description: Fault expected to be on W House Road
   date: 03/02/2012
   _lineSegments:
   - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}

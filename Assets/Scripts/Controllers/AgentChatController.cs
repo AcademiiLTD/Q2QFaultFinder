@@ -23,7 +23,7 @@ public class AgentChatController : Controller
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) //Eventually want this to be changed to the newer input system, but this works for now
+        if (Input.GetKeyDown(KeyCode.Return)) //Eventually want this to be changed to the newer input system, but this works for now
         {
             AttemptSendMessage();
         }

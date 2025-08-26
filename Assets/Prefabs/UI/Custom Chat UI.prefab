@@ -335,9 +335,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 316285452871594640}
         m_TargetAssemblyTypeName: ConvaiChatController, Assembly-CSharp
-        m_MethodName: AttemptSendMessage
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
