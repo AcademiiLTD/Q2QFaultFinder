@@ -62,6 +62,7 @@ public class CableSetupController : Controller
         }
 
         Image currentConnectorImage = _grabbableConnectors[_cableIndex].GetComponent<Image>();
+        currentConnectorImage.transform.localPosition = Vector3.zero;
         currentConnectorImage.enabled = true;
         currentConnectorImage.raycastTarget = true;
 
@@ -92,6 +93,7 @@ public class CableSetupController : Controller
         {
             //Didn't find anything, put connector back into container
             _currentGrabTarget.SetParent(_connectorContainer, false);
+            _currentGrabTarget.transform.localPosition = Vector3.zero;
             _currentGrabTarget = null;
             return;
         }
@@ -107,6 +109,7 @@ public class CableSetupController : Controller
         {
             //No match, incorrect
             _currentGrabTarget.SetParent(_connectorContainer, false);
+            _currentGrabTarget.transform.localPosition = Vector3.zero;
             _currentGrabTarget = null;
         }
         
@@ -144,6 +147,10 @@ public class CableSetupController : Controller
         {
             if (!connectorPoint.Connected)
             {
+                _cableIndex++;
+                Image currentConnectorImage = _grabbableConnectors[_cableIndex].GetComponent<Image>();
+                currentConnectorImage.enabled = true;
+                currentConnectorImage.raycastTarget = true;
                 return false;
             }
         }
