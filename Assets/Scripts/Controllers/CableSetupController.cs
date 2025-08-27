@@ -9,7 +9,7 @@ public class CableSetupController : Controller
     [SerializeField] private CableSetupView _cableSetupView;
     [SerializeField] private GameObject _completionWindow;
     [SerializeField] private Transform _connectorContainer, _cableSetupContainer;
-    [SerializeField] private List<GameObject> _grabbableConnectors;
+    [SerializeField] private List<Connector> _grabbableConnectors;
     [SerializeField] private List<ConnectorPoint> _connectorPoints;
     [SerializeField] private Transform _currentGrabTarget;
     private int _cableIndex;
@@ -53,18 +53,15 @@ public class CableSetupController : Controller
     {
         _cableIndex = 0;
 
-        foreach (GameObject connector in _grabbableConnectors)
+        foreach (Connector connector in _grabbableConnectors)
         {
             connector.transform.SetParent(_connectorContainer, false);
-            Image connectorImage = connector.GetComponent<Image>();
-            connectorImage.enabled = false;
-            connectorImage.raycastTarget = false;
+            connector.ToggleConnectorActive(false);
         }
 
-        Image currentConnectorImage = _grabbableConnectors[_cableIndex].GetComponent<Image>();
-        currentConnectorImage.transform.localPosition = Vector3.zero;
-        currentConnectorImage.enabled = true;
-        currentConnectorImage.raycastTarget = true;
+        _grabbableConnectors[_cableIndex].transform.localPosition = Vector3.zero;
+        _grabbableConnectors[_cableIndex].ToggleConnectorActive(true);
+        _cableSetupView.SetWalkthroughText(_grabbableConnectors[_cableIndex]._hintText);
 
         foreach (ConnectorPoint point in _connectorPoints)
         {
@@ -148,9 +145,9 @@ public class CableSetupController : Controller
             if (!connectorPoint.Connected)
             {
                 _cableIndex++;
-                Image currentConnectorImage = _grabbableConnectors[_cableIndex].GetComponent<Image>();
-                currentConnectorImage.enabled = true;
-                currentConnectorImage.raycastTarget = true;
+                _cableSetupView.SetWalkthroughText(_grabbableConnectors[_cableIndex]._hintText);
+
+                _grabbableConnectors[_cableIndex].ToggleConnectorActive(true);
                 return false;
             }
         }

@@ -7,17 +7,14 @@ public class Connector : MonoBehaviour
 {
     [SerializeField] private Image _myImage;
     [SerializeField] private GameObject _label;
+    [TextArea]
+    public string _hintText;
 
     public ConnectorType _connectorType;
 
-    public void SetInteractable(bool state)
+    public void ToggleConnectorActive(bool state)
     {
-        _myImage.raycastTarget = state;
-    }
-
-    public void SetVisibility(bool state)
-    {
-        _myImage.enabled = state;
+        gameObject.SetActive(state);
     }
 
     public void ToggleLabel(bool state)

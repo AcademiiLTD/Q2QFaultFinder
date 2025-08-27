@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class ConnectorPoint : MonoBehaviour
 {
-    [SerializeField] private Image _myImage;
-    [SerializeField] private GameObject _visual, _indicator;
+    [SerializeField] private Image _raycastImage;
+    [SerializeField] private GameObject _visual;
     [SerializeField] private ConnectorType _correctConnectorType;
-    [SerializeField] private string _hintText;
     private bool _connectedCorrectly;
 
     public bool Connected
@@ -25,13 +24,9 @@ public class ConnectorPoint : MonoBehaviour
         {
             placedConnector.transform.SetParent(this.transform, false);
             placedConnector.transform.localPosition = Vector3.zero;
-            placedConnector.SetVisibility(false);
-            placedConnector.SetInteractable(false);
+            placedConnector.ToggleConnectorActive(false);
 
-            _myImage.enabled = false;
-            _visual.SetActive(true);
-            _indicator.SetActive(false);
-            _connectedCorrectly = true;
+            TogglePointConnected(true);
             return true;
         }
         else
@@ -43,10 +38,14 @@ public class ConnectorPoint : MonoBehaviour
 
     public void ResetConnectorPoint()
     {
-        _myImage.enabled = true;
-        _visual.SetActive(false);
-        _indicator.SetActive(true);
-        _connectedCorrectly = false;
+        TogglePointConnected(false);
+    }
+
+    private void TogglePointConnected(bool state)
+    {
+        _visual.SetActive(state);
+        _raycastImage.enabled = !state;
+        _connectedCorrectly = state;
     }
 }
 
