@@ -148,6 +148,8 @@ public class CableSetupController : Controller
                 _cableSetupView.SetWalkthroughText(_grabbableConnectors[_cableIndex]._hintText);
 
                 _grabbableConnectors[_cableIndex].ToggleConnectorActive(true);
+                _grabbableConnectors[_cableIndex].transform.localPosition = Vector3.zero;
+
                 return false;
             }
         }
