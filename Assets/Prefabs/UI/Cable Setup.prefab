@@ -3265,6 +3265,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Begin Button
       objectReference: {fileID: 0}
+    - target: {fileID: 8570611194714273186, guid: b8bc4f21a8605624aab5ca080c0a4250, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3752,7 +3756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _hintText
-      value: Feed
+      value: Plug in the feed
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _connectorType
@@ -4034,7 +4038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _hintText
-      value: Core
+      value: Plug in the core
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _connectorType
@@ -4179,7 +4183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _hintText
-      value: Neutral
+      value: Plug in the neutral
       objectReference: {fileID: 0}
     - target: {fileID: 7536952004258355226, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4320,7 +4324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _hintText
-      value: Live
+      value: Plug in the live
       objectReference: {fileID: 0}
     - target: {fileID: 6697286816660007402, guid: 5fdc10c0d3bb4da4a95a8d0e51063be2, type: 3}
       propertyPath: _connectorType
