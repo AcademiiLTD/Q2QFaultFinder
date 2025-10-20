@@ -2430,7 +2430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcfb43f0981f1d46bf4fa9dfbe36917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugScenario: {fileID: 0}
   _faultFindingView: {fileID: 2896295111082683910}
   _finalResultPopupView: {fileID: 8570188895258097606}
   _walkthroughControllerEvents: 07000000090000000c000000090000000c0000000d000000
@@ -4246,8 +4245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370, y: 150}
-  m_SizeDelta: {x: 300, y: 300}
+  m_AnchoredPosition: {x: 0.000015259, y: -0.000038147}
+  m_SizeDelta: {x: 433.3524, y: 433.3524}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2781487140758404474
 CanvasRenderer:
@@ -4278,7 +4277,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: cce345bc66673c84990895a240bb4f00, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

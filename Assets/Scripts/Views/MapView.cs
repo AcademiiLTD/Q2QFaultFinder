@@ -54,9 +54,14 @@ public class MapView : View
         EvaluateSegmentLengths();
     }
 
-    public void SetFaultAreaIndicator(Vector2 faultAreaPosition)
+    public void SetFaultAreaIndicator(Vector2 faultPosition)
     {
-        _faultAreaIndicator.transform.localPosition = faultAreaPosition;
+        //Add some random variation to the fault location so it isn't always centered on the fault
+        float xPos = faultPosition.x + UnityEngine.Random.Range(-20f, 20f);
+        float yPos = faultPosition.y + UnityEngine.Random.Range(-20f, 20f);
+
+        Vector2 newPos = new Vector2(xPos, yPos);
+        _faultAreaIndicator.transform.localPosition = newPos;
     }
 
     public void SetLineColour(int colourIndex)
