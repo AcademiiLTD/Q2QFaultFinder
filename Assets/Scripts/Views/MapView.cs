@@ -14,6 +14,7 @@ public class MapView : View
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
     [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private GameObject _lineSegmentPrefab;
+    [SerializeField] private GameObject _faultAreaIndicator;
 
     private Color _currentColour;
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
@@ -51,6 +52,11 @@ public class MapView : View
         _lineSegmentsDisplays.Clear();
 
         EvaluateSegmentLengths();
+    }
+
+    public void SetFaultAreaIndicator(Vector2 faultAreaPosition)
+    {
+        _faultAreaIndicator.transform.localPosition = faultAreaPosition;
     }
 
     public void SetLineColour(int colourIndex)

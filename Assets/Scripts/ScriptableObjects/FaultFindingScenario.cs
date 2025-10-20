@@ -14,6 +14,7 @@ public class FaultFindingScenario : ScriptableObject
     public Sprite mapImage;
     public float faultDistance;
     public float mapMetersPerPixel;
+    public Vector2 faultArea;
 }
 
 public enum Month

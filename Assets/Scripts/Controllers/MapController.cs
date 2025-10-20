@@ -19,6 +19,7 @@ public class MapController : Controller
             case ControllerEvent.STARTED_FAULT_FINDING:
                 FaultFindingScenario scenario = (FaultFindingScenario)eventData;
                 _mapView.SetUpMap(scenario.mapImage, scenario.mapMetersPerPixel);
+                _mapView.SetFaultAreaIndicator(scenario.faultArea);
                 break;
         }
     }
