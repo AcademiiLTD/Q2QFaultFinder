@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapController : Controller
 {
     [SerializeField] private MapView _mapView;
+    private bool _userMakingFaultGuess;
 
     private void OnEnable()
     {
@@ -24,8 +25,21 @@ public class MapController : Controller
         }
     }
 
+    public void ToggleGuess()
+    {
+        _userMakingFaultGuess = !_userMakingFaultGuess;
+    }
+
     private void TappedMap(Vector2 tapPosition)
     {
+        if (_userMakingFaultGuess)
+        {
+            //Need to submit the user's guess instead of placing a line segment
+            RaiseControllerEvent(ControllerEvent.CONFIRM_GUESS, tapPosition);
+            _mapView.SetGuessIndicatorPosition(tapPosition);
+            return;
+        }
+
         _mapView.PlaceLineSegment(tapPosition);
     }
 }

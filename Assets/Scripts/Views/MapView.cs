@@ -15,6 +15,7 @@ public class MapView : View
     [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private GameObject _faultAreaIndicator;
+    [SerializeField] private GameObject _faultGuessIndicator;
 
     private Color _currentColour;
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
@@ -52,6 +53,17 @@ public class MapView : View
         _lineSegmentsDisplays.Clear();
 
         EvaluateSegmentLengths();
+    }
+
+    public void SetGuessIndicatorPosition(Vector2 guessPosition)
+    {
+        if (_currentLineSegmentView != null)
+        {
+            UndoSegment();
+        }
+
+        _faultGuessIndicator.SetActive(true);
+        _faultGuessIndicator.transform.position = guessPosition;
     }
 
     public void SetFaultAreaIndicator(Vector2 faultPosition)
