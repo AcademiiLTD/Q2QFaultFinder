@@ -46,6 +46,9 @@ public class FaultFindingController : Controller
                 _faultFindingView.ToggleView(false);
                 _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
                 break;
+            case ControllerEvent.CONFIRM_GUESS:
+                _faultFindingView.EnableGuessConfirmationPopup();
+                break;
         }
 
         if (_isWalkthroughMode && _walkthroughIndex > -1 &&  eventType == _walkthroughControllerEvents[_walkthroughIndex])
