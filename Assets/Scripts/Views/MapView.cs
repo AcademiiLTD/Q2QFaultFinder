@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MapView : View
@@ -12,18 +9,25 @@ public class MapView : View
     [SerializeField] private List<Color> _lineColours;
     [SerializeField] private List<ColourSelector> _colourSelectors;
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
-    [SerializeField] private List<LineSegmentView> _lineSegmentsDisplays;
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private GameObject _faultAreaIndicator;
+    [SerializeField] private GameObject _firstTapPositionMarker;
+
+    private List<List<LineSegmentView>> _line;
 
     private Color _currentColour;
-    private LineSegmentView _currentLineSegmentView, _previousLineSegment;
+    private Color _previousColour;
     private float _mapMetersPerPixel;
+
+    private Vector2 _firstTappedPosition;
+    
 
     private void Awake()
     {
         PopulateColourSelectors();
         _currentColour = _lineColours[0];
+
+        _line = new List<List<LineSegmentView>>();
     }
 
     public void SetUpMap(Sprite mapSprite, float metersPerPixel)
@@ -32,24 +36,18 @@ public class MapView : View
         _mapBackgroundImage.sprite = mapSprite;
         _mapBackgroundImage.gameObject.SetActive(true);
 
-        //Make sure everything is reset
-        if (_currentLineSegmentView != null)
+        _firstTappedPosition = Vector2.zero;
+
+        if (_line.Count > 0)
         {
-            Destroy(_currentLineSegmentView.gameObject);
-            _currentLineSegmentView = null;
+            List<LineSegmentView> allSegments = AllSegments();
+            for (int i = allSegments.Count; i >= 0; i--)
+            {
+                Destroy(allSegments[i].gameObject);
+            }
         }
 
-        if (_previousLineSegment != null)
-        {
-            Destroy(_previousLineSegment.gameObject);
-            _previousLineSegment = null;
-        }
-
-        foreach (LineSegmentView lineSegmentView in _lineSegmentsDisplays)
-        {
-            Destroy(lineSegmentView.gameObject); //Should be pooled if performance requires
-        }
-        _lineSegmentsDisplays.Clear();
+        _line = new List<List<LineSegmentView>>();
 
         EvaluateSegmentLengths();
     }
@@ -93,56 +91,156 @@ public class MapView : View
     {
         Debug.Log("Tapped map at " + tapPosition);
 
-        //No line segment, this is the first tap
-        if (_currentLineSegmentView == null)
+        if (_firstTappedPosition == Vector2.zero)
         {
-            _currentLineSegmentView = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
-            _previousLineSegment = _currentLineSegmentView;
-            _lineSegmentsDisplays.Add(_currentLineSegmentView);
-            _currentLineSegmentView.SetFirstPosition(tapPosition, _mapMetersPerPixel);
-            _currentLineSegmentView.SetColour(_currentColour);
-            _currentLineSegmentView.transform.SetAsFirstSibling();
+            _firstTappedPosition = tapPosition;
+            _firstTapPositionMarker.transform.position = tapPosition;
+            _firstTapPositionMarker.SetActive(true);
+            return;
+        }
+
+        LineSegmentView newLineSegment = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
+        newLineSegment.SetColour(_currentColour);
+        newLineSegment.transform.SetAsFirstSibling();
+
+        if (_line.Count == 0)
+        {
+            newLineSegment.SetFirstPosition(_firstTappedPosition, _mapMetersPerPixel);
+            newLineSegment.SetSecondPosition(tapPosition);
+            _previousColour = _currentColour;
+
+            List<LineSegmentView> newColourSection = new List<LineSegmentView>() { newLineSegment };
+            _line.Add(newColourSection);
         }
         else
         {
-            _currentLineSegmentView.SetSecondPosition(tapPosition);
+            LineSegmentView previousLineSegment = PreviousLineSegment();
+            previousLineSegment.EndPointShowState(false);
 
-            EvaluateSegmentLengths();
-            _currentLineSegmentView = null;
+            newLineSegment.SetFirstPosition(previousLineSegment.EndPoisition(), _mapMetersPerPixel);
+            newLineSegment.SetSecondPosition(tapPosition);
+
+            if (_previousColour == _currentColour)
+            {
+                PreviousColourSection().Add(newLineSegment);
+            }
+            else
+            {
+                List<LineSegmentView> newColourSection = new List<LineSegmentView>() { newLineSegment };
+                _line.Add(newColourSection);
+
+                _previousColour = _currentColour;
+            }
         }
-        //Line segment already exists, this is the second tap
+
+        EvaluateSegmentLengths();
     }
 
     private void EvaluateSegmentLengths()
     {
         float totalLength = 0f;
-        foreach (LineSegmentView lineSegment in _lineSegmentsDisplays)
+        List<LineSegmentView> allSegments = AllSegments();
+
+        foreach (LineSegmentView lineSegment in allSegments)
         {
             totalLength += lineSegment.Length();
         }
 
-        if (_lineSegmentsDisplays.Count > 0)
+        float previousColourSectionLength = 0f;
+        if (_line.Count > 0)
         {
-            _previousLineSegment = _lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1];
-        }
-        else
-        {
-            _previousLineSegment = null;
+            List<LineSegmentView> previousLineColourSection = PreviousColourSection();
+
+            foreach (LineSegmentView lineSegment in previousLineColourSection)
+            {
+                previousColourSectionLength += lineSegment.Length();
+            }
         }
 
-        SetPreviousSegmentLength(_previousLineSegment != null ? _previousLineSegment.Length() : 0f);
+        SetPreviousSegmentLength(previousColourSectionLength);
         SetTotalSegmentsLength(totalLength);
+        UpdateSectionLabels();
+    }
+
+    private void UpdateSectionLabels()
+    {
+        foreach (List<LineSegmentView> colourSection in _line)
+        {
+            float colourSectionLength = 0f;
+            foreach (LineSegmentView lineSegment in colourSection)
+            {
+                colourSectionLength += lineSegment.Length();
+                lineSegment.DisableLengthLabel();
+            }
+
+            int middleLabelIndex = colourSection.Count / 2 ;
+            colourSection[middleLabelIndex].SetLengthLabel(colourSectionLength);
+        }
     }
 
     public void UndoSegment()
     {
-        if (_lineSegmentsDisplays.Count > 0)
+        if (_line.Count > 0)
         {
-            Destroy(_lineSegmentsDisplays[_lineSegmentsDisplays.Count - 1].gameObject);
-            _lineSegmentsDisplays.RemoveAt(_lineSegmentsDisplays.Count - 1);
+            List<LineSegmentView> previousLineColourSection = PreviousColourSection();
+
+            GameObject gameObjectToDestroy = PreviousLineSegment().gameObject;
+            previousLineColourSection.RemoveAt(previousLineColourSection.Count - 1);
+            Destroy(gameObjectToDestroy);
+
+            if (previousLineColourSection.Count == 0)
+            {
+                _line.Remove(previousLineColourSection);
+            }
+
+            if (_line.Count > 0)
+            {
+                PreviousLineSegment().EndPointShowState(true);
+            }
+            else
+            {
+                _firstTappedPosition = Vector2.zero;
+                _firstTapPositionMarker.SetActive(false);
+            }
+        }
+        else
+        {
+            _firstTappedPosition = Vector2.zero;
+            _firstTapPositionMarker.SetActive(false);
         }
 
         EvaluateSegmentLengths();
+    }
 
+    private List<LineSegmentView> AllSegments()
+    {
+        List<LineSegmentView> allSegments = new List<LineSegmentView>();
+        foreach (List<LineSegmentView> lineColourSections in _line)
+        {
+            foreach (LineSegmentView lineSegmentView in lineColourSections)
+            {
+                allSegments.Add(lineSegmentView);
+            }
+        }
+
+        return allSegments;
+    }
+
+    private LineSegmentView PreviousLineSegment()
+    {
+        List<LineSegmentView> allSegments = AllSegments();
+        return allSegments[allSegments.Count - 1];
+    }
+
+    private List<LineSegmentView> PreviousColourSection()
+    {
+        if (_line.Count > 0)
+        {
+            return _line[_line.Count - 1];
+        }
+        else
+        {
+            return new List<LineSegmentView>();
+        }        
     }
 }
