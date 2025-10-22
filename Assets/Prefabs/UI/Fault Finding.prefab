@@ -3431,7 +3431,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Prev. Segment:'
+  m_text: 'Prev. Colour:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9e68805b54f16e40a25953bd286c8aa, type: 2}
   m_sharedMaterial: {fileID: 6495933280000199354, guid: d9e68805b54f16e40a25953bd286c8aa, type: 2}
@@ -3458,7 +3458,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.95
+  m_fontSize: 32
   m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3856,7 +3856,6 @@ MonoBehaviour:
   - {fileID: 375843547234207192}
   _previousSegmentDistanceText: {fileID: 3858943495253775944}
   _totalSegmentsDistanceText: {fileID: 7181071991505249877}
-  _lineSegmentsDisplays: []
   _lineSegmentPrefab: {fileID: 6576887336193633349, guid: 374b4552b8b7eb048a1b20a5ec5b3b3b, type: 3}
   _faultAreaIndicator: {fileID: 5250536716607252953}
   _faultGuessIndicator: {fileID: 1985714415318575212}
@@ -5203,6 +5202,7 @@ RectTransform:
   m_LocalScale: {x: 0.46, y: 0.46, z: 0.46}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 3257309087427262431}
   - {fileID: 91692522419194838}
   - {fileID: 5933072854216845401}
   - {fileID: 2056833852841574493}
