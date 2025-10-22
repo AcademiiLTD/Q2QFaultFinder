@@ -17,6 +17,7 @@ public class MapController : Controller
     {
         switch (eventType)
         {
+            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
             case ControllerEvent.STARTED_FAULT_FINDING:
                 FaultFindingScenario scenario = (FaultFindingScenario)eventData;
                 _mapView.SetUpMap(scenario.mapImage, scenario.mapMetersPerPixel);

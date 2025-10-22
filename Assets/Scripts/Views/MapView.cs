@@ -46,7 +46,7 @@ public class MapView : View
         if (_line.Count > 0)
         {
             List<LineSegmentView> allSegments = AllSegments();
-            for (int i = allSegments.Count; i >= 0; i--)
+            for (int i = allSegments.Count - 1; i >= 0; i--)
             {
                 Destroy(allSegments[i].gameObject);
             }
@@ -80,8 +80,8 @@ public class MapView : View
 
     public void SetPreviousSegmentLength(float distance)
     {
-        Debug.Log(distance);
-        Debug.Log(_mapMetersPerPixel);
+        //Debug.Log(distance);
+        //Debug.Log(_mapMetersPerPixel);
         _previousSegmentDistanceText.text = $"{distance.ToString("0.00")}m";
     }
 
