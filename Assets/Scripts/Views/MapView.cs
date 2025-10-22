@@ -21,6 +21,11 @@ public class MapView : View
     private LineSegmentView _currentLineSegmentView, _previousLineSegment;
     private float _mapMetersPerPixel;
 
+    public Vector2 FaultGuessPosition()
+    {
+        return _faultGuessIndicator.transform.localPosition;
+    }
+
     private void Awake()
     {
         PopulateColourSelectors();

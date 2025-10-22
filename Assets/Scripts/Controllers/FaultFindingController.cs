@@ -39,7 +39,7 @@ public class FaultFindingController : Controller
                 _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
                 break;
             case ControllerEvent.SUBMIT_GUESS:
-                SubmitUserGuess((UserGuess)eventData);
+                SubmitUserGuess((Vector2)eventData);
                 break;
             case ControllerEvent.GO_TO_MAIN_MENU:
                 _faultFindingView.ToggleView(false);
@@ -75,10 +75,13 @@ public class FaultFindingController : Controller
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
-    public void SubmitUserGuess(UserGuess userGuess)
+    public void SubmitUserGuess(Vector2 userGuess)
     {
-        _finalResultPopupView.SetResultText(userGuess);
-        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", userGuess._userGuess);
+        FaultFindingScenario scenario = GlobalData.Instance.CurrentActiveScenario;
+        float finalDifference = Vector2.Distance(userGuess, scenario.faultPosition) / scenario.mapMetersPerPixel;
+
+        _finalResultPopupView.SetResultText(finalDifference);
+        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", finalDifference);
         PlayerPrefs.SetInt("Finished Scenario", 1);
     }
 

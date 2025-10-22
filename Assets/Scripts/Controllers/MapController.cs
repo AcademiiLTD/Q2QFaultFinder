@@ -42,4 +42,11 @@ public class MapController : Controller
 
         _mapView.PlaceLineSegment(tapPosition);
     }
+
+    public void UserSubmitGuess()
+    {
+        FaultFindingScenario scenario = GlobalData.Instance.CurrentActiveScenario;
+        Vector2 guessPosition = _mapView.FaultGuessPosition();
+        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, guessPosition);
+    }
 }
