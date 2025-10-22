@@ -31,7 +31,6 @@ public class DeviceController : Controller
                 _deviceView.ManualSetDeviceActive(false);
                 _deviceView.StartNewLineSegment(_currentLineSegmentCount);
                 _deviceView.ShowMonthInput();
-                Debug.Log(_faultDistanceMeters);
                 break;
             case ControllerEvent.START_NEW_SECTION:
                 _currentLineSegmentCount++;
@@ -58,8 +57,6 @@ public class DeviceController : Controller
                 break;
             case ControllerEvent.FINISHED_SEGMENT:
                 float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
-                Debug.Log($"Trip time:{_roundTripTime}");
-                Debug.Log("current fault estimate: " + estimatedFaultDistance);
                 if (estimatedFaultDistance == -1)
                 {
                     RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
@@ -72,7 +69,6 @@ public class DeviceController : Controller
             case ControllerEvent.FINISHED_TEST:
                 DisplayFaultDistance((float)eventData);
                 break;
-
         }
     }
 
@@ -187,15 +183,10 @@ public class DeviceController : Controller
         {
             float segmentLengthKm = segments[i].length / 1000f;
             float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SpeedOfLight);
-            Debug.Log($"Segment before: {segmentTime}");
             if (segments[i].thickness != scenarioSegments[i].thickness)
             {
                 segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
-                Debug.Log($"Segment after variance: {segmentTime}");
-
             }
-
-
 
             if (oneWayTime <= segmentTime)
             {
@@ -205,10 +196,7 @@ public class DeviceController : Controller
                 float finalValue = distanceTravelled + distanceInSegmentM;
                 if (_selectedMonth != GlobalData.Instance.CurrentActiveScenario.month)
                 {
-                    Debug.Log($"Before final variance: {finalValue}");
                     finalValue *= Random.Range(1.01f, 1.1f); //Variance
-                    Debug.Log($"After final variance: {finalValue}");
-
                     return finalValue;
                 }
                 else return finalValue;

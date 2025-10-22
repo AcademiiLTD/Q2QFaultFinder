@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FaultFindingView : View
 {
-    [SerializeField] private GameObject _helpContainer, _landingPopup;
+    [SerializeField] private GameObject _helpContainer, _landingPopup, _guessConfirmationPopup;
     [SerializeField] private TextMeshProUGUI _dateText;
     [SerializeField] private List<GameObject> _walkthroughContainers;
 
@@ -39,5 +39,10 @@ public class FaultFindingView : View
         }
 
         if (index != -1 && index < _walkthroughContainers.Count) _walkthroughContainers[index].SetActive(true);
+    }
+
+    public void EnableGuessConfirmationPopup()
+    {
+        _guessConfirmationPopup.SetActive(true);
     }
 }

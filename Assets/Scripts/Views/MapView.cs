@@ -11,6 +11,7 @@ public class MapView : View
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private GameObject _faultAreaIndicator;
+    [SerializeField] private GameObject _faultGuessIndicator;
     [SerializeField] private GameObject _firstTapPositionMarker;
 
     private List<List<LineSegmentView>> _line;
@@ -19,6 +20,10 @@ public class MapView : View
     private Color _previousColour;
     private float _mapMetersPerPixel;
 
+    public Vector2 FaultGuessPosition()
+    {
+        return _faultGuessIndicator.transform.localPosition;
+    }
     private Vector2 _firstTappedPosition;
     
 
@@ -50,6 +55,17 @@ public class MapView : View
         _line = new List<List<LineSegmentView>>();
 
         EvaluateSegmentLengths();
+    }
+
+    public void SetGuessIndicatorPosition(Vector2 guessPosition)
+    {
+        if (_currentLineSegmentView != null)
+        {
+            UndoSegment();
+        }
+
+        _faultGuessIndicator.SetActive(true);
+        _faultGuessIndicator.transform.position = guessPosition;
     }
 
     public void SetFaultAreaIndicator(Vector2 faultPosition)
