@@ -22,7 +22,6 @@ public class FaultFindingController : Controller
             foreach (FaultFindingScenario scenario in GlobalData.Instance._availableFaultFindingScenarios)
             {
                 PlayerPrefs.SetFloat(scenario.name, -1f);
-                Debug.Log($"Set float {scenario.name} to -1f");
             }
         }    
     }
@@ -98,7 +97,6 @@ public class FaultFindingController : Controller
     private void ProgressWalkthrough()
     {
         _walkthroughIndex++;
-        Debug.Log("Walkthrough index: " + _walkthroughIndex);
 
         if (_walkthroughIndex < _walkthroughControllerEvents.Count) 
         {
