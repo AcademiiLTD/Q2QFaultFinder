@@ -59,11 +59,6 @@ public class MapView : View
 
     public void SetGuessIndicatorPosition(Vector2 guessPosition)
     {
-        if (_currentLineSegmentView != null)
-        {
-            UndoSegment();
-        }
-
         _faultGuessIndicator.SetActive(true);
         _faultGuessIndicator.transform.position = guessPosition;
     }
