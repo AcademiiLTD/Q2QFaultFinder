@@ -46,6 +46,9 @@ public class CableSetupController : Controller
             case ControllerEvent.GO_TO_MAIN_MENU:
                 _cableSetupView.ToggleView(false);
                 break;
+            case ControllerEvent.STARTED_FAULT_FINDING:
+                _cableSetupView.ToggleView(false);
+                break;
         }
     }
 
