@@ -13,6 +13,7 @@ public class MapView : View
     [SerializeField] private GameObject _faultAreaIndicator;
     [SerializeField] private GameObject _faultGuessIndicator;
     [SerializeField] private GameObject _firstTapPositionMarker;
+    [SerializeField] private GameObject _calculatedFaultArea;
 
     private List<List<LineSegmentView>> _line;
 
@@ -40,6 +41,8 @@ public class MapView : View
         _mapMetersPerPixel = metersPerPixel;
         _mapBackgroundImage.sprite = mapSprite;
         _mapBackgroundImage.gameObject.SetActive(true);
+
+        _calculatedFaultArea.SetActive(false);
 
         _firstTappedPosition = Vector2.zero;
 
@@ -221,6 +224,47 @@ public class MapView : View
         }
 
         EvaluateSegmentLengths();
+    }
+
+    public void DisplayFaultArea(float faultDistanceFromStartMeters)
+    {
+        List<LineSegmentView> allSegments = AllSegments();
+
+        float accumulatedDistanceMeters = 0f;
+        LineSegmentView targetSegment = null;
+
+        for (int i = 0; i < allSegments.Count; i++)
+        {
+            if (accumulatedDistanceMeters + allSegments[i].Length() < faultDistanceFromStartMeters)
+            {
+                accumulatedDistanceMeters += allSegments[i].Length();
+                continue;
+            }
+
+            targetSegment = allSegments[i];
+            break;
+        }
+
+        if (targetSegment == null)
+        {
+            return;
+        }
+
+        float distanceIntoSegment = faultDistanceFromStartMeters - accumulatedDistanceMeters;
+        float ratioIntoSegment = distanceIntoSegment / targetSegment.Length();
+
+        Vector3 segmentVector = targetSegment.EndPoisition() - targetSegment.StartPosition();
+        Vector3 faultRelativeVector = segmentVector * ratioIntoSegment;
+
+        Vector3 faultAreaPosition = targetSegment.StartPosition() + faultRelativeVector;
+
+        _calculatedFaultArea.transform.position = faultAreaPosition;
+        _calculatedFaultArea.SetActive(true);
+    }
+
+    public void HideFaultArea()
+    {
+        _calculatedFaultArea.SetActive(false);
     }
 
     private List<LineSegmentView> AllSegments()

@@ -17,7 +17,7 @@ MonoBehaviour:
   _lineSegments:
   - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
     length: 89
-    thickness: 120
+    thickness: 185
   - cable: {fileID: 11400000, guid: fcafdb5c932665146851f72eab835ecd, type: 2}
     length: 25
     thickness: 70

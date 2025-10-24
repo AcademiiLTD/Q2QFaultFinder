@@ -23,6 +23,19 @@ public class MapController : Controller
                 _mapView.SetUpMap(scenario.mapImage, scenario.mapMetersPerPixel);
                 _mapView.SetFaultAreaIndicator(scenario.faultPosition);
                 break;
+
+            case ControllerEvent.FINISHED_TEST:
+                float faultDistanceFromStartMeters = (float)eventData;
+                _mapView.DisplayFaultArea(faultDistanceFromStartMeters);
+                break;
+
+            case ControllerEvent.RESTART_SECTION:
+                _mapView.HideFaultArea();
+                break;
+
+            case ControllerEvent.RESTART_TEST:
+                _mapView.HideFaultArea();
+                break;
         }
     }
 
