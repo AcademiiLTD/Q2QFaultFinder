@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,6 +77,7 @@ public class DeviceController : Controller
     {
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+        RaiseControllerEvent(ControllerEvent.RESTART_SECTION, null);
     }
 
     public void RestartTest()
@@ -88,6 +90,7 @@ public class DeviceController : Controller
         _deviceView.StartNewLineSegment(_currentLineSegmentCount);
         _deviceView.ShowMonthInput();
         _deviceView.ManualSetDeviceActive(true);
+        RaiseControllerEvent(ControllerEvent.RESTART_TEST, null);
     }
 
     public void SelectMonth(int month)

@@ -45,6 +45,11 @@ public class LineSegmentView : MonoBehaviour
             0f);
     }
 
+    public Vector3 StartPosition()
+    {
+        return _startPoint.transform.position;
+    }
+
     public Vector3 EndPoisition()
     {
         return _endPoint.transform.position;
