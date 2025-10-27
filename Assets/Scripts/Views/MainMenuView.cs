@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : View
+public class MainMenuView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scenarioDescriptionText, _scenarioDateText, _scenarioNameText;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
     [SerializeField] private GameObject _setupMenu, _faultFindingListMenu, _faultFindingDetailsMenu;
+    [SerializeField] private Toggle _walkthroughToggle;
 
     public void PopulateDescriptionWindow(FaultFindingScenario scenario)
     {
@@ -18,7 +19,6 @@ public class MainMenuView : View
 
         _faultFindingListMenu.SetActive(false);
         _faultFindingDetailsMenu.SetActive(true);
-
     }
 
     public void PopulateList(List<FaultFindingScenario> scenarios)
@@ -39,5 +39,10 @@ public class MainMenuView : View
     {
         AudioSource musicSource = GetComponent<AudioSource>();
         musicSource.mute = !musicSource.mute;
+    }
+
+    public bool WalkthroughMode()
+    {
+        return _walkthroughToggle.isOn;
     }
 }

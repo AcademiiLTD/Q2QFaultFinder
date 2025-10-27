@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapView : View
+public class MapView : MonoBehaviour
 {
     [SerializeField] private Image _mapBackgroundImage;
     [SerializeField] private List<Color> _lineColours;

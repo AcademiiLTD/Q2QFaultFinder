@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeviceController : Controller
+public class Q2QDevice : MonoBehaviour
 {
-    [SerializeField] private DeviceView _deviceView;
+    [SerializeField] private Q2QDeviceView _deviceView;
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
     [SerializeField] private LineSegment _currentLineSegment;
@@ -13,106 +13,134 @@ public class DeviceController : Controller
     [SerializeField] private Month _selectedMonth;
     [SerializeField] private List<CableType> _cableTypes;
 
+    private FaultFindingScenario _currentFaultFindingScenario;
     private float _faultDistanceMeters;
     private float _roundTripTime;
     private float _currentUserFaultGuess;
 
-    protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
+    //protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
+    //{
+    //    switch (eventType)
+    //    {
+    //        case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
+    //        case ControllerEvent.STARTED_FAULT_FINDING:
+    //            FaultFindingScenario scenario = ((FaultFindingScenario)eventData);
+    //            _savedLineSegments.Clear();
+    //            _currentLineSegment = new LineSegment();
+    //            _currentLineSegmentCount = 1;
+    //            _faultDistanceMeters = scenario.faultDistance;
+    //            _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
+    //            _deviceView.ManualSetDeviceActive(false);
+    //            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+    //            _deviceView.ShowMonthInput();
+    //            break;
+    //        case ControllerEvent.START_NEW_SECTION:
+    //            _currentLineSegmentCount++;
+    //            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+    //            break;
+    //        case ControllerEvent.SELECTED_MONTH:
+    //            _selectedMonth = (Month)eventData;
+    //            _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+    //            break;
+    //        case ControllerEvent.SELECTED_CABLE_TYPE:
+    //            CableType cableType = (CableType)eventData;
+    //            _currentLineSegment.cable = cableType;
+    //            _deviceView.ShowCableSizeInput(cableType.name.ToString());
+    //            break;
+    //        case ControllerEvent.SELECTED_CABLE_THICKNESS:
+    //            _currentLineSegment.thickness = (int)eventData;
+    //            _deviceView.ShowSectionLengthInput();
+    //            break;
+    //        case ControllerEvent.SUBMIT_LENGTH_INPUT:
+    //            _currentLineSegment.length = (int)eventData;
+    //            _savedLineSegments.Add(_currentLineSegment);
+    //            _currentLineSegment = new LineSegment();
+    //            RaiseControllerEvent(ControllerEvent.FINISHED_SEGMENT, _savedLineSegments);
+    //            break;
+    //        case ControllerEvent.FINISHED_SEGMENT:
+    //            float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
+    //            if (estimatedFaultDistance == -1)
+    //            {
+    //                RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
+    //            }
+    //            else
+    //            {
+    //                RaiseControllerEvent(ControllerEvent.FINISHED_TEST, estimatedFaultDistance);
+    //            }
+    //            break;
+    //        case ControllerEvent.FINISHED_TEST:
+    //            DisplayFaultDistance((float)eventData);
+    //            break;
+    //    }
+    //}
+
+    private void OnEnable()
     {
-        switch (eventType) 
-        {
-            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
-            case ControllerEvent.STARTED_FAULT_FINDING:
-                FaultFindingScenario scenario = ((FaultFindingScenario)eventData);
-                _savedLineSegments.Clear();
-                _currentLineSegment = new LineSegment();
-                _currentLineSegmentCount = 1;
-                _faultDistanceMeters = scenario.faultDistance;
-                _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
-                _deviceView.ManualSetDeviceActive(false);
-                _deviceView.StartNewLineSegment(_currentLineSegmentCount);
-                _deviceView.ShowMonthInput();
-                break;
-            case ControllerEvent.START_NEW_SECTION:
-                _currentLineSegmentCount++;
-                _deviceView.StartNewLineSegment(_currentLineSegmentCount);
-                break;
-            case ControllerEvent.SELECTED_MONTH:
-                _selectedMonth = (Month)eventData;
-                _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
-                break;
-            case ControllerEvent.SELECTED_CABLE_TYPE:
-                CableType cableType = (CableType)eventData;
-                _currentLineSegment.cable = cableType;
-                _deviceView.ShowCableSizeInput(cableType.name.ToString());
-                break;
-            case ControllerEvent.SELECTED_CABLE_THICKNESS:
-                _currentLineSegment.thickness = (int)eventData;
-                _deviceView.ShowSectionLengthInput();
-                break;
-            case ControllerEvent.SUBMIT_LENGTH_INPUT:
-                _currentLineSegment.length = (int)eventData;
-                _savedLineSegments.Add(_currentLineSegment);
-                _currentLineSegment = new LineSegment();
-                RaiseControllerEvent(ControllerEvent.FINISHED_SEGMENT, _savedLineSegments);
-                break;
-            case ControllerEvent.FINISHED_SEGMENT:
-                float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
-                if (estimatedFaultDistance == -1)
-                {
-                    RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
-                }
-                else
-                {
-                    RaiseControllerEvent(ControllerEvent.FINISHED_TEST, estimatedFaultDistance);
-                }
-                break;
-            case ControllerEvent.FINISHED_TEST:
-                DisplayFaultDistance((float)eventData);
-                break;
-        }
+        ApplicationEvents.ScenarioSelected += PopulateScenario;
+    }
+
+    private void OnDisable()
+    {
+        ApplicationEvents.ScenarioSelected -= PopulateScenario;
+    }
+
+    private void PopulateScenario(FaultFindingScenario newScenario)
+    {
+        _currentFaultFindingScenario = newScenario;
+        _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
+        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario._lineSegments);
+    }
+
+    public void StartNewTest()
+    {
+        _savedLineSegments.Clear();
+        _currentLineSegment = new LineSegment();
+        _currentLineSegmentCount = 1;
+
+        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        _deviceView.ShowMonthInput();
     }
 
     public void RestartSection()
     {
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
-        RaiseControllerEvent(ControllerEvent.RESTART_SECTION, null);
-    }
-
-    public void RestartTest()
-    {
-        _savedLineSegments.Clear();
-        _currentLineSegment = new LineSegment();
-        _currentLineSegmentCount = 1;
-        _faultDistanceMeters = GlobalData.Instance.CurrentActiveScenario.faultDistance;
-        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, GlobalData.Instance.CurrentActiveScenario._lineSegments);
-        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
-        _deviceView.ShowMonthInput();
-        _deviceView.ManualSetDeviceActive(true);
-        RaiseControllerEvent(ControllerEvent.RESTART_TEST, null);
     }
 
     public void SelectMonth(int month)
     {
         Month inputMonth = (Month)month; //Cast into to month for readability
-        RaiseControllerEvent(ControllerEvent.SELECTED_MONTH, month);
     }
 
     public void SubmitCableType(int cableIndex)
     {
         CableType cableType = _cableTypes[cableIndex];
-        RaiseControllerEvent(ControllerEvent.SELECTED_CABLE_TYPE, cableType);
     }
 
     public void SubmitCableThickness(int thickness)
     {
-        RaiseControllerEvent(ControllerEvent.SELECTED_CABLE_THICKNESS, thickness);
+        _currentLineSegment.thickness = thickness;
+        _deviceView.ShowSectionLengthInput();
     }
 
     public void SubmitSectionLength()
     {
-        RaiseControllerEvent(ControllerEvent.SUBMIT_LENGTH_INPUT, _deviceView.KeypadValue());
+        _currentLineSegment.length = _deviceView.KeypadValue();
+        _savedLineSegments.Add(_currentLineSegment);
+    
+
+        float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
+
+        if (estimatedFaultDistance == -1)
+        {
+            _currentLineSegment = new LineSegment();
+            _currentLineSegmentCount++;
+            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        }
+        else
+        {
+            DisplayFaultDistance(estimatedFaultDistance);
+        }
     }
 
     private void DisplayFaultDistance(float faultDistance)
@@ -141,7 +169,6 @@ public class DeviceController : Controller
     {
         float finalDifference = Mathf.Abs(_faultDistanceMeters - _currentUserFaultGuess);
         UserGuess guess = new UserGuess(finalDifference, _savedLineSegments);
-        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, guess);
     }
 
     public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
@@ -180,7 +207,7 @@ public class DeviceController : Controller
         float distanceTravelled = 0f;
         float SpeedOfLight = 299792.485f;
 
-        List<LineSegment> scenarioSegments = GlobalData.Instance.CurrentActiveScenario._lineSegments;
+        List<LineSegment> scenarioSegments = _currentFaultFindingScenario._lineSegments;
 
         for (int i = 0; i < segments.Count; i++)
         {
@@ -197,7 +224,7 @@ public class DeviceController : Controller
                 float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
-                if (_selectedMonth != GlobalData.Instance.CurrentActiveScenario.month)
+                if (_selectedMonth != _currentFaultFindingScenario.month)
                 {
                     finalValue *= Random.Range(1.01f, 1.1f); //Variance
                     return finalValue;

@@ -4,74 +4,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class FaultFindingController : Controller
+public class FaultFindingController : MonoBehaviour
 {
+
     [Header("Views")]
+    [SerializeField] private CanvasToggler _faultFindingCanvasToggler;
     [SerializeField] private FaultFindingView _faultFindingView;
     [SerializeField] private FinalResultPopupView _finalResultPopupView;
-    [SerializeField] private List<ControllerEvent> _walkthroughControllerEvents;
-    private ControllerEvent _currentWalkthroughEventListener;
-    private int _walkthroughIndex = 0;
-    private bool _isWalkthroughMode = false;
+    [SerializeField] private Q2QDevice _q2QDevice;
+    private FaultFindingScenario _currentScenario;
 
+    //[SerializeField] private List<ControllerEvent> _walkthroughControllerEvents;
+    //private ControllerEvent _currentWalkthroughEventListener;
+    //private int _walkthroughIndex = 0;
+    //private bool _isWalkthroughMode = false;
 
-    private void Start()
+    private void OnEnable()
     {
-        if (PlayerPrefs.GetInt("FinishedScenario") == 0)
-        {
-            foreach (FaultFindingScenario scenario in GlobalData.Instance._availableFaultFindingScenarios)
-            {
-                PlayerPrefs.SetFloat(scenario.name, -1f);
-            }
-        }    
+        ApplicationEvents.ScenarioSelected += PopulateScenario;
+        ApplicationEvents.OnGoToMainMenu += LeaveFaultFinding;
     }
 
-    protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
+    private void OnDisable()
     {
-       switch (eventType)
-        {
-            case ControllerEvent.STARTED_FAULT_FINDING:
-                StartNewFaultFindingScenario(false);
-                _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
-                break;
-            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
-                StartNewFaultFindingScenario(true);
-                _faultFindingView.SetDate(((FaultFindingScenario)eventData).date);
-                break;
-            case ControllerEvent.SUBMIT_GUESS:
-                SubmitUserGuess((Vector2)eventData);
-                break;
-            case ControllerEvent.GO_TO_MAIN_MENU:
-                _faultFindingView.ToggleView(false);
-                _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
-                break;
-            case ControllerEvent.CONFIRM_GUESS:
-                _faultFindingView.EnableGuessConfirmationPopup();
-                break;
-        }
+        ApplicationEvents.ScenarioSelected -= PopulateScenario;
+        ApplicationEvents.OnGoToMainMenu -= LeaveFaultFinding;
 
-        if (_isWalkthroughMode && _walkthroughIndex > -1 &&  eventType == _walkthroughControllerEvents[_walkthroughIndex])
-        {
-            ProgressWalkthrough();
-        }
+    }
+
+    private void LeaveFaultFinding()
+    {
+        _faultFindingCanvasToggler.ToggleView(false);
+    }
+
+    private void PopulateScenario(FaultFindingScenario scenario)
+    {
+
     }
 
     private void StartNewFaultFindingScenario(bool walkthroughMode)
     {
-        if (walkthroughMode)
-        {
-            _walkthroughIndex = -1;
-            _isWalkthroughMode = true;
-            _faultFindingView.EnableLandingPopup();
-            ProgressWalkthrough();
-        }
-        else
-        {
-            _isWalkthroughMode = false;
-            _faultFindingView.EnableWalkthroughContainer(-1);
-        }
-
-        _faultFindingView.ToggleView(true);
+        _faultFindingView.EnableLandingPopup();
+        _faultFindingCanvasToggler.ToggleView(true);
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
@@ -85,32 +59,25 @@ public class FaultFindingController : Controller
         PlayerPrefs.SetInt("Finished Scenario", 1);
     }
 
-    //Called from final result popup main menu button
-    public void ReturnToMainMenu()
-    {
-        RaiseControllerEvent(ControllerEvent.GO_TO_MAIN_MENU, null);
-        GlobalData.Instance.CurrentActiveScenario = null;
-    }
-
     public void RestartCurrentScenario()
     {
-        RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
+        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
     }
 
-    private void ProgressWalkthrough()
-    {
-        _walkthroughIndex++;
+    //private void ProgressWalkthrough()
+    //{
+    //    _walkthroughIndex++;
 
-        if (_walkthroughIndex < _walkthroughControllerEvents.Count) 
-        {
-            _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
-            _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
-        }
-        else
-        {
-            _faultFindingView.EnableWalkthroughContainer(-1);
-        }
-    }
+    //    if (_walkthroughIndex < _walkthroughControllerEvents.Count) 
+    //    {
+    //        _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
+    //        _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
+    //    }
+    //    else
+    //    {
+    //        _faultFindingView.EnableWalkthroughContainer(-1);
+    //    }
+    //}
 }
 
 [Serializable]

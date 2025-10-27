@@ -2657,9 +2657,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcfb43f0981f1d46bf4fa9dfbe36917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _faultFindingCanvasToggler: {fileID: 0}
   _faultFindingView: {fileID: 2896295111082683910}
   _finalResultPopupView: {fileID: 8570188895258097606}
-  _walkthroughControllerEvents: 07000000090000000c000000090000000c0000000d000000
+  _q2QDevice: {fileID: 0}
 --- !u!114 &2998558952308099885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2727,9 +2728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27be7c3ee29ecd489ddbc853f7e90b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewCanvasGroup: {fileID: 9056895819795313945}
-  _viewAnimator: {fileID: 6473863692717196354}
-  _startsVisible: 0
   _helpContainer: {fileID: 6513536806959819369}
   _landingPopup: {fileID: 8580453137478441253}
   _guessConfirmationPopup: {fileID: 3650138859374909220}
@@ -3365,24 +3363,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4080811429711047559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4f824ff9eab687438b661cfec74310f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8690c3572186c754fa1cd4cdb0712477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewCanvasGroup: {fileID: 6693124059477328040}
-  _viewAnimator: {fileID: 0}
-  _startsVisible: 0
-  _monthSelector: {fileID: 2108285236599025627}
-  _cableType: {fileID: 1160794768050657014}
-  _cableSize: {fileID: 3697340717994649675}
-  _cableLength: {fileID: 7163646323922494714}
-  _faultDisplay: {fileID: 7843559656689113040}
-  _consacSizeSelector: {fileID: 3697340717994649675}
+  _monthSelector: {fileID: 0}
+  _cableType: {fileID: 0}
+  _cableSize: {fileID: 0}
+  _cableLength: {fileID: 0}
+  _faultDisplay: {fileID: 0}
+  _consacSizeSelector: {fileID: 0}
   _waveconSizeSelector: {fileID: 0}
-  _sectionCountText: {fileID: 4519371143676901311}
-  _faultDisplayText: {fileID: 623797182075720719}
-  _keypadInputText: {fileID: 6950850521930756708}
-  _sectionLengthText: {fileID: 5371537978116690495}
-  _cableThicknessTypeText: {fileID: 6627563509970121540}
+  _sectionCountText: {fileID: 0}
+  _faultDisplayText: {fileID: 0}
+  _keypadInputText: {fileID: 0}
+  _sectionLengthText: {fileID: 0}
+  _cableThicknessTypeText: {fileID: 0}
 --- !u!1 &4100840270523333324
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,9 +3987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7538014235a6713438cb5761a07abeb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewCanvasGroup: {fileID: 5466679091651331423}
-  _viewAnimator: {fileID: 0}
-  _startsVisible: 0
   _mapBackgroundImage: {fileID: 3222854807674978249}
   _lineColours:
   - {r: 1, g: 0.5254902, b: 0.8577117, a: 1}
@@ -7876,6 +7868,10 @@ PrefabInstance:
       value: Use these buttons to change the colour of the next line for organisation
         purposes
       objectReference: {fileID: 0}
+    - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
+      propertyPath: m_fontSize
+      value: 21.95
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8425,17 +8421,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 296c0df9aca336b46a1240b65f7a3289, type: 3}
---- !u!114 &5371537978116690495 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4667271702604332441, guid: 296c0df9aca336b46a1240b65f7a3289, type: 3}
-  m_PrefabInstance: {fileID: 742798952727637926}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &6376109934935860647 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5922952051249908225, guid: 296c0df9aca336b46a1240b65f7a3289, type: 3}
@@ -9947,6 +9932,10 @@ PrefabInstance:
     - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
       propertyPath: m_text
       value: Press this button to bring up the Q2Q device
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
+      propertyPath: m_fontSize
+      value: 21.95
       objectReference: {fileID: 0}
     - target: {fileID: 8319899201018825816, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
       propertyPath: m_Sprite
@@ -13913,6 +13902,10 @@ PrefabInstance:
       value: This section shows the length of your previous line segment and the
         total length of all segments
       objectReference: {fileID: 0}
+    - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
+      propertyPath: m_fontSize
+      value: 20.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8319899201018825816, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -15238,6 +15231,10 @@ PrefabInstance:
     - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
       propertyPath: m_text
       value: Press this button to undo the previous line segment
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572848436238197877, guid: 91285fd835b1dee4ea2dac922ee25955, type: 3}
+      propertyPath: m_fontSize
+      value: 20.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

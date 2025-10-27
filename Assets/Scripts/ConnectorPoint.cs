@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ConnectorPoint : MonoBehaviour
 {
-    [SerializeField] private Image _raycastImage;
+    [SerializeField] private BoxCollider2D _collider;
     [SerializeField] private GameObject _visual;
     [SerializeField] private ConnectorType _correctConnectorType;
     private bool _connectedCorrectly;
@@ -18,21 +19,19 @@ public class ConnectorPoint : MonoBehaviour
         }
     }
 
-    public bool TryPlaceConnector(Connector placedConnector)
+    public static UnityAction ConnectedCorrectly;
+
+    public void TryPlaceConnector(DraggableConnector placedConnector)
     {
         if (placedConnector._connectorType == _correctConnectorType)
         {
-            placedConnector.transform.SetParent(this.transform, false);
-            placedConnector.transform.localPosition = Vector3.zero;
             placedConnector.ToggleConnectorActive(false);
-
             TogglePointConnected(true);
-            return true;
+            ConnectedCorrectly?.Invoke();
         }
         else
         {
-            //Populate dialogue
-            return false;
+            placedConnector.ResetConnectorPosition();
         }
     }
 
@@ -44,7 +43,7 @@ public class ConnectorPoint : MonoBehaviour
     private void TogglePointConnected(bool state)
     {
         _visual.SetActive(state);
-        _raycastImage.enabled = !state;
+        _collider.enabled = !state;
         _connectedCorrectly = state;
     }
 }

@@ -1,55 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MainMenuController : Controller
+public class MainMenuController : MonoBehaviour
 {
+    [SerializeField] private ScenarioManifest _scenarioManifest;
     [SerializeField] private MainMenuView _mainMenuView;
-    [SerializeField] private Toggle _walkthroughToggle;
+    [SerializeField] private CanvasToggler _mainMenuCanvasToggler;
 
     private FaultFindingScenario _currentSelectedScenario;
 
-    private void Start()
+    public void ReturnToMainMenu()
     {
-        _mainMenuView.PopulateList(GlobalData.Instance._availableFaultFindingScenarios);
+        ApplicationEvents.GoToMainMenu();
+        _mainMenuCanvasToggler.ToggleView(true);
     }
 
-    protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
+    private void Start()
     {
-        switch (eventType) 
-        {
-            case ControllerEvent.GO_TO_MAIN_MENU:
-                _mainMenuView.ToggleView(true);
-                break;
-        }
+        _mainMenuView.PopulateList(_scenarioManifest.FaultFindingScenarios);
     }
 
     public void ChangeSelectedScenario(int index)
     {
-        _currentSelectedScenario = GlobalData.Instance._availableFaultFindingScenarios[index];
+        _currentSelectedScenario = _scenarioManifest.FaultFindingScenarios[index];
         _mainMenuView.PopulateDescriptionWindow(_currentSelectedScenario);
+        ApplicationEvents.SelectScenario(_currentSelectedScenario);
     }
 
     public void StartSelectedScenario()
     {
         GlobalData.Instance.CurrentActiveScenario = _currentSelectedScenario;
-        if (_walkthroughToggle.isOn)
-        {
-            RaiseControllerEvent(ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE, _currentSelectedScenario);
-
-        }
-        else
-        {
-            RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, _currentSelectedScenario);
-
-        }
-        _mainMenuView.ToggleView(false);
-    }
-
-    public void StartCableSetup()
-    {
-        RaiseControllerEvent(ControllerEvent.STARTED_SETUP, null);
-        _mainMenuView.ToggleView(false);
+        ApplicationEvents.ScenarioStarted();
+        _mainMenuCanvasToggler.ToggleView(false);
     }
 }

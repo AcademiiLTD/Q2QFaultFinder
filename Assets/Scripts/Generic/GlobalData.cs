@@ -12,8 +12,6 @@ public class GlobalData : MonoBehaviour
         }
     }
 
-    public List<FaultFindingScenario> _availableFaultFindingScenarios;
-
     private FaultFindingScenario _currentActiveScenario;
     public FaultFindingScenario CurrentActiveScenario
     {

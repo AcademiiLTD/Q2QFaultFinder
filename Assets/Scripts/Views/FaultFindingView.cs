@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class FaultFindingView : View
+public class FaultFindingView : MonoBehaviour
 {
     [SerializeField] private GameObject _helpContainer, _landingPopup, _guessConfirmationPopup;
     [SerializeField] private TextMeshProUGUI _dateText;
