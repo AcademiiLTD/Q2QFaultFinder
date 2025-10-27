@@ -3275,6 +3275,7 @@ GameObject:
   - component: {fileID: 7861524281735412569}
   - component: {fileID: 5431735349094051115}
   - component: {fileID: 6693124059477328040}
+  - component: {fileID: 4549193511247018599}
   - component: {fileID: 1355936687042929151}
   m_Layer: 5
   m_Name: Device
@@ -3354,6 +3355,27 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &4549193511247018599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080811429711047559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc525a18cef03e45b552b0622b305c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deviceView: {fileID: 1355936687042929151}
+  _savedLineSegments: []
+  _currentLineSegment:
+    cable: {fileID: 0}
+    length: 0
+    thickness: 0
+  _currentLineSegmentCount: 1
+  _selectedMonth: 0
+  _cableTypes: []
 --- !u!114 &1355936687042929151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3366,18 +3388,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8690c3572186c754fa1cd4cdb0712477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthSelector: {fileID: 0}
-  _cableType: {fileID: 0}
-  _cableSize: {fileID: 0}
-  _cableLength: {fileID: 0}
-  _faultDisplay: {fileID: 0}
-  _consacSizeSelector: {fileID: 0}
-  _waveconSizeSelector: {fileID: 0}
-  _sectionCountText: {fileID: 0}
-  _faultDisplayText: {fileID: 0}
-  _keypadInputText: {fileID: 0}
-  _sectionLengthText: {fileID: 0}
-  _cableThicknessTypeText: {fileID: 0}
+  _monthSelector: {fileID: 2108285236599025627}
+  _cableType: {fileID: 1160794768050657014}
+  _cableSize: {fileID: 3697340717994649675}
+  _cableLength: {fileID: 7163646323922494714}
+  _faultDisplay: {fileID: 7843559656689113040}
+  _sectionCountText: {fileID: 4519371143676901311}
+  _faultDisplayText: {fileID: 623797182075720719}
+  _keypadInputText: {fileID: 6950850521930756708}
+  _sectionLengthText: {fileID: 2945130353004542957}
+  _cableThicknessTypeText: {fileID: 6627563509970121540}
 --- !u!1 &4100840270523333324
 GameObject:
   m_ObjectHideFlags: 0

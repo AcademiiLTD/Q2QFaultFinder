@@ -6,7 +6,6 @@ using UnityEngine;
 public class Q2QDeviceView :MonoBehaviour
 {
     [SerializeField] private GameObject _monthSelector, _cableType, _cableSize, _cableLength, _faultDisplay;
-    [SerializeField] private GameObject _consacSizeSelector, _waveconSizeSelector;
     [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText, _cableThicknessTypeText;
 
     public void SetDeviceActive(bool state)
