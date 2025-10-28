@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScenarioManifest
+[CreateAssetMenu(menuName = "Data/ScenarioManifest")]
+public class ScenarioManifest : ScriptableObject
 {
     public List<FaultFindingScenario> FaultFindingScenarios;
 }

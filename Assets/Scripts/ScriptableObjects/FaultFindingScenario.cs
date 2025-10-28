@@ -9,7 +9,7 @@ public class FaultFindingScenario : ScriptableObject
     [TextArea]
     public string description;
     public string date;
-    public List<LineSegment> _lineSegments;
+    public List<LineSegment> LineSegments;
     public Month month;
     public Sprite mapImage;
     public float faultDistance;
