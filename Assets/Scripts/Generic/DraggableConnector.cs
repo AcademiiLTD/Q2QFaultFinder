@@ -16,7 +16,7 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
     [TextArea]
     public string _hintText;
 
-    public static event Action<Transform, PointerEventData> OnGrabbedDraggable, OnReleasedDraggable;
+    //public static UnityAction<Transform, PointerEventData> OnGrabbedDraggable, OnReleasedDraggable;
     public ConnectorType _connectorType;
 
     private void Start()
@@ -26,7 +26,7 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnBeginDrag(PointerEventData data)
     {
-        OnGrabbedDraggable(transform, data);
+        //OnGrabbedDraggable.Invoke(transform, data);
         ToggleLabel(true);
     }
 
@@ -37,7 +37,7 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnEndDrag(PointerEventData data)
     {
-        OnReleasedDraggable(transform, data);
+        //OnReleasedDraggable.Invoke(transform, data);
         ToggleLabel(false);
 
         Collider2D[] foundColliders = Physics2D.OverlapBoxAll(transform.position, _overlapBoxSize, 0f, _overlapLayerMask);
@@ -81,5 +81,12 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
     public void ToggleLabel(bool state)
     {
         _label.SetActive(state);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 boxSize = new Vector3(_overlapBoxSize.x, _overlapBoxSize.y, 0f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, boxSize);
     }
 }
