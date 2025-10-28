@@ -43,10 +43,12 @@ public class FaultFindingController : MonoBehaviour
     private void OnScenarioSelected(FaultFindingScenario scenario)
     {
         _currentScenario = scenario;
+        _faultFindingView.SetDate(scenario.date.ToString());
     }
 
     private void OnFaultFindingStarted()
     {
+        Debug.Log("Fault finding started");
         _faultFindingView.EnableLandingPopup();
         _faultFindingCanvasToggler.ToggleView(true);
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
@@ -55,7 +57,7 @@ public class FaultFindingController : MonoBehaviour
     public void OnGuessSubmitted(FaultPositionGuess faultPositionGuess)
     {
         float finalDifference = Vector2.Distance(faultPositionGuess.GuessPosition(), _currentScenario.faultPosition) / _currentScenario.mapMetersPerPixel;
-        _finalResultPopupView.SetResultText(finalDifference);
+        _finalResultPopupView.SetResultText(finalDifference, faultPositionGuess.CableTypesCorrect(), faultPositionGuess.CableThicknessCorrect());
     }
 
     public void RestartCurrentScenario()
@@ -83,22 +85,21 @@ public class FaultFindingController : MonoBehaviour
 public class FaultPositionGuess
 {
     private Vector2 _guessPosition;
-    private bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
-
-    private List<LineSegment> _scenarioSegments;
+    public bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
 
     public FaultPositionGuess(Vector2 guessPosition, List<LineSegment> userInputSegments, List<LineSegment> scenarioSegments)
     {
         _guessPosition = guessPosition;
+        Debug.Log($"Guess position: {guessPosition}");
 
         for (int i = 0; i < userInputSegments.Count; i++)
         {
-            if (userInputSegments[i].cable != _scenarioSegments[i].cable)
+            if (userInputSegments[i].cable != scenarioSegments[i].cable)
             {
                 _cableTypesCorrect = false;
             }
 
-            if (userInputSegments[i].thickness != _scenarioSegments[i].thickness)
+            if (userInputSegments[i].thickness != scenarioSegments[i].thickness)
             {
                 _cableThicknessCorrect = false;
             }

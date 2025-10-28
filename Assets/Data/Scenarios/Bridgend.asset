@@ -14,18 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Fault expected to be on W House Road
   date: 03/02/2012
-  _lineSegments:
+  LineSegments:
   - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
-    length: 89
+    length: 88
     thickness: 185
   - cable: {fileID: 11400000, guid: fcafdb5c932665146851f72eab835ecd, type: 2}
-    length: 25
+    length: 21
     thickness: 70
   - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 56
-    thickness: 240
-  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 35
+    length: 173
     thickness: 240
   month: 1
   mapImage: {fileID: 21300000, guid: 32c63dd0c76c72041bcbc247877bf99d, type: 3}

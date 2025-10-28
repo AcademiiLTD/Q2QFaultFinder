@@ -10,6 +10,7 @@ public class MapController : MonoBehaviour
         ClickableMap.OnMapClicked += TappedMap;
 
         ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
         ApplicationEvents.OnFaultDistanceCalculated += OnFaultDistanceCalculated;
     }
 
@@ -18,6 +19,7 @@ public class MapController : MonoBehaviour
         ClickableMap.OnMapClicked -= TappedMap;
 
         ApplicationEvents.OnScenarioSelected -= OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
         ApplicationEvents.OnFaultDistanceCalculated -= OnFaultDistanceCalculated;
     }
 
@@ -25,6 +27,11 @@ public class MapController : MonoBehaviour
     {
         _mapView.SetUpMap(scenarioData.mapImage, scenarioData.mapMetersPerPixel);
         _mapView.SetFaultAreaIndicator(scenarioData.faultPosition);
+    }
+
+    private void OnFaultFindingStarted()
+    {
+        _mapView.ResetMap();
     }
 
     private void OnFaultDistanceCalculated(float faultDistanceFromStartMeters)

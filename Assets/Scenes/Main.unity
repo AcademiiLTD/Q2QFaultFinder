@@ -2886,10 +2886,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8163246551912309788, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3923409893807330111}
-    - target: {fileID: 8163246551912309788, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 366908795}
@@ -2900,10 +2896,6 @@ PrefabInstance:
     - target: {fileID: 8163246551912309788, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163246551912309788, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartSelectedScenario
       objectReference: {fileID: 0}
     - target: {fileID: 8163246551912309788, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName

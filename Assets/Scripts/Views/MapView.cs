@@ -42,6 +42,11 @@ public class MapView : MonoBehaviour
         _mapBackgroundImage.sprite = mapSprite;
         _mapBackgroundImage.gameObject.SetActive(true);
 
+        ResetMap();
+    }
+
+    public void ResetMap()
+    {
         _calculatedFaultArea.SetActive(false);
 
         _firstTappedPosition = Vector2.zero;
@@ -56,7 +61,6 @@ public class MapView : MonoBehaviour
         }
 
         _line = new List<List<LineSegmentView>>();
-
         EvaluateSegmentLengths();
     }
 
@@ -229,12 +233,14 @@ public class MapView : MonoBehaviour
     public void DisplayFaultArea(float faultDistanceFromStartMeters)
     {
         List<LineSegmentView> allSegments = AllSegments();
+        Debug.Log($"Fault distance: {faultDistanceFromStartMeters}");
 
         float accumulatedDistanceMeters = 0f;
         LineSegmentView targetSegment = null;
 
         for (int i = 0; i < allSegments.Count; i++)
         {
+            Debug.Log($"Segment: {i}");
             if (accumulatedDistanceMeters + allSegments[i].Length() < faultDistanceFromStartMeters)
             {
                 accumulatedDistanceMeters += allSegments[i].Length();
@@ -261,7 +267,7 @@ public class MapView : MonoBehaviour
         _calculatedFaultArea.transform.position = faultAreaPosition;
         _calculatedFaultArea.SetActive(true);
 
-        ApplicationEvents.InvokeOnFaultPositionCalculated(_calculatedFaultArea.transform.position);
+        ApplicationEvents.InvokeOnFaultPositionCalculated(_calculatedFaultArea.transform.localPosition);
     }
 
     public void HideFaultArea()

@@ -11,7 +11,7 @@ public class Q2QDevice : MonoBehaviour
     [SerializeField] private Month _selectedMonth;
     [SerializeField] private List<CableType> _cableTypes;
 
-    private FaultFindingScenario _currentFaultFindingScenario;
+    [SerializeField] private FaultFindingScenario _currentFaultFindingScenario;
     private float _faultDistanceMeters;
     private float _roundTripTime;
 
@@ -33,16 +33,16 @@ public class Q2QDevice : MonoBehaviour
 
     private void OnScenarioSelected(FaultFindingScenario newScenario)
     {
-        _savedLineSegments.Clear();
-        _currentLineSegment = new LineSegment();
-        _currentLineSegmentCount = 1;
         _currentFaultFindingScenario = newScenario;
-        _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
-        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario.LineSegments);
     }
 
     private void OnFaultFindingStarted()
     {
+        _savedLineSegments.Clear();
+        _currentLineSegment = new LineSegment();
+        _currentLineSegmentCount = 1;
+        _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
+        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario.LineSegments);
         _deviceView.SetDeviceActive(false);
         _deviceView.StartNewLineSegment(_currentLineSegmentCount);
         _deviceView.ShowMonthInput();
@@ -71,13 +71,14 @@ public class Q2QDevice : MonoBehaviour
 
     public void SubmitMonth(int month)
     {
-        Month inputMonth = (Month)month; //Cast into to month for readability
+        _selectedMonth = (Month)month; //Cast into to month for readability
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
     }
 
     public void SubmitCableType(int cableIndex)
     {
         CableType cableType = _cableTypes[cableIndex];
+        _currentLineSegment.cable = cableType;
         _deviceView.ShowCableSizeInput(cableType.name.ToString());
     }
 
@@ -91,7 +92,7 @@ public class Q2QDevice : MonoBehaviour
     {
         _currentLineSegment.length = _deviceView.KeypadValue();
         _savedLineSegments.Add(_currentLineSegment);
-
+        Debug.Log($"Current segment coutn: {_currentLineSegmentCount}");
 
         float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
 
@@ -116,6 +117,8 @@ public class Q2QDevice : MonoBehaviour
             totalDistance += segment.length;
         }
 
+        ApplicationEvents.InvokeOnFaultDistanceCalculated(faultDistance);
+
         if (_savedLineSegments.Count > 1)
         {
             for (int i = 0; i < _savedLineSegments.Count - 1; i++)
@@ -125,7 +128,6 @@ public class Q2QDevice : MonoBehaviour
         }
 
         _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, faultDistance);
-        ApplicationEvents.InvokeOnFaultDistanceCalculated(faultDistance);
     }
 
     public void SubmitUserFaultGuess()

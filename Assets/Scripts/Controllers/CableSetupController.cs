@@ -47,6 +47,7 @@ public class CableSetupController : MonoBehaviour
 
         _cableSetupView.SetWalkthroughText(_grabbableConnectors[_cableIndex]._hintText);
         _cableSetupView.ToggleCompletionWindow(false);
+        _cableSetupView.ToggleIntroWindow(true);
         _cableSetupCanvasToggler.ToggleView(true);
     }
 
@@ -135,6 +136,7 @@ public class CableSetupController : MonoBehaviour
 
     public void GoToFaultFinding()
     {
+        _cableSetupCanvasToggler.ToggleView(false);
         ApplicationEvents.InvokeOnFaultFinding();
     }
 }

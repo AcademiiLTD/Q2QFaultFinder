@@ -9,7 +9,7 @@ public class FinalResultPopupView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private Color _correctColour, _medianColour, _incorrectColour;
 
-    public void SetResultText(float userGuess)
+    public void SetResultText(float userGuess, bool cableTypesCorrect, bool cableThicknessCorrect)
     {
         Color textColour = Color.black;
         switch (userGuess)
@@ -26,26 +26,24 @@ public class FinalResultPopupView : MonoBehaviour
         }
 
         string hexColour = textColour.ToHexString();
-        float previousGuess = PlayerPrefs.GetFloat(GlobalData.Instance.CurrentActiveScenario.name);
-        Debug.Log($"Get float {GlobalData.Instance.CurrentActiveScenario.name} : {previousGuess}");
 
 
         gameObject.SetActive(true);
         _resultText.text = $"Your guess was <color=#{hexColour}>{userGuess.ToString("0.00")}</color> meters from the fault";
 
-        if (previousGuess != -1f)
+        //if (previousGuess != -1f)
+        //{
+        //    _resultText.text += $"\nYour previous best guess was {previousGuess.ToString("0.00")}";
+        //}
+
+        if (!cableTypesCorrect)
         {
-            _resultText.text += $"\nYour previous best guess was {previousGuess.ToString("0.00")}";
+            _resultText.text += "\n\nSome of your <color=#CD0000>cable type</color> inputs were incorrect";
         }
 
-        //if (!userGuess._cableTypesCorrect)
-        //{
-        //    _resultText.text += "\n\nSome of your <color=#CD0000>cable type</color> inputs were incorrect";
-        //}
-
-        //if (!userGuess._cableThicknessCorrect)
-        //{
-        //    _resultText.text += "\n\nSome of your <color=#CD0000>cable thickness</color> inputs were incorrect";
-        //}
+        if (!cableThicknessCorrect)
+        {
+            _resultText.text += "\n\nSome of your <color=#CD0000>cable thickness</color> inputs were incorrect";
+        }
     }
 }
