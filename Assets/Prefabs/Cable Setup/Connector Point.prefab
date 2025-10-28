@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 8173005813936070733}
   - component: {fileID: 3112260929168555675}
   - component: {fileID: 4743719874597179189}
-  m_Layer: 5
+  - component: {fileID: 5052378467090368578}
+  m_Layer: 7
   m_Name: Connector Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 140c99ced73286245a40a38578b1d610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastImage: {fileID: 8173005813936070733}
+  _collider: {fileID: 5052378467090368578}
   _visual: {fileID: 5203389364227882120}
   _correctConnectorType: 0
 --- !u!95 &4743719874597179189
@@ -114,6 +115,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &5052378467090368578
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197073370611674963}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 80.92, y: 81.61}
+  m_EdgeRadius: 0
 --- !u!1 &5203389364227882120
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +171,7 @@ GameObject:
   - component: {fileID: 8095843373144240184}
   - component: {fileID: 324583321192331179}
   - component: {fileID: 3954588148374750627}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
