@@ -1,5 +1,3 @@
-
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,79 +14,43 @@ public class Q2QDevice : MonoBehaviour
     private FaultFindingScenario _currentFaultFindingScenario;
     private float _faultDistanceMeters;
     private float _roundTripTime;
-    private float _currentUserFaultGuess;
 
-    //protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
-    //{
-    //    switch (eventType)
-    //    {
-    //        case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
-    //        case ControllerEvent.STARTED_FAULT_FINDING:
-    //            FaultFindingScenario scenario = ((FaultFindingScenario)eventData);
-    //            _savedLineSegments.Clear();
-    //            _currentLineSegment = new LineSegment();
-    //            _currentLineSegmentCount = 1;
-    //            _faultDistanceMeters = scenario.faultDistance;
-    //            _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, ((FaultFindingScenario)eventData)._lineSegments);
-    //            _deviceView.ManualSetDeviceActive(false);
-    //            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
-    //            _deviceView.ShowMonthInput();
-    //            break;
-    //        case ControllerEvent.START_NEW_SECTION:
-    //            _currentLineSegmentCount++;
-    //            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
-    //            break;
-    //        case ControllerEvent.SELECTED_MONTH:
-    //            _selectedMonth = (Month)eventData;
-    //            _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
-    //            break;
-    //        case ControllerEvent.SELECTED_CABLE_TYPE:
-    //            CableType cableType = (CableType)eventData;
-    //            _currentLineSegment.cable = cableType;
-    //            _deviceView.ShowCableSizeInput(cableType.name.ToString());
-    //            break;
-    //        case ControllerEvent.SELECTED_CABLE_THICKNESS:
-    //            _currentLineSegment.thickness = (int)eventData;
-    //            _deviceView.ShowSectionLengthInput();
-    //            break;
-    //        case ControllerEvent.SUBMIT_LENGTH_INPUT:
-    //            _currentLineSegment.length = (int)eventData;
-    //            _savedLineSegments.Add(_currentLineSegment);
-    //            _currentLineSegment = new LineSegment();
-    //            RaiseControllerEvent(ControllerEvent.FINISHED_SEGMENT, _savedLineSegments);
-    //            break;
-    //        case ControllerEvent.FINISHED_SEGMENT:
-    //            float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
-    //            if (estimatedFaultDistance == -1)
-    //            {
-    //                RaiseControllerEvent(ControllerEvent.START_NEW_SECTION, null);
-    //            }
-    //            else
-    //            {
-    //                RaiseControllerEvent(ControllerEvent.FINISHED_TEST, estimatedFaultDistance);
-    //            }
-    //            break;
-    //        case ControllerEvent.FINISHED_TEST:
-    //            DisplayFaultDistance((float)eventData);
-    //            break;
-    //    }
-    //}
+    private Vector2 _calculatedFaultPosition;
 
     private void OnEnable()
     {
-        ApplicationEvents.ScenarioSelected += PopulateScenario;
+        ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
+        ApplicationEvents.OnFaultPositionCalculated += OnFaultPositionCalculated;
     }
 
     private void OnDisable()
     {
-        ApplicationEvents.ScenarioSelected -= PopulateScenario;
+        ApplicationEvents.OnScenarioSelected -= OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
+        ApplicationEvents.OnFaultPositionCalculated -= OnFaultPositionCalculated;
     }
 
-    private void PopulateScenario(FaultFindingScenario newScenario)
+    private void OnScenarioSelected(FaultFindingScenario newScenario)
     {
+        _savedLineSegments.Clear();
+        _currentLineSegment = new LineSegment();
+        _currentLineSegmentCount = 1;
         _currentFaultFindingScenario = newScenario;
         _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
-        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario._lineSegments);
+        _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario.LineSegments);
+    }
+
+    private void OnFaultFindingStarted()
+    {
+        _deviceView.SetDeviceActive(false);
+        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        _deviceView.ShowMonthInput();
+    }
+
+    private void OnFaultPositionCalculated(Vector2 calculatedFaultPosition)
+    {
+        _calculatedFaultPosition = calculatedFaultPosition;
     }
 
     public void StartNewTest()
@@ -107,14 +69,16 @@ public class Q2QDevice : MonoBehaviour
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
     }
 
-    public void SelectMonth(int month)
+    public void SubmitMonth(int month)
     {
         Month inputMonth = (Month)month; //Cast into to month for readability
+        _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
     }
 
     public void SubmitCableType(int cableIndex)
     {
         CableType cableType = _cableTypes[cableIndex];
+        _deviceView.ShowCableSizeInput(cableType.name.ToString());
     }
 
     public void SubmitCableThickness(int thickness)
@@ -127,7 +91,7 @@ public class Q2QDevice : MonoBehaviour
     {
         _currentLineSegment.length = _deviceView.KeypadValue();
         _savedLineSegments.Add(_currentLineSegment);
-    
+
 
         float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
 
@@ -145,8 +109,6 @@ public class Q2QDevice : MonoBehaviour
 
     private void DisplayFaultDistance(float faultDistance)
     {
-        _currentUserFaultGuess = faultDistance;
-
         float totalDistance = 0f;
 
         foreach (LineSegment segment in _savedLineSegments)
@@ -163,12 +125,13 @@ public class Q2QDevice : MonoBehaviour
         }
 
         _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, faultDistance);
+        ApplicationEvents.InvokeOnFaultDistanceCalculated(faultDistance);
     }
 
     public void SubmitUserFaultGuess()
     {
-        float finalDifference = Mathf.Abs(_faultDistanceMeters - _currentUserFaultGuess);
-        UserGuess guess = new UserGuess(finalDifference, _savedLineSegments);
+        FaultPositionGuess guess = new FaultPositionGuess(_calculatedFaultPosition, _savedLineSegments, _currentFaultFindingScenario.LineSegments);
+        ApplicationEvents.InvokeOnGuessSubmitted(guess);
     }
 
     public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
@@ -207,7 +170,7 @@ public class Q2QDevice : MonoBehaviour
         float distanceTravelled = 0f;
         float SpeedOfLight = 299792.485f;
 
-        List<LineSegment> scenarioSegments = _currentFaultFindingScenario._lineSegments;
+        List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
 
         for (int i = 0; i < segments.Count; i++)
         {

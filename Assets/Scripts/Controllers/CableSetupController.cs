@@ -17,15 +17,16 @@ public class CableSetupController : MonoBehaviour
     private void OnEnable()
     {
         ConnectorPoint.ConnectedCorrectly += EvaluateConnectorPoints;
-        ApplicationEvents.ScenarioStarted += BeginSetup;
+        ApplicationEvents.OnScenarioStarted += OnScenarioStarted;
     }
 
     private void OnDisable()
     {
        ConnectorPoint.ConnectedCorrectly -= EvaluateConnectorPoints;
+        ApplicationEvents.OnScenarioStarted -= OnScenarioStarted;
     }
 
-    private void BeginSetup()
+    private void OnScenarioStarted()
     {
         _cableIndex = 0;
 
@@ -46,7 +47,7 @@ public class CableSetupController : MonoBehaviour
 
         _cableSetupView.SetWalkthroughText(_grabbableConnectors[_cableIndex]._hintText);
         _cableSetupView.ToggleCompletionWindow(false);
-
+        _cableSetupCanvasToggler.ToggleView(true);
     }
 
     //private void PickedUpConnector(Transform connector, PointerEventData data)
@@ -109,7 +110,7 @@ public class CableSetupController : MonoBehaviour
     {
         if (CheckSetupCompletion())
         {
-           
+            _cableSetupView.ToggleCompletionWindow(true);
         }
     }
 
@@ -130,5 +131,10 @@ public class CableSetupController : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void GoToFaultFinding()
+    {
+        ApplicationEvents.InvokeOnFaultFinding();
     }
 }

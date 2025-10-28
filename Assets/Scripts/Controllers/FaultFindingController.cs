@@ -21,47 +21,46 @@ public class FaultFindingController : MonoBehaviour
 
     private void OnEnable()
     {
-        ApplicationEvents.ScenarioSelected += PopulateScenario;
-        ApplicationEvents.OnGoToMainMenu += LeaveFaultFinding;
+        ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
+        ApplicationEvents.OnGoToMainMenu += OnGoToMainMenu;
+        ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
+        ApplicationEvents.OnGuessSubmitted += OnGuessSubmitted;
     }
 
     private void OnDisable()
     {
-        ApplicationEvents.ScenarioSelected -= PopulateScenario;
-        ApplicationEvents.OnGoToMainMenu -= LeaveFaultFinding;
-
+        ApplicationEvents.OnScenarioSelected -= OnScenarioSelected;
+        ApplicationEvents.OnGoToMainMenu -= OnGoToMainMenu;
+        ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
+        ApplicationEvents.OnGuessSubmitted -= OnGuessSubmitted;
     }
 
-    private void LeaveFaultFinding()
+    private void OnGoToMainMenu()
     {
         _faultFindingCanvasToggler.ToggleView(false);
     }
 
-    private void PopulateScenario(FaultFindingScenario scenario)
+    private void OnScenarioSelected(FaultFindingScenario scenario)
     {
-
+        _currentScenario = scenario;
     }
 
-    private void StartNewFaultFindingScenario(bool walkthroughMode)
+    private void OnFaultFindingStarted()
     {
         _faultFindingView.EnableLandingPopup();
         _faultFindingCanvasToggler.ToggleView(true);
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }
 
-    public void SubmitUserGuess(Vector2 userGuess)
+    public void OnGuessSubmitted(FaultPositionGuess faultPositionGuess)
     {
-        FaultFindingScenario scenario = GlobalData.Instance.CurrentActiveScenario;
-        float finalDifference = Vector2.Distance(userGuess, scenario.faultPosition) / scenario.mapMetersPerPixel;
-
+        float finalDifference = Vector2.Distance(faultPositionGuess.GuessPosition(), _currentScenario.faultPosition) / _currentScenario.mapMetersPerPixel;
         _finalResultPopupView.SetResultText(finalDifference);
-        PlayerPrefs.SetFloat($"{GlobalData.Instance.CurrentActiveScenario.name}", finalDifference);
-        PlayerPrefs.SetInt("Finished Scenario", 1);
     }
 
     public void RestartCurrentScenario()
     {
-        //RaiseControllerEvent(ControllerEvent.STARTED_FAULT_FINDING, GlobalData.Instance.CurrentActiveScenario);
+        ApplicationEvents.InvokeOnFaultFinding();
     }
 
     //private void ProgressWalkthrough()
@@ -81,28 +80,32 @@ public class FaultFindingController : MonoBehaviour
 }
 
 [Serializable]
-public class UserGuess
+public class FaultPositionGuess
 {
-    public float _userGuess;
-    public bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
+    private Vector2 _guessPosition;
+    private bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
 
-    public UserGuess(float guess, List<LineSegment> segments)
+    private List<LineSegment> _scenarioSegments;
+
+    public FaultPositionGuess(Vector2 guessPosition, List<LineSegment> userInputSegments, List<LineSegment> scenarioSegments)
     {
-        _userGuess = guess;
+        _guessPosition = guessPosition;
 
-        List<LineSegment> scenarioSegments = GlobalData.Instance.CurrentActiveScenario._lineSegments;
-
-        for (int i = 0; i < segments.Count; i++)
+        for (int i = 0; i < userInputSegments.Count; i++)
         {
-            if (segments[i].cable != scenarioSegments[i].cable)
+            if (userInputSegments[i].cable != _scenarioSegments[i].cable)
             {
                 _cableTypesCorrect = false;
             }
 
-            if (segments[i].thickness != scenarioSegments[i].thickness)
+            if (userInputSegments[i].thickness != _scenarioSegments[i].thickness)
             {
                 _cableThicknessCorrect = false;
             }
         }
     }
+
+    public Vector2 GuessPosition() => _guessPosition;
+    public bool CableTypesCorrect() => _cableTypesCorrect;
+    public bool CableThicknessCorrect() => _cableThicknessCorrect;
 }

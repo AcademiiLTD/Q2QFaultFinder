@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class AgentChatController : Controller
+public class AgentChatController : MonoBehaviour
 {
     [SerializeField] private string _apiKey, _apiURL, _characterKey, _sessionID;
     [SerializeField] private string _customCharacterName;
@@ -15,6 +13,36 @@ public class AgentChatController : Controller
 
     private bool _waitingForResponse;
     private AppState _appState = AppState.MENU;
+
+    private void OnEnable()
+    {
+        ApplicationEvents.OnGoToMainMenu += OnGoToMainMenu;
+        ApplicationEvents.OnScenarioStarted += OnScenarioStarted;
+        ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
+    }
+
+    private void OnDisable()
+    {
+
+        ApplicationEvents.OnGoToMainMenu -= OnGoToMainMenu;
+        ApplicationEvents.OnScenarioStarted -= OnScenarioStarted;
+        ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
+    }
+
+    private void OnGoToMainMenu()
+    {
+        _appState = AppState.MENU;
+    }
+
+    private void OnScenarioStarted()
+    {
+        _appState = AppState.SETUP;
+    }
+
+    private void OnFaultFindingStarted()
+    {
+        _appState = AppState.FAULT_FINDING;
+    }
 
     private void Start()
     {
@@ -35,22 +63,6 @@ public class AgentChatController : Controller
         {
             if (_waitingForResponse) return;
             SendTextMessage();
-        }
-    }
-
-    protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object data)
-    {
-        switch (eventType)
-        {
-            case ControllerEvent.STARTED_SETUP:
-                _appState = AppState.SETUP;
-                break;
-            case ControllerEvent.STARTED_FAULT_FINDING:
-                _appState = AppState.FAULT_FINDING;
-                break;
-            case ControllerEvent.GO_TO_MAIN_MENU:
-                _appState = AppState.MENU;
-                break;
         }
     }
 
@@ -112,7 +124,7 @@ public class AgentChatController : Controller
         form.AddField("sessionID", _sessionID);
         form.AddField("voiceResponse", "True");
 
-        UnityWebRequest request = UnityWebRequest.Post(_apiURL + "character/getResponse", form); 
+        UnityWebRequest request = UnityWebRequest.Post(_apiURL + "character/getResponse", form);
         StartCoroutine(SendAPIRequest(request));
     }
 

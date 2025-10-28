@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
@@ -12,7 +10,7 @@ public class MainMenuController : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        ApplicationEvents.GoToMainMenu();
+        ApplicationEvents.InvokeGoToMainMenu();
         _mainMenuCanvasToggler.ToggleView(true);
     }
 
@@ -25,13 +23,12 @@ public class MainMenuController : MonoBehaviour
     {
         _currentSelectedScenario = _scenarioManifest.FaultFindingScenarios[index];
         _mainMenuView.PopulateDescriptionWindow(_currentSelectedScenario);
-        ApplicationEvents.SelectScenario(_currentSelectedScenario);
+        ApplicationEvents.InvokeOnSelectScenario(_currentSelectedScenario);
     }
 
     public void StartSelectedScenario()
     {
-        GlobalData.Instance.CurrentActiveScenario = _currentSelectedScenario;
-        ApplicationEvents.ScenarioStarted();
         _mainMenuCanvasToggler.ToggleView(false);
+        ApplicationEvents.InvokeOnStartScenario();
     }
 }
