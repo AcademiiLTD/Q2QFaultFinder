@@ -975,7 +975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1883198260005834695
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1897,7 +1897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3724295780401527841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2283,6 +2283,7 @@ GameObject:
   - component: {fileID: 3923409892848313852}
   - component: {fileID: 312393826171316410}
   - component: {fileID: 3348087214362114267}
+  - component: {fileID: 6610557572097068445}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
@@ -2411,8 +2412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8293b787ee6bf47bc18f9da5ab7966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scenarioManifest: {fileID: 11400000, guid: d8b7da7afd36e3a4fac3a64fff7bd0e6, type: 2}
   _mainMenuView: {fileID: 3923409892848313852}
-  _walkthroughToggle: {fileID: 96291139793761321}
+  _mainMenuCanvasToggler: {fileID: 6610557572097068445}
 --- !u!114 &3923409892848313852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2425,9 +2427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d7aae3be38fc8448bfd61c550e9bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewCanvasGroup: {fileID: 6779690084675686404}
-  _viewAnimator: {fileID: 312393826171316410}
-  _startsVisible: 1
   _scenarioDescriptionText: {fileID: 964681883445694945}
   _scenarioDateText: {fileID: 4901244002680431320}
   _scenarioNameText: {fileID: 4467121870050359938}
@@ -2559,6 +2558,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6610557572097068445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310680807794226450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562650833f3ec004d89cff2f6891f9a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startsVisible: 1
+  _viewCanvasGroup: {fileID: 6779690084675686404}
+  _viewAnimator: {fileID: 312393826171316410}
 --- !u!1 &6504212887149221971
 GameObject:
   m_ObjectHideFlags: 0

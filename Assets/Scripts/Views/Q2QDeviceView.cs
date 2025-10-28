@@ -3,36 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DeviceView : View
+public class Q2QDeviceView :MonoBehaviour
 {
     [SerializeField] private GameObject _monthSelector, _cableType, _cableSize, _cableLength, _faultDisplay;
-    [SerializeField] private GameObject _consacSizeSelector, _waveconSizeSelector;
     [SerializeField] private TextMeshProUGUI _sectionCountText, _faultDisplayText, _keypadInputText, _sectionLengthText, _cableThicknessTypeText;
+
+    public void SetDeviceActive(bool state)
+    {
+        gameObject.SetActive(state);
+    }
 
     public void ToggleDeviceActive()
     {
-        bool state;
-        if (_viewCanvasGroup.interactable)
-        {
-            state = false;
-        }
-        else
-        {
-            state = true;
-        }
-
-        _viewCanvasGroup.alpha = state ? 1 : 0;
-        _viewCanvasGroup.interactable = state;
-        _viewCanvasGroup.blocksRaycasts = state;
-    }
-
-
-
-    public void ManualSetDeviceActive(bool state)
-    {
-        _viewCanvasGroup.alpha = state ? 1f : 0f;
-        _viewCanvasGroup.interactable = state;
-        _viewCanvasGroup.blocksRaycasts = state;
+        gameObject.SetActive(!isActiveAndEnabled);
     }
 
     public void StartNewLineSegment(int segmentCount)

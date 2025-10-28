@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CableSetupView : View
+public class CableSetupView : MonoBehaviour
 {
     [SerializeField] private GameObject _introWindow, _completionWindow;
     [SerializeField] private TextMeshProUGUI _walkthroughText;

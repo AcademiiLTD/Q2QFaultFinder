@@ -1,47 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MapController : Controller
+public class MapController : MonoBehaviour
 {
     [SerializeField] private MapView _mapView;
     private bool _userMakingFaultGuess;
 
     private void OnEnable()
     {
-        base.OnEnable();
         ClickableMap.OnMapClicked += TappedMap;
+
+        ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
+        ApplicationEvents.OnFaultDistanceCalculated += OnFaultDistanceCalculated;
     }
 
-    protected override void CheckIncomingControllerEvent(ControllerEvent eventType, object eventData)
+    private void OnDisable()
     {
-        switch (eventType)
-        {
-            case ControllerEvent.START_FAULT_FINDING_WALKTHROUGH_MODE:
-            case ControllerEvent.STARTED_FAULT_FINDING:
-                FaultFindingScenario scenario = (FaultFindingScenario)eventData;
-                _mapView.SetUpMap(scenario.mapImage, scenario.mapMetersPerPixel);
-                _mapView.SetFaultAreaIndicator(scenario.faultPosition);
-                break;
+        ClickableMap.OnMapClicked -= TappedMap;
 
-            case ControllerEvent.FINISHED_TEST:
-                float faultDistanceFromStartMeters = (float)eventData;
-                _mapView.DisplayFaultArea(faultDistanceFromStartMeters);
-                break;
-
-            case ControllerEvent.RESTART_SECTION:
-                _mapView.HideFaultArea();
-                break;
-
-            case ControllerEvent.RESTART_TEST:
-                _mapView.HideFaultArea();
-                break;
-        }
+        ApplicationEvents.OnScenarioSelected -= OnScenarioSelected;
+        ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
+        ApplicationEvents.OnFaultDistanceCalculated -= OnFaultDistanceCalculated;
     }
 
-    public void ToggleGuess()
+    private void OnScenarioSelected(FaultFindingScenario scenarioData)
     {
-        _userMakingFaultGuess = !_userMakingFaultGuess;
+        _mapView.SetUpMap(scenarioData.mapImage, scenarioData.mapMetersPerPixel);
+        _mapView.SetFaultAreaIndicator(scenarioData.faultPosition);
+    }
+
+    private void OnFaultFindingStarted()
+    {
+        _mapView.ResetMap();
+    }
+
+    private void OnFaultDistanceCalculated(float faultDistanceFromStartMeters)
+    {
+        _mapView.DisplayFaultArea(faultDistanceFromStartMeters);
     }
 
     private void TappedMap(Vector2 tapPosition)
@@ -49,18 +44,10 @@ public class MapController : Controller
         if (_userMakingFaultGuess)
         {
             //Need to submit the user's guess instead of placing a line segment
-            RaiseControllerEvent(ControllerEvent.CONFIRM_GUESS, tapPosition);
             _mapView.SetGuessIndicatorPosition(tapPosition);
             return;
         }
 
         _mapView.PlaceLineSegment(tapPosition);
-    }
-
-    public void UserSubmitGuess()
-    {
-        FaultFindingScenario scenario = GlobalData.Instance.CurrentActiveScenario;
-        Vector2 guessPosition = _mapView.FaultGuessPosition();
-        RaiseControllerEvent(ControllerEvent.SUBMIT_GUESS, guessPosition);
     }
 }

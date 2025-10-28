@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : View
+public class MainMenuView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scenarioDescriptionText, _scenarioDateText, _scenarioNameText;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
@@ -18,7 +18,6 @@ public class MainMenuView : View
 
         _faultFindingListMenu.SetActive(false);
         _faultFindingDetailsMenu.SetActive(true);
-
     }
 
     public void PopulateList(List<FaultFindingScenario> scenarios)

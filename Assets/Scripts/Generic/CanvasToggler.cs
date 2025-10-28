@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class View : MonoBehaviour
+public class CanvasToggler : MonoBehaviour
 {
+    [SerializeField] private bool _startsVisible;
     [SerializeField] protected CanvasGroup _viewCanvasGroup;
     [SerializeField] protected Animator _viewAnimator;
-    [SerializeField] private bool _startsVisible;
-    private Coroutine _fadeCoroutine;
 
     private void OnValidate()
     {

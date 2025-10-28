@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 1000028147133365082}
   - component: {fileID: 1272355126579154098}
   - component: {fileID: 1732782202523938827}
-  - component: {fileID: 6697286816660007402}
   m_Layer: 5
   m_Name: Connector
   m_TagString: Untagged
@@ -166,50 +165,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef2b1df8ccf4df4483bc54ad673a2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDragStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 214078548840979797}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnDragEnd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 214078548840979797}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6697286816660007402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4897966161894240977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0869a2688f30d9d42b50ccab19be6ee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _myImage: {fileID: 1272355126579154098}
   _label: {fileID: 214078548840979797}
+  _startPosition: {x: 0, y: 0}
+  _overlapBoxSize: {x: 171.5, y: 178.2}
+  _overlapLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _hintText: 
   _connectorType: 0
 --- !u!1 &8769553666918172588
 GameObject:
