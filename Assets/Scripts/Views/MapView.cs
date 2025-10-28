@@ -260,6 +260,8 @@ public class MapView : MonoBehaviour
 
         _calculatedFaultArea.transform.position = faultAreaPosition;
         _calculatedFaultArea.SetActive(true);
+
+        ApplicationEvents.InvokeOnFaultPositionCalculated(_calculatedFaultArea.transform.position);
     }
 
     public void HideFaultArea()

@@ -9,7 +9,6 @@ public class MainMenuView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scenarioDescriptionText, _scenarioDateText, _scenarioNameText;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
     [SerializeField] private GameObject _setupMenu, _faultFindingListMenu, _faultFindingDetailsMenu;
-    [SerializeField] private Toggle _walkthroughToggle;
 
     public void PopulateDescriptionWindow(FaultFindingScenario scenario)
     {
@@ -39,10 +38,5 @@ public class MainMenuView : MonoBehaviour
     {
         AudioSource musicSource = GetComponent<AudioSource>();
         musicSource.mute = !musicSource.mute;
-    }
-
-    public bool WalkthroughMode()
-    {
-        return _walkthroughToggle.isOn;
     }
 }
