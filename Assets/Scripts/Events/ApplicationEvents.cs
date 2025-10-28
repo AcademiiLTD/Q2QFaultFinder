@@ -1,25 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public static class ApplicationEvents
 {
     public static UnityAction OnGoToMainMenu;
-    public static void GoToMainMenu()
+    public static void InvokeGoToMainMenu()
     {
         OnGoToMainMenu?.Invoke();
     }
 
-    public static UnityAction<FaultFindingScenario> ScenarioSelected;
-    public static void SelectScenario(FaultFindingScenario scenario)
+    public static UnityAction<FaultFindingScenario> OnScenarioSelected;
+    public static void InvokeOnSelectScenario(FaultFindingScenario scenario)
     {
-        ScenarioSelected?.Invoke(scenario);
+        OnScenarioSelected?.Invoke(scenario);
     }
 
-    public static UnityAction ScenarioStarted;
-    public static void StartScenario()
+    public static UnityAction OnScenarioStarted;
+    public static void InvokeOnStartScenario()
     {
-        ScenarioStarted?.Invoke();
+        OnScenarioStarted?.Invoke();
+    }
+
+    public static UnityAction OnFaultFindingStarted;
+    public static void InvokeOnFaultFinding()
+    {
+        OnFaultFindingStarted?.Invoke();
+    }
+
+    public static UnityAction<float> OnFaultDistanceCalculated;
+    public static void InvokeOnFaultDistanceCalculated(float faultDistanceMeters)
+    {
+        OnFaultDistanceCalculated?.Invoke(faultDistanceMeters);
+    }
+
+    public static UnityAction<Vector2> OnFaultPositionCalculated;
+    public static void InvokeOnFaultPositionCalculated(Vector2 faultPosition)
+    {
+        OnFaultPositionCalculated?.Invoke(faultPosition);
+    }
+
+    public static UnityAction<FaultPositionGuess> OnGuessSubmitted;
+    public static void InvokeOnGuessSubmitted(FaultPositionGuess faultPositionGuess)
+    {
+        OnGuessSubmitted?.Invoke(faultPositionGuess);
     }
 }
