@@ -39,4 +39,10 @@ public class MainMenuView : MonoBehaviour
         AudioSource musicSource = GetComponent<AudioSource>();
         musicSource.mute = !musicSource.mute;
     }
+
+    public void ResetMainMenu()
+    {
+        _faultFindingListMenu.SetActive(true);
+        _faultFindingDetailsMenu.SetActive(false);
+    }
 }

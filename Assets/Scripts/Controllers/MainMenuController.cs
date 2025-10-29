@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour
     {
         ApplicationEvents.InvokeGoToMainMenu();
         _mainMenuCanvasToggler.ToggleView(true);
+        _mainMenuView.ResetMainMenu();
     }
 
     private void Start()
