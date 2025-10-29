@@ -4,6 +4,7 @@ using UnityEngine;
 public class Q2QDevice : MonoBehaviour
 {
     [SerializeField] private Q2QDeviceView _deviceView;
+    [SerializeField] private MapView _mapView;
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
     [SerializeField] private LineSegment _currentLineSegment;
@@ -61,12 +62,19 @@ public class Q2QDevice : MonoBehaviour
 
         _deviceView.StartNewLineSegment(_currentLineSegmentCount);
         _deviceView.ShowMonthInput();
+        _deviceView.ToggleDeviceActive();
+
+        _mapView.ResetMap();
     }
 
     public void RestartSection()
     {
+        _mapView.ClearCurrentColourSection();
+
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+
+        _deviceView.ToggleDeviceActive();
     }
 
     public void SubmitMonth(int month)
@@ -92,7 +100,7 @@ public class Q2QDevice : MonoBehaviour
     {
         _currentLineSegment.length = _deviceView.KeypadValue();
         _savedLineSegments.Add(_currentLineSegment);
-        Debug.Log($"Current segment coutn: {_currentLineSegmentCount}");
+        Debug.Log($"Current segment count: {_currentLineSegmentCount}");
 
         float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
 
@@ -106,6 +114,8 @@ public class Q2QDevice : MonoBehaviour
         {
             DisplayFaultDistance(estimatedFaultDistance);
         }
+
+        _mapView.CreateNewColourSection();
     }
 
     private void DisplayFaultDistance(float faultDistance)
