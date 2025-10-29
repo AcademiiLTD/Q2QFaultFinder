@@ -12,7 +12,7 @@ public class MapView : MonoBehaviour
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private GameObject _faultAreaIndicator;
     [SerializeField] private GameObject _faultGuessIndicator;
-    [SerializeField] private GameObject _firstTapPositionMarker;
+    [SerializeField] private GameObject _cableStartPositionMarker;
     [SerializeField] private GameObject _calculatedFaultArea;
 
     private List<List<LineSegmentView>> _line;
@@ -21,12 +21,7 @@ public class MapView : MonoBehaviour
     private Color _previousColour;
     private float _mapMetersPerPixel;
 
-    public Vector2 FaultGuessPosition()
-    {
-        return _faultGuessIndicator.transform.localPosition;
-    }
-    private Vector2 _firstTappedPosition;
-    
+
 
     private void Awake()
     {
@@ -36,11 +31,20 @@ public class MapView : MonoBehaviour
         _line = new List<List<LineSegmentView>>();
     }
 
-    public void SetUpMap(Sprite mapSprite, float metersPerPixel)
+    public void SetUpMap(FaultFindingScenario scenarioData)
     {
-        _mapMetersPerPixel = metersPerPixel;
-        _mapBackgroundImage.sprite = mapSprite;
+        _mapMetersPerPixel = scenarioData.mapMetersPerPixel;
+        _mapBackgroundImage.sprite = scenarioData.mapImage;
         _mapBackgroundImage.gameObject.SetActive(true);
+
+        _cableStartPositionMarker.transform.position = scenarioData.cableStartPosition;
+
+        //Add some random variation to the fault location so it isn't always centered on the fault
+        float xPos = scenarioData.faultPosition.x + Random.Range(-125f, 125f);
+        float yPos = scenarioData.faultPosition.y + Random.Range(-125f, 125f);
+
+        Vector2 newPos = new Vector2(xPos, yPos);
+        _faultAreaIndicator.transform.localPosition = newPos;
 
         ResetMap();
     }
@@ -48,8 +52,6 @@ public class MapView : MonoBehaviour
     public void ResetMap()
     {
         _calculatedFaultArea.SetActive(false);
-
-        _firstTappedPosition = Vector2.zero;
 
         if (_line.Count > 0)
         {
@@ -70,16 +72,6 @@ public class MapView : MonoBehaviour
         _faultGuessIndicator.transform.position = guessPosition;
     }
 
-    public void SetFaultAreaIndicator(Vector2 faultPosition)
-    {
-        //Add some random variation to the fault location so it isn't always centered on the fault
-        float xPos = faultPosition.x + UnityEngine.Random.Range(-20f, 20f);
-        float yPos = faultPosition.y + UnityEngine.Random.Range(-20f, 20f);
-
-        Vector2 newPos = new Vector2(xPos, yPos);
-        _faultAreaIndicator.transform.localPosition = newPos;
-    }
-
     public void SetLineColour(int colourIndex)
     {
         _currentColour = _lineColours[colourIndex];
@@ -87,8 +79,6 @@ public class MapView : MonoBehaviour
 
     public void SetPreviousSegmentLength(float distance)
     {
-        //Debug.Log(distance);
-        //Debug.Log(_mapMetersPerPixel);
         _previousSegmentDistanceText.text = $"{distance.ToString("0.00")}m";
     }
 
@@ -107,23 +97,14 @@ public class MapView : MonoBehaviour
 
     public void PlaceLineSegment(Vector2 tapPosition)
     {
-        Debug.Log("Tapped map at " + tapPosition);
-
-        if (_firstTappedPosition == Vector2.zero)
-        {
-            _firstTappedPosition = tapPosition;
-            _firstTapPositionMarker.transform.position = tapPosition;
-            _firstTapPositionMarker.SetActive(true);
-            return;
-        }
-
         LineSegmentView newLineSegment = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
         newLineSegment.SetColour(_currentColour);
         newLineSegment.transform.SetAsFirstSibling();
 
         if (_line.Count == 0)
         {
-            newLineSegment.SetFirstPosition(_firstTappedPosition, _mapMetersPerPixel);
+            Vector2 startPosition = _cableStartPositionMarker.transform.position;
+            newLineSegment.SetFirstPosition(startPosition, _mapMetersPerPixel);
             newLineSegment.SetSecondPosition(tapPosition);
             _previousColour = _currentColour;
 
@@ -215,16 +196,6 @@ public class MapView : MonoBehaviour
             {
                 PreviousLineSegment().EndPointShowState(true);
             }
-            else
-            {
-                _firstTappedPosition = Vector2.zero;
-                _firstTapPositionMarker.SetActive(false);
-            }
-        }
-        else
-        {
-            _firstTappedPosition = Vector2.zero;
-            _firstTapPositionMarker.SetActive(false);
         }
 
         EvaluateSegmentLengths();
@@ -233,14 +204,12 @@ public class MapView : MonoBehaviour
     public void DisplayFaultArea(float faultDistanceFromStartMeters)
     {
         List<LineSegmentView> allSegments = AllSegments();
-        Debug.Log($"Fault distance: {faultDistanceFromStartMeters}");
 
         float accumulatedDistanceMeters = 0f;
         LineSegmentView targetSegment = null;
 
         for (int i = 0; i < allSegments.Count; i++)
         {
-            Debug.Log($"Segment: {i}");
             if (accumulatedDistanceMeters + allSegments[i].Length() < faultDistanceFromStartMeters)
             {
                 accumulatedDistanceMeters += allSegments[i].Length();
@@ -268,6 +237,11 @@ public class MapView : MonoBehaviour
         _calculatedFaultArea.SetActive(true);
 
         ApplicationEvents.InvokeOnFaultPositionCalculated(_calculatedFaultArea.transform.localPosition);
+    }
+
+    public Vector2 FaultGuessPosition()
+    {
+        return _faultGuessIndicator.transform.localPosition;
     }
 
     public void HideFaultArea()
