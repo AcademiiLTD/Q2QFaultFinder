@@ -123,12 +123,12 @@ GameObject:
   - component: {fileID: 2792623129771097882}
   - component: {fileID: 7906928105055025954}
   m_Layer: 5
-  m_Name: First Tap Position Marker
+  m_Name: CableStartPositionMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2863478314891070794
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3948,7 +3948,7 @@ MonoBehaviour:
   _lineSegmentPrefab: {fileID: 6576887336193633349, guid: 374b4552b8b7eb048a1b20a5ec5b3b3b, type: 3}
   _faultAreaIndicator: {fileID: 5250536716607252953}
   _faultGuessIndicator: {fileID: 1985714415318575212}
-  _firstTapPositionMarker: {fileID: 88338309013761266}
+  _cableStartPositionMarker: {fileID: 88338309013761266}
   _calculatedFaultArea: {fileID: 559363829494450292}
 --- !u!225 &5466679091651331423
 CanvasGroup:
