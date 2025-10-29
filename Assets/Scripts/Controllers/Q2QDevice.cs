@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Q2QDevice : MonoBehaviour
 {
     [SerializeField] private Q2QDeviceView _deviceView;
     [SerializeField] private MapView _mapView;
+    [SerializeField] private Button _deviceButton;
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
     [SerializeField] private LineSegment _currentLineSegment;
@@ -23,6 +25,7 @@ public class Q2QDevice : MonoBehaviour
         ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
         ApplicationEvents.OnFaultFindingStarted += OnFaultFindingStarted;
         ApplicationEvents.OnFaultPositionCalculated += OnFaultPositionCalculated;
+        ApplicationEvents.OnLineSectionEmpty += OnLineSectionEmpty;
     }
 
     private void OnDisable()
@@ -30,6 +33,7 @@ public class Q2QDevice : MonoBehaviour
         ApplicationEvents.OnScenarioSelected -= OnScenarioSelected;
         ApplicationEvents.OnFaultFindingStarted -= OnFaultFindingStarted;
         ApplicationEvents.OnFaultPositionCalculated -= OnFaultPositionCalculated;
+        ApplicationEvents.OnLineSectionEmpty -= OnLineSectionEmpty;
     }
 
     private void OnScenarioSelected(FaultFindingScenario newScenario)
@@ -54,6 +58,11 @@ public class Q2QDevice : MonoBehaviour
         _calculatedFaultPosition = calculatedFaultPosition;
     }
 
+    private void OnLineSectionEmpty(bool empty)
+    {
+        _deviceButton.gameObject.SetActive(!empty);
+    }
+
     public void StartNewTest()
     {
         _savedLineSegments.Clear();
@@ -62,7 +71,7 @@ public class Q2QDevice : MonoBehaviour
 
         _deviceView.StartNewLineSegment(_currentLineSegmentCount);
         _deviceView.ShowMonthInput();
-        _deviceView.ToggleDeviceActive();
+        _deviceView.SetDeviceActive(false); 
 
         _mapView.ResetMap();
     }
@@ -74,7 +83,7 @@ public class Q2QDevice : MonoBehaviour
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
 
-        _deviceView.ToggleDeviceActive();
+        _deviceView.SetDeviceActive(false);
     }
 
     public void SubmitMonth(int month)
@@ -109,6 +118,7 @@ public class Q2QDevice : MonoBehaviour
             _currentLineSegment = new LineSegment();
             _currentLineSegmentCount++;
             _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+            _deviceView.SetDeviceActive(false);
         }
         else
         {
@@ -214,10 +224,5 @@ public class Q2QDevice : MonoBehaviour
 
         // If fault is beyond the network
         return -1f;
-    }
-
-    public void DeviceButtonPressed()
-    {
-        _deviceView.ToggleDeviceActive();
     }
 }

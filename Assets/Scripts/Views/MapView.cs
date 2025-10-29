@@ -20,8 +20,7 @@ public class MapView : MonoBehaviour
 
     private void Awake()
     {
-        _line = new List<List<LineSegmentView>>();
-        _line.Add(new List<LineSegmentView>());
+        _line = new List<List<LineSegmentView>>() { new List<LineSegmentView>() };
     }
 
     public void SetUpMap(FaultFindingScenario scenarioData)
@@ -30,7 +29,7 @@ public class MapView : MonoBehaviour
         _mapBackgroundImage.sprite = scenarioData.mapImage;
         _mapBackgroundImage.gameObject.SetActive(true);
 
-        _cableStartPositionMarker.transform.position = scenarioData.cableStartPosition;
+        _cableStartPositionMarker.transform.localPosition = scenarioData.cableStartPosition;
 
         //Add some random variation to the fault location so it isn't always centered on the fault
         float xPos = scenarioData.faultPosition.x + Random.Range(-125f, 125f);
@@ -55,8 +54,8 @@ public class MapView : MonoBehaviour
             }
         }
 
-        _line = new List<List<LineSegmentView>>();
-        _line.Add(new List<LineSegmentView>());
+        _line = new List<List<LineSegmentView>>() { new List<LineSegmentView>() };
+        ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
         EvaluateSegmentLengths();
     }
 
@@ -98,6 +97,7 @@ public class MapView : MonoBehaviour
         }
 
         PreviousColourSection().Add(newLineSegment);
+        ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
         EvaluateSegmentLengths();
     }
 
@@ -164,6 +164,7 @@ public class MapView : MonoBehaviour
             PreviousLineSegment().EndPointShowState(true);
         }
 
+        ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
         EvaluateSegmentLengths();
     }
 
@@ -171,6 +172,7 @@ public class MapView : MonoBehaviour
     {
         List<LineSegmentView> newColourSection = new List<LineSegmentView>();
         _line.Add(newColourSection);
+        ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
     }
 
     public void DisplayFaultArea(float faultDistanceFromStartMeters)
@@ -241,5 +243,10 @@ public class MapView : MonoBehaviour
         {
             return new List<LineSegmentView>();
         }
+    }
+
+    private bool CurrentColourSectionEmpty()
+    {
+        return PreviousColourSection().Count == 0;
     }
 }
