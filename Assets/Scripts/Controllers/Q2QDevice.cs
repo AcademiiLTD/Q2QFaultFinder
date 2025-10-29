@@ -146,14 +146,14 @@ public class Q2QDevice : MonoBehaviour
         ApplicationEvents.InvokeOnGuessSubmitted(guess);
     }
 
-    public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
+    public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> scenarioSegments)
     {
         float remainingDistance = faultDistanceMeters;
         float totalTimeSeconds = 0f;
         float SpeedOfLight = 299792.485f;
 
 
-        foreach (LineSegment segment in segments)
+        foreach (LineSegment segment in scenarioSegments)
         {
             //Check cable type against real scenario
             //If cable thickness is wrong, add variance
@@ -176,44 +176,74 @@ public class Q2QDevice : MonoBehaviour
     }
 
     //Used to calculate the user's final guess
-    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> userInputSegments)
     {
         float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
+
         float distanceTravelled = 0f;
         float SpeedOfLight = 299792.485f;
 
-        List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
 
-        for (int i = 0; i < segments.Count; i++)
+        for (int i = 0; i < userInputSegments.Count; i++)
         {
-            float segmentLengthKm = segments[i].length / 1000f;
-            float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SpeedOfLight);
-            if (segments[i].thickness != scenarioSegments[i].thickness)
+            float segmentLengthKm = userInputSegments[i].length / 1000f;
+            float segmentTime = segmentLengthKm / (userInputSegments[i].cable.velocityFactor * SpeedOfLight);
+
+
+            if (_selectedMonth != _currentFaultFindingScenario.month)
             {
-                segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
+                segmentTime *= Random.Range(1.01f, 1.1f); //Variance
+                Debug.Log($"Month variance: {segmentTime}");
+            }
+
+            List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
+
+            if (LineSegmentThicknessesTotal(userInputSegments) != LineSegmentThicknessesTotal(scenarioSegments))
+            {
+                segmentTime *= Random.Range(0.9f, 0.7f); //Variance
+                Debug.Log($"Thickness variance: {segmentTime}");
             }
 
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentKm = oneWayTime * userInputSegments[i].cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
-                if (_selectedMonth != _currentFaultFindingScenario.month)
-                {
-                    finalValue *= Random.Range(1.01f, 1.1f); //Variance
-                    return finalValue;
-                }
-                else return finalValue;
+                Debug.Log($"Final value: {finalValue}");
+
+                return finalValue;
             }
 
             // Move to next segment
             oneWayTime -= segmentTime;
-            distanceTravelled += segments[i].length;
+            distanceTravelled += userInputSegments[i].length;
         }
 
         // If fault is beyond the network
         return -1f;
+    }
+
+    private float LineSegmentThicknessesTotal(List<LineSegment> lineSegments)
+    {
+        List<float> thicknesses = new List<float>();
+
+        foreach (LineSegment segment in lineSegments)
+        {
+            if (!thicknesses.Contains(segment.length))
+            {
+                thicknesses.Add(segment.length);
+            }
+        }
+
+        float total = 0f;
+
+        foreach (float thickness in thicknesses)
+        {
+            total += thickness;
+        }
+
+        return total;
     }
 
     public void DeviceButtonPressed()
