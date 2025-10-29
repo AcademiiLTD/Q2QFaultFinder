@@ -25,8 +25,7 @@ public class MapController : MonoBehaviour
 
     private void OnScenarioSelected(FaultFindingScenario scenarioData)
     {
-        _mapView.SetUpMap(scenarioData.mapImage, scenarioData.mapMetersPerPixel);
-        _mapView.SetFaultAreaIndicator(scenarioData.faultPosition);
+        _mapView.SetUpMap(scenarioData);
     }
 
     private void OnFaultFindingStarted()
