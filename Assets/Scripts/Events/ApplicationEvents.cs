@@ -44,4 +44,10 @@ public static class ApplicationEvents
     {
         OnGuessSubmitted?.Invoke(faultPositionGuess);
     }
+
+    public static UnityAction<bool> OnLineSectionEmpty;
+    public static void InvokeOnLineSectionEmpty(bool empty)
+    {
+        OnLineSectionEmpty?.Invoke(empty);
+    }
 }
