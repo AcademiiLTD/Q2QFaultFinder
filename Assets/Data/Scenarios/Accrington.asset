@@ -23,20 +23,15 @@ MonoBehaviour:
 
     Fault expected to be on Church St.'
   date: 3/12/2024
-  _lineSegments:
-  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 32
-    thickness: 240
-  - cable: {fileID: 11400000, guid: f19b98b3404d9d048909af41c0980ef0, type: 2}
-    length: 42
-    thickness: 240
-  - cable: {fileID: 11400000, guid: 02357df6149c9004a846d7560f4fa8f2, type: 2}
-    length: 34
-    thickness: 95
+  LineSegments:
   - cable: {fileID: 11400000, guid: 8a8d60e203892d5459fa2152d3544347, type: 2}
-    length: 57
+    length: 65
     thickness: 185
+  - cable: {fileID: 11400000, guid: 02357df6149c9004a846d7560f4fa8f2, type: 2}
+    length: 126
+    thickness: 95
   month: 11
   mapImage: {fileID: 21300000, guid: 428363f17ea9907439fc5e6a402381fe, type: 3}
   faultDistance: 146
   mapMetersPerPixel: 5.95
+  faultPosition: {x: -114, y: -275}
