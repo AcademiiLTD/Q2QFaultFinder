@@ -7,7 +7,6 @@ public class MapView : MonoBehaviour
 {
     [SerializeField] private Image _mapBackgroundImage;
     [SerializeField] private List<Color> _lineColours;
-    [SerializeField] private List<ColourSelector> _colourSelectors;
     [SerializeField] private TextMeshProUGUI _previousSegmentDistanceText, _totalSegmentsDistanceText;
     [SerializeField] private GameObject _lineSegmentPrefab;
     [SerializeField] private GameObject _faultAreaIndicator;
@@ -17,18 +16,12 @@ public class MapView : MonoBehaviour
 
     private List<List<LineSegmentView>> _line;
 
-    private Color _currentColour;
-    private Color _previousColour;
     private float _mapMetersPerPixel;
-
-
 
     private void Awake()
     {
-        PopulateColourSelectors();
-        _currentColour = _lineColours[0];
-
         _line = new List<List<LineSegmentView>>();
+        _line.Add(new List<LineSegmentView>());
     }
 
     public void SetUpMap(FaultFindingScenario scenarioData)
@@ -63,6 +56,7 @@ public class MapView : MonoBehaviour
         }
 
         _line = new List<List<LineSegmentView>>();
+        _line.Add(new List<LineSegmentView>());
         EvaluateSegmentLengths();
     }
 
@@ -70,11 +64,6 @@ public class MapView : MonoBehaviour
     {
         _faultGuessIndicator.SetActive(true);
         _faultGuessIndicator.transform.position = guessPosition;
-    }
-
-    public void SetLineColour(int colourIndex)
-    {
-        _currentColour = _lineColours[colourIndex];
     }
 
     public void SetPreviousSegmentLength(float distance)
@@ -87,29 +76,17 @@ public class MapView : MonoBehaviour
         _totalSegmentsDistanceText.text = $"{distance.ToString("0.00")}m";
     }
 
-    public void PopulateColourSelectors()
-    {
-        for (int i = 0; i < _lineColours.Count; i++)
-        {
-            _colourSelectors[i].SetColour(_lineColours[i]);
-        }
-    }
-
     public void PlaceLineSegment(Vector2 tapPosition)
     {
         LineSegmentView newLineSegment = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
-        newLineSegment.SetColour(_currentColour);
+        newLineSegment.SetColour(_lineColours[_line.Count % _lineColours.Count]);
         newLineSegment.transform.SetAsFirstSibling();
 
-        if (_line.Count == 0)
+        if (AllSegments().Count == 0)
         {
             Vector2 startPosition = _cableStartPositionMarker.transform.position;
             newLineSegment.SetFirstPosition(startPosition, _mapMetersPerPixel);
             newLineSegment.SetSecondPosition(tapPosition);
-            _previousColour = _currentColour;
-
-            List<LineSegmentView> newColourSection = new List<LineSegmentView>() { newLineSegment };
-            _line.Add(newColourSection);
         }
         else
         {
@@ -118,20 +95,9 @@ public class MapView : MonoBehaviour
 
             newLineSegment.SetFirstPosition(previousLineSegment.EndPoisition(), _mapMetersPerPixel);
             newLineSegment.SetSecondPosition(tapPosition);
-
-            if (_previousColour == _currentColour)
-            {
-                PreviousColourSection().Add(newLineSegment);
-            }
-            else
-            {
-                List<LineSegmentView> newColourSection = new List<LineSegmentView>() { newLineSegment };
-                _line.Add(newColourSection);
-
-                _previousColour = _currentColour;
-            }
         }
 
+        PreviousColourSection().Add(newLineSegment);
         EvaluateSegmentLengths();
     }
 
@@ -165,6 +131,11 @@ public class MapView : MonoBehaviour
     {
         foreach (List<LineSegmentView> colourSection in _line)
         {
+            if (colourSection.Count == 0)
+            {
+                continue;
+            }
+
             float colourSectionLength = 0f;
             foreach (LineSegmentView lineSegment in colourSection)
             {
@@ -172,33 +143,34 @@ public class MapView : MonoBehaviour
                 lineSegment.DisableLengthLabel();
             }
 
-            int middleLabelIndex = colourSection.Count / 2 ;
+            int middleLabelIndex = colourSection.Count / 2;
             colourSection[middleLabelIndex].SetLengthLabel(colourSectionLength);
         }
     }
 
-    public void UndoSegment()
+    public void ClearCurrentColourSection()
     {
-        if (_line.Count > 0)
+        List<LineSegmentView> currentSection = PreviousColourSection();
+
+        foreach (LineSegmentView lineSegmentView in currentSection)
         {
-            List<LineSegmentView> previousLineColourSection = PreviousColourSection();
+            Destroy(lineSegmentView.gameObject);
+        }
 
-            GameObject gameObjectToDestroy = PreviousLineSegment().gameObject;
-            previousLineColourSection.RemoveAt(previousLineColourSection.Count - 1);
-            Destroy(gameObjectToDestroy);
+        currentSection.Clear();
 
-            if (previousLineColourSection.Count == 0)
-            {
-                _line.Remove(previousLineColourSection);
-            }
-
-            if (_line.Count > 0)
-            {
-                PreviousLineSegment().EndPointShowState(true);
-            }
+        if (AllSegments().Count > 0)
+        {
+            PreviousLineSegment().EndPointShowState(true);
         }
 
         EvaluateSegmentLengths();
+    }
+
+    public void CreateNewColourSection()
+    {
+        List<LineSegmentView> newColourSection = new List<LineSegmentView>();
+        _line.Add(newColourSection);
     }
 
     public void DisplayFaultArea(float faultDistanceFromStartMeters)
@@ -239,16 +211,6 @@ public class MapView : MonoBehaviour
         ApplicationEvents.InvokeOnFaultPositionCalculated(_calculatedFaultArea.transform.localPosition);
     }
 
-    public Vector2 FaultGuessPosition()
-    {
-        return _faultGuessIndicator.transform.localPosition;
-    }
-
-    public void HideFaultArea()
-    {
-        _calculatedFaultArea.SetActive(false);
-    }
-
     private List<LineSegmentView> AllSegments()
     {
         List<LineSegmentView> allSegments = new List<LineSegmentView>();
@@ -278,6 +240,6 @@ public class MapView : MonoBehaviour
         else
         {
             return new List<LineSegmentView>();
-        }        
+        }
     }
 }
