@@ -3539,6 +3539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deviceView: {fileID: 6259946975773406988}
   _mapView: {fileID: 34722430089688101}
+  _deviceButton: {fileID: 8658464300773053595}
   _savedLineSegments: []
   _currentLineSegment:
     cable: {fileID: 0}
@@ -3654,7 +3655,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3673,9 +3674,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6259946975773406988}
-        m_TargetAssemblyTypeName: Q2QDeviceView, Assembly-CSharp
-        m_MethodName: ToggleDeviceActive
+      - m_Target: {fileID: 4549193511247018599}
+        m_TargetAssemblyTypeName: Q2QDevice, Assembly-CSharp
+        m_MethodName: AttemptDeviceOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4166,10 +4167,6 @@ MonoBehaviour:
   - {r: 1, g: 0.5254902, b: 0.8577117, a: 1}
   - {r: 0.3915094, g: 0.7262757, b: 1, a: 1}
   - {r: 0.5753593, g: 1, b: 0.5330188, a: 1}
-  _colourSelectors:
-  - {fileID: 1665334509148335420}
-  - {fileID: 8501344583485539955}
-  - {fileID: 375843547234207192}
   _previousSegmentDistanceText: {fileID: 3858943495253775944}
   _totalSegmentsDistanceText: {fileID: 7181071991505249877}
   _lineSegmentPrefab: {fileID: 6576887336193633349, guid: 374b4552b8b7eb048a1b20a5ec5b3b3b, type: 3}
