@@ -58,6 +58,23 @@ public class FaultFindingController : MonoBehaviour
     {
         float finalDifference = Vector2.Distance(faultPositionGuess.GuessPosition(), _currentScenario.faultPosition) / _currentScenario.mapMetersPerPixel;
         _finalResultPopupView.SetResultText(finalDifference, faultPositionGuess.CableTypesCorrect(), faultPositionGuess.CableThicknessCorrect());
+
+        StartWaitForFaultCheckPopup();
+    }
+
+    private void StartWaitForFaultCheckPopup()
+    {
+        StartCoroutine(WaitForFaultCheckingPopup());
+    }
+
+    private IEnumerator WaitForFaultCheckingPopup()
+    {
+        _faultFindingView.SetFaultCheckingPopupActive(true);
+
+        yield return new WaitForSeconds(2.5f);
+
+        _faultFindingView.SetFaultCheckingPopupActive(false);
+        _finalResultPopupView.SetPopupActive(true);
     }
 
     public void RestartCurrentScenario()

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FaultFindingView : MonoBehaviour
 {
-    [SerializeField] private GameObject _helpContainer, _landingPopup, _guessConfirmationPopup;
+    [SerializeField] private GameObject _helpContainer, _landingPopup, _guessConfirmationPopup, _faultCheckingPopup;
     [SerializeField] private TextMeshProUGUI _dateText;
     [SerializeField] private List<GameObject> _walkthroughContainers;
 
@@ -44,5 +44,10 @@ public class FaultFindingView : MonoBehaviour
     public void EnableGuessConfirmationPopup()
     {
         _guessConfirmationPopup.SetActive(true);
+    }
+
+    public void SetFaultCheckingPopupActive(bool state)
+    {
+        _faultCheckingPopup.SetActive(state);
     }
 }
