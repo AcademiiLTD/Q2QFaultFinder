@@ -795,8 +795,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You've finished the cable setup. Now, go back to the main menu and try
-    out "Assessment" to try a fault finding scenario.
+  m_text: You've finished the cable setup. Now, you can use the Q2Q device to start
+    looking for the fault location.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9e68805b54f16e40a25953bd286c8aa, type: 2}
   m_sharedMaterial: {fileID: 6495933280000199354, guid: d9e68805b54f16e40a25953bd286c8aa, type: 2}
@@ -4481,11 +4481,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8347240293935027448, guid: b8bc4f21a8605624aab5ca080c0a4250, type: 3}
       propertyPath: m_Name
-      value: Main Menu Button
+      value: Continue Button
       objectReference: {fileID: 0}
     - target: {fileID: 8570611194714273186, guid: b8bc4f21a8605624aab5ca080c0a4250, type: 3}
       propertyPath: m_text
-      value: Main Menu
+      value: Continue
       objectReference: {fileID: 0}
     - target: {fileID: 8570611194714273186, guid: b8bc4f21a8605624aab5ca080c0a4250, type: 3}
       propertyPath: m_fontSize

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ConnectorPoint : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D _collider;
-    [SerializeField] private GameObject _visual;
+    [SerializeField] private GameObject _visual, _indicator;
     [SerializeField] private ConnectorType _correctConnectorType;
     private bool _connectedCorrectly;
 
@@ -42,6 +42,7 @@ public class ConnectorPoint : MonoBehaviour
 
     private void TogglePointConnected(bool state)
     {
+        _indicator.SetActive(!state);
         _visual.SetActive(state);
         _collider.enabled = !state;
         _connectedCorrectly = state;
