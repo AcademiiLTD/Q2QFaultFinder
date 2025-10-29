@@ -38,7 +38,7 @@ public class LineSegmentView : MonoBehaviour
 
         _lineScaledDistance = _lineImage.rectTransform.sizeDelta.x / _mapMetersPerPixel;
         _lengthLabel.transform.localPosition = _lineImage.transform.localPosition + new Vector3(0f, 50f, 0f);
-        Debug.Log(_lengthLabel.transform.position);
+
         _lengthLabel.transform.localPosition = new Vector3(
             Mathf.Clamp(_lengthLabel.transform.localPosition.x, -860f, 860f),
             Mathf.Clamp(_lengthLabel.transform.localPosition.y, -500f, 500f),
