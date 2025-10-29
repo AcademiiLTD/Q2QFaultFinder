@@ -27,8 +27,6 @@ public class FinalResultPopupView : MonoBehaviour
 
         string hexColour = textColour.ToHexString();
 
-
-        gameObject.SetActive(true);
         _resultText.text = $"Your guess was <color=#{hexColour}>{userGuess.ToString("0.00")}</color> meters from the fault";
 
         //if (previousGuess != -1f)
@@ -45,5 +43,10 @@ public class FinalResultPopupView : MonoBehaviour
         {
             _resultText.text += "\n\nSome of your <color=#CD0000>cable thickness</color> inputs were incorrect";
         }
+    }
+
+    public void SetPopupActive(bool state)
+    {
+        gameObject.SetActive(state);
     }
 }
