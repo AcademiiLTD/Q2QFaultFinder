@@ -193,11 +193,39 @@ public class Q2QDevice : MonoBehaviour
         float SpeedOfLight = 299792.485f;
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
+        float distanceThroughScenarioSegments = 0f;
 
-        foreach(LineSegment userSegment in userSegments)
+        float variance = 1f;
+
+        foreach (LineSegment userSegment in userSegments)
         {
+            //Check this thickness against all scenario thicknesses
+            //If this thickness doesn't match anything, apply variance
+
+            bool thicknessMismatch = true;
+            foreach (LineSegment scenarioSegment in scenarioSegments)
+            {
+                if (scenarioSegment.thickness == userSegment.thickness)
+                {
+                    thicknessMismatch = false;
+                }
+            }
+
+            if (thicknessMismatch)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying thickness variance");
+            }
+
+            if (_selectedMonth != _currentFaultFindingScenario.month)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying month variance");
+            }
+
+
             float segmentLengthKm = userSegment.length / 1000f;
-            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight);
+            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight) * variance;
 
             if (oneWayTime <= segmentTime)
             {

@@ -14,11 +14,6 @@ public class FaultFindingController : MonoBehaviour
     [SerializeField] private Q2QDevice _q2QDevice;
     private FaultFindingScenario _currentScenario;
 
-    //[SerializeField] private List<ControllerEvent> _walkthroughControllerEvents;
-    //private ControllerEvent _currentWalkthroughEventListener;
-    //private int _walkthroughIndex = 0;
-    //private bool _isWalkthroughMode = false;
-
     private void OnEnable()
     {
         ApplicationEvents.OnScenarioSelected += OnScenarioSelected;
@@ -81,44 +76,32 @@ public class FaultFindingController : MonoBehaviour
     {
         ApplicationEvents.InvokeOnFaultFinding();
     }
-
-    //private void ProgressWalkthrough()
-    //{
-    //    _walkthroughIndex++;
-
-    //    if (_walkthroughIndex < _walkthroughControllerEvents.Count) 
-    //    {
-    //        _currentWalkthroughEventListener = _walkthroughControllerEvents[_walkthroughIndex];
-    //        _faultFindingView.EnableWalkthroughContainer(_walkthroughIndex);
-    //    }
-    //    else
-    //    {
-    //        _faultFindingView.EnableWalkthroughContainer(-1);
-    //    }
-    //}
 }
 
 [Serializable]
 public class FaultPositionGuess
 {
     private Vector2 _guessPosition;
-    public bool _cableTypesCorrect = true, _cableThicknessCorrect = true;
+    public bool _cableTypesCorrect = false, _cableThicknessCorrect = false;
 
     public FaultPositionGuess(Vector2 guessPosition, List<LineSegment> userInputSegments, List<LineSegment> scenarioSegments)
     {
         _guessPosition = guessPosition;
         Debug.Log($"Guess position: {guessPosition}");
 
-        for (int i = 0; i < userInputSegments.Count; i++)
+        foreach (LineSegment userSegment in userInputSegments)
         {
-            if (userInputSegments[i].cable != scenarioSegments[i].cable)
+            foreach (LineSegment scenarioSegment in scenarioSegments)
             {
-                _cableTypesCorrect = false;
-            }
+                if (scenarioSegment.thickness == userSegment.thickness)
+                {
+                    _cableThicknessCorrect = true;
+                }
 
-            if (userInputSegments[i].thickness != scenarioSegments[i].thickness)
-            {
-                _cableThicknessCorrect = false;
+                if (scenarioSegment.cable == userSegment.cable)
+                {
+                    _cableTypesCorrect = true;
+                }
             }
         }
     }
