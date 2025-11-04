@@ -186,7 +186,7 @@ public class Q2QDevice : MonoBehaviour
     }
 
     //Used to calculate the user's final guess
-    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> userSegments)
     {
         float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
         float distanceTravelled = 0f;
@@ -194,11 +194,12 @@ public class Q2QDevice : MonoBehaviour
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
 
-        for (int i = 0; i < segments.Count; i++)
+        foreach(LineSegment userSegment in userSegments)
         {
-            float segmentLengthKm = segments[i].length / 1000f;
-            float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SpeedOfLight);
-            if (segments[i].thickness != scenarioSegments[i].thickness)
+            float segmentLengthKm = userSegment.length / 1000f;
+            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight);
+
+            if (userSegment.thickness != scenarioSegments[i].thickness)
             {
                 segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
             }
@@ -206,7 +207,7 @@ public class Q2QDevice : MonoBehaviour
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
                 if (_selectedMonth != _currentFaultFindingScenario.month)
@@ -219,7 +220,7 @@ public class Q2QDevice : MonoBehaviour
 
             // Move to next segment
             oneWayTime -= segmentTime;
-            distanceTravelled += segments[i].length;
+            distanceTravelled += userSegment.length;
         }
 
         // If fault is beyond the network
