@@ -199,23 +199,14 @@ public class Q2QDevice : MonoBehaviour
             float segmentLengthKm = userSegment.length / 1000f;
             float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight);
 
-            if (userSegment.thickness != scenarioSegments[i].thickness)
-            {
-                segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
-            }
-
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
                 float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
-                if (_selectedMonth != _currentFaultFindingScenario.month)
-                {
-                    finalValue *= Random.Range(1.01f, 1.1f); //Variance
-                    return finalValue;
-                }
-                else return finalValue;
+
+                return finalValue;
             }
 
             // Move to next segment
