@@ -183,43 +183,63 @@ public class Q2QDevice : MonoBehaviour
             }
         }
 
-        return totalTimeSeconds * 2f * MICROSECOND_SCALAR; // Convert seconds to µs for round-trip
+        return totalTimeSeconds * 2f * MICROSECOND_SCALAR; // Convert seconds to Âµs for round-trip
     }
 
     //Used to calculate the user's final guess
-    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> userSegments)
     {
         float oneWayTime = roundTripTimeUs / 2f / MICROSECOND_SCALAR; // Convert to seconds
         float distanceTravelled = 0f;
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
+        float distanceThroughScenarioSegments = 0f;
 
-        for (int i = 0; i < segments.Count; i++)
+        float variance = 1f;
+
+        foreach (LineSegment userSegment in userSegments)
         {
-            float segmentLengthKm = segments[i].length / 1000f;
-            float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SPEED_OF_LIGHT);
-            if (segments[i].thickness != scenarioSegments[i].thickness)
+            //Check this thickness against all scenario thicknesses
+            //If this thickness doesn't match anything, apply variance
+
+            bool thicknessMismatch = true;
+            foreach (LineSegment scenarioSegment in scenarioSegments)
             {
-                segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
+                if (scenarioSegment.thickness == userSegment.thickness)
+                {
+                    thicknessMismatch = false;
+                }
             }
+
+            if (thicknessMismatch)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying thickness variance");
+            }
+
+            if (_selectedMonth != _currentFaultFindingScenario.month)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying month variance");
+            }
+
+
+            float segmentLengthKm = userSegment.length / 1000f;
+            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight) * variance;
 
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SPEED_OF_LIGHT;
+                float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SpeedOfLight;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
-                if (_selectedMonth != _currentFaultFindingScenario.month)
-                {
-                    finalValue *= Random.Range(1.01f, 1.1f); //Variance
-                    return finalValue;
-                }
-                else return finalValue;
+
+                return finalValue;
             }
 
             // Move to next segment
             oneWayTime -= segmentTime;
-            distanceTravelled += segments[i].length;
+            distanceTravelled += userSegment.length;
         }
 
         // If fault is beyond the network
