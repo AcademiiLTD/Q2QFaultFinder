@@ -225,12 +225,12 @@ public class Q2QDevice : MonoBehaviour
 
 
             float segmentLengthKm = userSegment.length / 1000f;
-            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SpeedOfLight) * variance;
+            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SPEED_OF_LIGHT) * variance;
 
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SPEED_OF_LIGHT;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
 
