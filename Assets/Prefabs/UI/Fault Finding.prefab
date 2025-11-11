@@ -932,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75.360016, y: -351.08643}
+  m_AnchoredPosition: {x: 75.360016, y: -351.10156}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2813734815170267193
@@ -2980,6 +2980,7 @@ MonoBehaviour:
   _deviceView: {fileID: 6259946975773406988}
   _mapView: {fileID: 34722430089688101}
   _deviceButton: {fileID: 8658464300773053595}
+  _clearSectionButton: {fileID: 9121577696633697230}
   _savedLineSegments: []
   _currentLineSegment:
     cable: {fileID: 0}
@@ -3723,7 +3724,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75.360016, y: -236.08644}
+  m_AnchoredPosition: {x: 75.360016, y: -236.10155}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6030312410585760077
@@ -4164,9 +4165,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 34722430089688101}
-        m_TargetAssemblyTypeName: MapView, Assembly-CSharp
-        m_MethodName: ClearCurrentColourSection
+      - m_Target: {fileID: 4549193511247018599}
+        m_TargetAssemblyTypeName: Q2QDevice, Assembly-CSharp
+        m_MethodName: RestartSection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4978,7 +4979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75.360016, y: -121.08644}
+  m_AnchoredPosition: {x: 75.360016, y: -121.10155}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7097997443337796112
