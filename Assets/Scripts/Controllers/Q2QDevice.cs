@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class Q2QDevice : MonoBehaviour
 {
+    private const float MICROSECOND_SCALAR = 1e6f;
+    private const float SPEED_OF_LIGHT = 299792.485f;
+
     [SerializeField] private Q2QDeviceView _deviceView;
     [SerializeField] private MapView _mapView;
     [SerializeField] private Button _deviceButton;
@@ -160,8 +163,6 @@ public class Q2QDevice : MonoBehaviour
     {
         float remainingDistance = faultDistanceMeters;
         float totalTimeSeconds = 0f;
-        float SpeedOfLight = 299792.485f;
-
 
         foreach (LineSegment segment in segments)
         {
@@ -171,55 +172,74 @@ public class Q2QDevice : MonoBehaviour
             {
                 // Fault is within this segment
                 float faultInSegmentKm = remainingDistance / 1000f;
-                totalTimeSeconds += faultInSegmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                totalTimeSeconds += faultInSegmentKm / (segment.cable.velocityFactor * SPEED_OF_LIGHT);
                 break;
             }
             else
             {
                 float segmentKm = segment.length / 1000f;
-                totalTimeSeconds += segmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                totalTimeSeconds += segmentKm / (segment.cable.velocityFactor * SPEED_OF_LIGHT);
                 remainingDistance -= segment.length;
             }
         }
 
-        return totalTimeSeconds * 2f * 1e6f; // Convert seconds to µs for round-trip
+        return totalTimeSeconds * 2f * MICROSECOND_SCALAR; // Convert seconds to Âµs for round-trip
     }
 
     //Used to calculate the user's final guess
-    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> segments)
+    public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> userSegments)
     {
-        float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
+        float oneWayTime = roundTripTimeUs / 2f / MICROSECOND_SCALAR; // Convert to seconds
         float distanceTravelled = 0f;
-        float SpeedOfLight = 299792.485f;
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
+        float distanceThroughScenarioSegments = 0f;
 
-        for (int i = 0; i < segments.Count; i++)
+        float variance = 1f;
+
+        foreach (LineSegment userSegment in userSegments)
         {
-            float segmentLengthKm = segments[i].length / 1000f;
-            float segmentTime = segmentLengthKm / (segments[i].cable.velocityFactor * SpeedOfLight);
-            if (segments[i].thickness != scenarioSegments[i].thickness)
+            //Check this thickness against all scenario thicknesses
+            //If this thickness doesn't match anything, apply variance
+
+            bool thicknessMismatch = true;
+            foreach (LineSegment scenarioSegment in scenarioSegments)
             {
-                segmentTime *= Random.Range(1.01f, 1.1f); //Adding variance
+                if (scenarioSegment.thickness == userSegment.thickness)
+                {
+                    thicknessMismatch = false;
+                }
             }
+
+            if (thicknessMismatch)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying thickness variance");
+            }
+
+            if (_selectedMonth != _currentFaultFindingScenario.month)
+            {
+                variance = variance * Random.Range(0.9f, 1.1f);
+                Debug.Log("Applying month variance");
+            }
+
+
+            float segmentLengthKm = userSegment.length / 1000f;
+            float segmentTime = segmentLengthKm / (userSegment.cable.velocityFactor * SPEED_OF_LIGHT) * variance;
 
             if (oneWayTime <= segmentTime)
             {
                 // Fault is in this segment
-                float distanceInSegmentKm = oneWayTime * segments[i].cable.velocityFactor * SpeedOfLight;
+                float distanceInSegmentKm = oneWayTime * userSegment.cable.velocityFactor * SPEED_OF_LIGHT;
                 float distanceInSegmentM = distanceInSegmentKm * 1000f;
                 float finalValue = distanceTravelled + distanceInSegmentM;
-                if (_selectedMonth != _currentFaultFindingScenario.month)
-                {
-                    finalValue *= Random.Range(1.01f, 1.1f); //Variance
-                    return finalValue;
-                }
-                else return finalValue;
+
+                return finalValue;
             }
 
             // Move to next segment
             oneWayTime -= segmentTime;
-            distanceTravelled += segments[i].length;
+            distanceTravelled += userSegment.length;
         }
 
         // If fault is beyond the network
