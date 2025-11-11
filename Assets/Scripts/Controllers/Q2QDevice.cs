@@ -10,6 +10,7 @@ public class Q2QDevice : MonoBehaviour
     [SerializeField] private Q2QDeviceView _deviceView;
     [SerializeField] private MapView _mapView;
     [SerializeField] private Button _deviceButton;
+    [SerializeField] private Button _clearSectionButton;
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
     [SerializeField] private LineSegment _currentLineSegment;
@@ -47,6 +48,7 @@ public class Q2QDevice : MonoBehaviour
     private void OnFaultFindingStarted()
     {
         _savedLineSegments.Clear();
+        _clearSectionButton.gameObject.SetActive(true);
         _currentLineSegment = new LineSegment();
         _visualLineSegmentCount = 1;
         _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
@@ -71,6 +73,7 @@ public class Q2QDevice : MonoBehaviour
         _savedLineSegments.Clear();
         _currentLineSegment = new LineSegment();
         _visualLineSegmentCount = 1;
+        _clearSectionButton.gameObject.SetActive(true);
 
         _deviceView.StartNewLineSegment(_visualLineSegmentCount);
         _deviceView.ShowMonthInput();
@@ -126,6 +129,7 @@ public class Q2QDevice : MonoBehaviour
         else
         {
             DisplayFaultDistance(estimatedFaultDistance);
+            _clearSectionButton.gameObject.SetActive(false);
         }
 
         _mapView.CreateNewColourSection();
