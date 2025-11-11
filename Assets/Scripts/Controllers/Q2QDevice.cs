@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class Q2QDevice : MonoBehaviour
 {
+    private const float MICROSECOND_SCALAR = 1e6f;
+    private const float SPEED_OF_LIGHT = 299792.485f;
+
     [SerializeField] private Q2QDeviceView _deviceView;
     [SerializeField] private MapView _mapView;
     [SerializeField] private Button _deviceButton;
@@ -160,8 +163,6 @@ public class Q2QDevice : MonoBehaviour
     {
         float remainingDistance = faultDistanceMeters;
         float totalTimeSeconds = 0f;
-        float SpeedOfLight = 299792.485f;
-
 
         foreach (LineSegment segment in segments)
         {
@@ -171,26 +172,25 @@ public class Q2QDevice : MonoBehaviour
             {
                 // Fault is within this segment
                 float faultInSegmentKm = remainingDistance / 1000f;
-                totalTimeSeconds += faultInSegmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                totalTimeSeconds += faultInSegmentKm / (segment.cable.velocityFactor * SPEED_OF_LIGHT);
                 break;
             }
             else
             {
                 float segmentKm = segment.length / 1000f;
-                totalTimeSeconds += segmentKm / (segment.cable.velocityFactor * SpeedOfLight);
+                totalTimeSeconds += segmentKm / (segment.cable.velocityFactor * SPEED_OF_LIGHT);
                 remainingDistance -= segment.length;
             }
         }
 
-        return totalTimeSeconds * 2f * 1e6f; // Convert seconds to µs for round-trip
+        return totalTimeSeconds * 2f * MICROSECOND_SCALAR; // Convert seconds to Âµs for round-trip
     }
 
     //Used to calculate the user's final guess
     public float CalculateFaultDistance(float roundTripTimeUs, List<LineSegment> userSegments)
     {
-        float oneWayTime = roundTripTimeUs / 2f / 1e6f; // Convert to seconds
+        float oneWayTime = roundTripTimeUs / 2f / MICROSECOND_SCALAR; // Convert to seconds
         float distanceTravelled = 0f;
-        float SpeedOfLight = 299792.485f;
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
         float distanceThroughScenarioSegments = 0f;
