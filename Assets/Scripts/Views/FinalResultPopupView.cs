@@ -9,7 +9,7 @@ public class FinalResultPopupView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private Color _correctColour, _medianColour, _incorrectColour;
 
-    public void SetResultText(float userGuess, bool cableTypesCorrect, bool cableThicknessCorrect)
+    public void SetResultText(float userGuess, FaultPositionGuess faultPositionGuess)
     {
         Color textColour = Color.black;
         switch (userGuess)
@@ -34,14 +34,19 @@ public class FinalResultPopupView : MonoBehaviour
         //    _resultText.text += $"\nYour previous best guess was {previousGuess.ToString("0.00")}";
         //}
 
-        if (!cableTypesCorrect)
+        if (!faultPositionGuess.CableTypesCorrect())
         {
             _resultText.text += "\n\nSome of your <color=#CD0000>cable type</color> inputs were incorrect";
         }
 
-        if (!cableThicknessCorrect)
+        if (!faultPositionGuess.CableThicknessCorrect())
         {
             _resultText.text += "\n\nSome of your <color=#CD0000>cable thickness</color> inputs were incorrect";
+        }
+
+        if (!faultPositionGuess.CableLengthsCorrect())
+        {
+            _resultText.text += "\n\nSome of your <color=#CD0000>cable length</color> inputs were incorrect";
         }
     }
 
