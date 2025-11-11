@@ -13,7 +13,7 @@ public class Q2QDevice : MonoBehaviour
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
     [SerializeField] private LineSegment _currentLineSegment;
-    [SerializeField] private int _currentLineSegmentCount = 1;
+    [SerializeField] private int _visualLineSegmentCount = 1;
     [SerializeField] private Month _selectedMonth;
     [SerializeField] private List<CableType> _cableTypes;
 
@@ -48,11 +48,11 @@ public class Q2QDevice : MonoBehaviour
     {
         _savedLineSegments.Clear();
         _currentLineSegment = new LineSegment();
-        _currentLineSegmentCount = 1;
+        _visualLineSegmentCount = 1;
         _faultDistanceMeters = _currentFaultFindingScenario.faultDistance;
         _roundTripTime = CalculateRoundTripTime(_faultDistanceMeters, _currentFaultFindingScenario.LineSegments);
         _deviceView.SetDeviceActive(false);
-        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        _deviceView.StartNewLineSegment(_visualLineSegmentCount);
         _deviceView.ShowMonthInput();
     }
 
@@ -70,9 +70,9 @@ public class Q2QDevice : MonoBehaviour
     {
         _savedLineSegments.Clear();
         _currentLineSegment = new LineSegment();
-        _currentLineSegmentCount = 1;
+        _visualLineSegmentCount = 1;
 
-        _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+        _deviceView.StartNewLineSegment(_visualLineSegmentCount);
         _deviceView.ShowMonthInput();
         _deviceView.SetDeviceActive(false); 
 
@@ -84,7 +84,7 @@ public class Q2QDevice : MonoBehaviour
         _mapView.ClearCurrentColourSection();
 
         _currentLineSegment = new LineSegment();
-        _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+        _deviceView.ShowCableTypeInput(_visualLineSegmentCount);
 
         _deviceView.SetDeviceActive(false);
     }
@@ -92,7 +92,7 @@ public class Q2QDevice : MonoBehaviour
     public void SubmitMonth(int month)
     {
         _selectedMonth = (Month)month; //Cast into to month for readability
-        _deviceView.ShowCableTypeInput(_currentLineSegmentCount);
+        _deviceView.ShowCableTypeInput(_visualLineSegmentCount);
     }
 
     public void SubmitCableType(int cableIndex)
@@ -112,15 +112,15 @@ public class Q2QDevice : MonoBehaviour
     {
         _currentLineSegment.length = _deviceView.KeypadValue();
         _savedLineSegments.Add(_currentLineSegment);
-        Debug.Log($"Current segment count: {_currentLineSegmentCount}");
+        Debug.Log($"Current segment count: {_visualLineSegmentCount}");
 
         float estimatedFaultDistance = CalculateFaultDistance(_roundTripTime, _savedLineSegments);
 
         if (estimatedFaultDistance == -1)
         {
             _currentLineSegment = new LineSegment();
-            _currentLineSegmentCount++;
-            _deviceView.StartNewLineSegment(_currentLineSegmentCount);
+            _visualLineSegmentCount++;
+            _deviceView.StartNewLineSegment(_visualLineSegmentCount);
             _deviceView.SetDeviceActive(false);
         }
         else
@@ -129,6 +129,53 @@ public class Q2QDevice : MonoBehaviour
         }
 
         _mapView.CreateNewColourSection();
+    }
+
+    //Used to compound neighbouring segments that are the same type and thickness
+    //Enables direct scenario to input checking in FaultPositionGuess object when user inputs multiple small segments
+    private List<LineSegment> SimplifiedLineSegmentList()
+    {
+        if (_savedLineSegments.Count == 1)
+        {
+            return _savedLineSegments;
+        }
+
+        List<LineSegment> simplifiedList = _savedLineSegments;
+
+        //Simplification occurs when segments have identical neighbours
+        bool allSegmentsHaveUniqueNeighbours = false;
+        while (!allSegmentsHaveUniqueNeighbours)
+        {
+            for (int i = 0; i < simplifiedList.Count; i++)
+            {
+                //If the loop reaches the end of the list without simplification, all have unique neighbours
+                if (i == simplifiedList.Count - 1)
+                {
+                    allSegmentsHaveUniqueNeighbours = true;
+                    break;
+                }
+
+                //Two segments can be simplified if they share the same type and thickness
+                bool sameType = simplifiedList[i].cable == simplifiedList[i + 1].cable;
+                bool sameThickness = simplifiedList[i].thickness == simplifiedList[i + 1].thickness;
+                bool simplificationPossible = sameType && sameThickness;
+
+                //Continues the loop if simplification is not possible
+                if (!simplificationPossible)
+                {
+                    continue;
+                }
+
+                //Adds the second section length to the first, then removes the unnecessary second segment
+                simplifiedList[i].length += simplifiedList[i + 1].length;
+                simplifiedList.RemoveAt(i + 1);
+
+                //Forces a break and re-loop to prevent index out of bounds error
+                break;
+            }
+        }
+
+        return simplifiedList;
     }
 
     private void DisplayFaultDistance(float faultDistance)
@@ -150,12 +197,12 @@ public class Q2QDevice : MonoBehaviour
             }
         }
 
-        _deviceView.ShowFinalFaultLocation(_currentLineSegmentCount, faultDistance);
+        _deviceView.ShowFinalFaultLocation(_visualLineSegmentCount, faultDistance);
     }
 
     public void SubmitUserFaultGuess()
     {
-        FaultPositionGuess guess = new FaultPositionGuess(_calculatedFaultPosition, _savedLineSegments, _currentFaultFindingScenario.LineSegments);
+        FaultPositionGuess guess = new FaultPositionGuess(_calculatedFaultPosition, SimplifiedLineSegmentList(), _currentFaultFindingScenario.LineSegments);
         ApplicationEvents.InvokeOnGuessSubmitted(guess);
     }
 
@@ -193,7 +240,6 @@ public class Q2QDevice : MonoBehaviour
         float distanceTravelled = 0f;
 
         List<LineSegment> scenarioSegments = _currentFaultFindingScenario.LineSegments;
-        float distanceThroughScenarioSegments = 0f;
 
         float variance = 1f;
 
