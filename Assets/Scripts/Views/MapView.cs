@@ -17,6 +17,7 @@ public class MapView : MonoBehaviour
     private List<List<LineSegmentView>> _line;
 
     private float _mapMetersPerPixel;
+    private bool _tappable;
 
     private void Awake()
     {
@@ -43,7 +44,8 @@ public class MapView : MonoBehaviour
 
     public void ResetMap()
     {
-        _calculatedFaultArea.SetActive(false);
+        SetTappable(true);
+        CalculatedFaultAreaActive(false);
 
         if (_line.Count > 0)
         {
@@ -77,6 +79,11 @@ public class MapView : MonoBehaviour
 
     public void PlaceLineSegment(Vector2 tapPosition)
     {
+        if (!_tappable)
+        {
+            return;
+        }
+
         LineSegmentView newLineSegment = GameObject.Instantiate(_lineSegmentPrefab, _mapBackgroundImage.transform).GetComponent<LineSegmentView>();
         newLineSegment.SetColour(_lineColours[_line.Count % _lineColours.Count]);
         newLineSegment.transform.SetAsFirstSibling();
@@ -248,5 +255,15 @@ public class MapView : MonoBehaviour
     private bool CurrentColourSectionEmpty()
     {
         return PreviousColourSection().Count == 0;
+    }
+
+    public void SetTappable(bool tappable)
+    { 
+        _tappable = tappable;
+    }
+
+    public void CalculatedFaultAreaActive(bool shown)
+    {
+        _calculatedFaultArea.SetActive(shown);
     }
 }
