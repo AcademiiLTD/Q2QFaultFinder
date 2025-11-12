@@ -3,6 +3,7 @@ using UnityEngine;
 public class MapController : MonoBehaviour
 {
     [SerializeField] private MapView _mapView;
+    [SerializeField] private AudioSource _touchscreenTapAudioSource;
     private bool _userMakingFaultGuess;
 
     private void OnEnable()
@@ -48,5 +49,6 @@ public class MapController : MonoBehaviour
         }
 
         _mapView.PlaceLineSegment(tapPosition);
+        _touchscreenTapAudioSource.Play();
     }
 }

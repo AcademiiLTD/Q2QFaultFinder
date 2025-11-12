@@ -12,6 +12,8 @@ public class CableSetupController : MonoBehaviour
     [SerializeField] private Transform _connectorContainer, _cableSetupContainer;
     [SerializeField] private List<DraggableConnector> _grabbableConnectors;
     [SerializeField] private List<ConnectorPoint> _connectorPoints;
+
+    [SerializeField] private AudioSource _connectionAudioSource;
     private int _cableIndex;
 
     private void OnEnable()
@@ -109,6 +111,8 @@ public class CableSetupController : MonoBehaviour
 
     private void EvaluateConnectorPoints()
     {
+        _connectionAudioSource.Play();
+
         if (CheckSetupCompletion())
         {
             _cableSetupView.ToggleCompletionWindow(true);
