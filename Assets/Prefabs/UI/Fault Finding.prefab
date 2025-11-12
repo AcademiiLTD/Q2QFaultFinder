@@ -3618,7 +3618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapView: {fileID: 34722430089688101}
-  _touchscreenTapAudioSource: {fileID: 0}
+  _touchscreenTapAudioSource: {fileID: 6010696099716315766}
 --- !u!114 &34722430089688101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13342,7 +13342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678014113425996753, guid: 984b2a455894eec4581c5c48951604bb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RestartSection
+      value: UndoLastSection
       objectReference: {fileID: 0}
     - target: {fileID: 8678014113425996753, guid: 984b2a455894eec4581c5c48951604bb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
