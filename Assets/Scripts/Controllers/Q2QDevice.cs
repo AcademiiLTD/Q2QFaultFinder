@@ -136,7 +136,6 @@ public class Q2QDevice : MonoBehaviour
         {
             DisplayFaultDistance(estimatedFaultDistance);
             _mapView.SetTappable(false);
-            _mapView.CalculatedFaultAreaActive(true);
         }
     }
 
