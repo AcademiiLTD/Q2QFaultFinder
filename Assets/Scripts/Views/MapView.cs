@@ -45,6 +45,7 @@ public class MapView : MonoBehaviour
     public void ResetMap()
     {
         SetTappable(true);
+        CalculatedFaultAreaActive(false);
 
         if (_line.Count > 0)
         {
@@ -259,6 +260,10 @@ public class MapView : MonoBehaviour
     public void SetTappable(bool tappable)
     { 
         _tappable = tappable;
-        _calculatedFaultArea.SetActive(!_tappable);
+    }
+
+    public void CalculatedFaultAreaActive(bool shown)
+    {
+        _calculatedFaultArea.SetActive(shown);
     }
 }
