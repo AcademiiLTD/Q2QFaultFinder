@@ -13,6 +13,7 @@ public class MapView : MonoBehaviour
     [SerializeField] private GameObject _faultGuessIndicator;
     [SerializeField] private GameObject _cableStartPositionMarker;
     [SerializeField] private GameObject _calculatedFaultArea;
+    [SerializeField] private GameObject _invalidGuessPopup;
 
     private List<List<LineSegmentView>> _line;
 
@@ -46,6 +47,7 @@ public class MapView : MonoBehaviour
     {
         SetTappable(true);
         CalculatedFaultAreaActive(false);
+        ToggleInvalidGuessPopup(false);
 
         if (_line.Count > 0)
         {
@@ -203,6 +205,8 @@ public class MapView : MonoBehaviour
 
         if (targetSegment == null)
         {
+            SetTappable(false);
+            _invalidGuessPopup.SetActive(true);
             return;
         }
 
@@ -265,5 +269,10 @@ public class MapView : MonoBehaviour
     public void CalculatedFaultAreaActive(bool shown)
     {
         _calculatedFaultArea.SetActive(shown);
+    }
+
+    public void ToggleInvalidGuessPopup(bool state)
+    {
+        _invalidGuessPopup.SetActive(state);
     }
 }

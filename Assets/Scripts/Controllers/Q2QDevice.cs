@@ -84,6 +84,7 @@ public class Q2QDevice : MonoBehaviour
         _mapView.ClearCurrentColourSection();
         _mapView.SetTappable(true);
         _mapView.CalculatedFaultAreaActive(false);
+        _mapView.ToggleInvalidGuessPopup(false);
 
         _currentLineSegment = new LineSegment();
         _deviceView.ShowCableTypeInput(_visualLineSegmentCount);
