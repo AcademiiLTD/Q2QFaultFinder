@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 3708619769323042947}
   - component: {fileID: 7883643421277113601}
   - component: {fileID: 6258142658606560922}
+  - component: {fileID: 1803168094438734751}
   m_Layer: 5
   m_Name: Cable Setup
   m_TagString: Untagged
@@ -520,6 +521,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1803168094438734751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829340897196060178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e83b2f019048b394580481e4cec00c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicAudioSource: {fileID: 6258142658606560922}
 --- !u!1 &1876083918640001057
 GameObject:
   m_ObjectHideFlags: 0

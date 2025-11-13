@@ -50,4 +50,10 @@ public static class ApplicationEvents
     {
         OnLineSectionEmpty?.Invoke(empty);
     }
+
+    public static UnityAction<bool> MusicStateChange;
+    public static void InvokeMusicStateChange(bool musicOn)
+    {
+        MusicStateChange?.Invoke(musicOn);
+    }
 }

@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 4385276986586505618}
   - component: {fileID: 6111967117672656395}
   - component: {fileID: 4456093106448934005}
+  - component: {fileID: 2581483044614556791}
   m_Layer: 5
   m_Name: Volume Button
   m_TagString: Untagged
@@ -780,9 +781,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuView, Assembly-CSharp
-        m_MethodName: ToggleMusic
+      - m_Target: {fileID: 2581483044614556791}
+        m_TargetAssemblyTypeName: BackgroundMusicToggle, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -822,6 +823,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 9.07
+--- !u!114 &2581483044614556791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5371355501397153253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f87b110a2fa5947b75b1c1e109ebf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundOnImage: {fileID: 1523086316434629842}
+  _soundMutedImage: {fileID: 6361841857828617435}
 --- !u!1 &6855274488631114833
 GameObject:
   m_ObjectHideFlags: 0
