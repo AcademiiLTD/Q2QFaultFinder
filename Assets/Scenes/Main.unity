@@ -856,17 +856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &686555747 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3129131815913434570, guid: 90c1dd5e635dd924e90e7c2115514df6, type: 3}
-  m_PrefabInstance: {fileID: 3018820559259983962}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f9429660d27e2845a940e96198e6a59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1326795096
 GameObject:
   m_ObjectHideFlags: 0
@@ -4645,11 +4634,19 @@ PrefabInstance:
     - target: {fileID: 6901770127115693288, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 686555747}
+      objectReference: {fileID: 3923409893807330111}
     - target: {fileID: 6901770127115693288, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 29251295}
+    - target: {fileID: 6901770127115693288, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ReturnToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901770127115693288, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -20,12 +20,20 @@ public class CableSetupController : MonoBehaviour
     {
         ConnectorPoint.ConnectedCorrectly += EvaluateConnectorPoints;
         ApplicationEvents.OnScenarioStarted += OnScenarioStarted;
+        ApplicationEvents.OnGoToMainMenu += OnGoToMainMenu;
     }
 
     private void OnDisable()
     {
        ConnectorPoint.ConnectedCorrectly -= EvaluateConnectorPoints;
         ApplicationEvents.OnScenarioStarted -= OnScenarioStarted;
+        ApplicationEvents.OnGoToMainMenu -= OnGoToMainMenu;
+
+    }
+
+    private void OnGoToMainMenu()
+    {
+        _cableSetupCanvasToggler.ToggleView(false);
     }
 
     private void OnScenarioStarted()
