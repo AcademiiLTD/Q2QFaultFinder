@@ -2493,6 +2493,7 @@ GameObject:
   - component: {fileID: 6473863692717196354}
   - component: {fileID: 2898950704203851635}
   - component: {fileID: 3814150228565959621}
+  - component: {fileID: 554624568393098819}
   m_Layer: 5
   m_Name: Fault Finding
   m_TagString: Untagged
@@ -2819,6 +2820,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &554624568393098819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233510724022629283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e83b2f019048b394580481e4cec00c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicAudioSource: {fileID: 3814150228565959621}
 --- !u!1 &3510214001332995451
 GameObject:
   m_ObjectHideFlags: 0
