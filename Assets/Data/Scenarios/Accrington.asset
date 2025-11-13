@@ -35,3 +35,4 @@ MonoBehaviour:
   faultDistance: 146
   mapMetersPerPixel: 5.95
   faultPosition: {x: -114, y: -275}
+  cableStartPosition: {x: -360, y: 255}
