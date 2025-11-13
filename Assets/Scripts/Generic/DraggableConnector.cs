@@ -19,11 +19,6 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
     //public static UnityAction<Transform, PointerEventData> OnGrabbedDraggable, OnReleasedDraggable;
     public ConnectorType _connectorType;
 
-    private void Start()
-    {
-        _startPosition = transform.position;    
-    }
-
     public void OnBeginDrag(PointerEventData data)
     {
         //OnGrabbedDraggable.Invoke(transform, data);
@@ -69,7 +64,7 @@ public class DraggableConnector : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void ResetConnectorPosition()
     {
-        transform.position = _startPosition;
+        transform.localPosition = Vector3.zero;
 
     }
 
