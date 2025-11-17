@@ -1036,7 +1036,7 @@ GameObject:
   - component: {fileID: 439847180374889312}
   - component: {fileID: 8201965409580624493}
   m_Layer: 5
-  m_Name: Fault Finding Landing Popup
+  m_Name: Slide Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
