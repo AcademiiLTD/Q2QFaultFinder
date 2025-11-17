@@ -353,7 +353,7 @@ RectTransform:
   m_Father: {fileID: 6598599437375032446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.17}
-  m_AnchorMax: {x: 0.9, y: 0.63}
+  m_AnchorMax: {x: 0.9, y: 0.69}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1802,7 +1802,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6598599437375032446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.05, y: 0.65}
+  m_AnchorMin: {x: 0.05, y: 0.71}
   m_AnchorMax: {x: 0.95, y: 0.95}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -4151,7 +4151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f042e80fde5cfad4b8e50d49263f9a81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d04564f55257cbc4a98ee4b1e7f3cab5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4291,6 +4291,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9063659443629194928}
     m_Modifications:
+    - target: {fileID: 254007162490018153, guid: 952663e19ddcefb4fbac80862ad31212, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.71
+      objectReference: {fileID: 0}
     - target: {fileID: 449487390704113011, guid: 952663e19ddcefb4fbac80862ad31212, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -4351,7 +4355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3431785317972866588, guid: 952663e19ddcefb4fbac80862ad31212, type: 3}
       propertyPath: m_fontSize
-      value: 30.35
+      value: 24.3
       objectReference: {fileID: 0}
     - target: {fileID: 3743222896481783029, guid: 952663e19ddcefb4fbac80862ad31212, type: 3}
       propertyPath: m_text
@@ -5478,7 +5482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8570611194714273186, guid: b8bc4f21a8605624aab5ca080c0a4250, type: 3}
       propertyPath: m_fontSize
-      value: 49.6
+      value: 52.55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
