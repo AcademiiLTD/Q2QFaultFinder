@@ -74,7 +74,7 @@ public class Q2QDevice : MonoBehaviour
 
         _deviceView.StartNewLineSegment(_visualLineSegmentCount);
         _deviceView.ShowMonthInput();
-        _deviceView.SetDeviceActive(false); 
+        _deviceView.SetDeviceActive(false);
 
         _mapView.ResetMap();
     }
@@ -211,8 +211,57 @@ public class Q2QDevice : MonoBehaviour
 
     public void SubmitUserFaultGuess()
     {
-        FaultPositionGuess guess = new FaultPositionGuess(_calculatedFaultPosition, SimplifiedLineSegmentList(), _currentFaultFindingScenario.LineSegments);
+        FaultPositionGuess guess = new FaultPositionGuess(
+            _calculatedFaultPosition,
+            SimplifiedLineSegmentList(),
+            ScreenshotUserInput(),
+            _currentFaultFindingScenario.LineSegments,
+            _currentFaultFindingScenario.expectedSegmentsScreenshot);
         ApplicationEvents.InvokeOnGuessSubmitted(guess);
+    }
+
+    private Sprite ScreenshotUserInput()
+    {
+        RenderTexture captureTexture = new RenderTexture(Screen.width, Screen.height, 24);
+        ScreenCapture.CaptureScreenshotIntoRenderTexture(captureTexture);
+
+        Texture2D newTexture = new Texture2D(captureTexture.width, captureTexture.height, TextureFormat.RGB24, false);
+
+        //Requires caching the previous texture for ReadPixels() to function
+        RenderTexture previousTexture = RenderTexture.active;
+        RenderTexture.active = captureTexture;
+        newTexture.ReadPixels(new Rect(0, 0, captureTexture.width, captureTexture.height), 0, 0);
+        newTexture.Apply();
+        RenderTexture.active = previousTexture;
+
+        Texture2D croppedScreenshot = CropTextureByPercentage(newTexture, 0.22f);
+
+        var spriteRect = new Rect(0, croppedScreenshot.height, croppedScreenshot.width, -croppedScreenshot.height);
+        Sprite screenshotSprite = Sprite.Create(croppedScreenshot, spriteRect, new Vector2(0.5f, 0.5f));
+
+        return screenshotSprite;
+    }
+
+    private Texture2D CropTextureByPercentage(Texture2D originalTexture, float zoomPercent)
+    {
+        zoomPercent = Mathf.Clamp01(zoomPercent);
+
+        int width = originalTexture.width;
+        int height = originalTexture.height;
+
+        int newWidth = Mathf.RoundToInt(width * (1f - zoomPercent));
+        int newHeight = Mathf.RoundToInt(height * (1f - zoomPercent));
+
+        int startX = (width - newWidth) / 2;
+        int startY = (height - newHeight) / 2;
+
+        Color[] pixels = originalTexture.GetPixels(startX, startY, newWidth, newHeight);
+
+        Texture2D croppedTexture = new Texture2D(newWidth, newHeight, originalTexture.format, false);
+        croppedTexture.SetPixels(pixels);
+        croppedTexture.Apply();
+
+        return croppedTexture;
     }
 
     public float CalculateRoundTripTime(float faultDistanceMeters, List<LineSegment> segments)
