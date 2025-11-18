@@ -36,4 +36,4 @@ MonoBehaviour:
   mapMetersPerPixel: 5.95
   faultPosition: {x: -114, y: -275}
   cableStartPosition: {x: -360, y: 255}
-  expectedSegmentsScreenshot: {fileID: 21300000, guid: 82028db5c24c5384080aaa3c1a886180, type: 3}
+  expectedSegmentsScreenshot: {fileID: 21300000, guid: 9bdfd3d039bcb224c9e3017f9095c3ec, type: 3}
