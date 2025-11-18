@@ -28,7 +28,7 @@ MonoBehaviour:
     length: 67
     thickness: 185
   - cable: {fileID: 11400000, guid: 02357df6149c9004a846d7560f4fa8f2, type: 2}
-    length: 112
+    length: 126
     thickness: 95
   month: 11
   mapImage: {fileID: 21300000, guid: 428363f17ea9907439fc5e6a402381fe, type: 3}

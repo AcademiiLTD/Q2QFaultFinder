@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,6 @@ public class Q2QDevice : MonoBehaviour
 
     [SerializeField] private Q2QDeviceView _deviceView;
     [SerializeField] private MapView _mapView;
-    [SerializeField] private GameObject _faultAreaIndicator;
     [SerializeField] private Button _deviceButton;
 
     [SerializeField] private List<LineSegment> _savedLineSegments;
@@ -213,22 +211,12 @@ public class Q2QDevice : MonoBehaviour
 
     public void SubmitUserFaultGuess()
     {
-        StartCoroutine(FaultPositionConstruction());
-    }
-
-    private IEnumerator FaultPositionConstruction()
-    {
-        _faultAreaIndicator.SetActive(false);
-        yield return null;
-
         FaultPositionGuess guess = new FaultPositionGuess(
             _calculatedFaultPosition,
             SimplifiedLineSegmentList(),
             ScreenshotUserInput(),
             _currentFaultFindingScenario.LineSegments,
             _currentFaultFindingScenario.expectedSegmentsScreenshot);
-
-        _faultAreaIndicator.SetActive(true);
         ApplicationEvents.InvokeOnGuessSubmitted(guess);
     }
 
