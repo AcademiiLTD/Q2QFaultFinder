@@ -16,6 +16,7 @@ public class FaultFindingScenario : ScriptableObject
     public float mapMetersPerPixel;
     public Vector2 faultPosition;
     public Vector2 cableStartPosition;
+    public Sprite expectedSegmentsScreenshot;
 }
 
 public enum Month
