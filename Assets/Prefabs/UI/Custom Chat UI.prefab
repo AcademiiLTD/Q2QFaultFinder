@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 5291183412661667268}
   - component: {fileID: 2813752359562949391}
   - component: {fileID: 4323268796433483747}
+  - component: {fileID: 5038234911673243915}
   m_Layer: 5
   m_Name: Custom Chat UI
   m_TagString: Untagged
@@ -253,6 +254,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5038234911673243915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316285452871594640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42789b9461eb7464ebcc6f3cef0f847d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons:
+  - {fileID: 4058311447760759303}
+  - {fileID: 5800210445525060347}
 --- !u!1 &371028349712702406
 GameObject:
   m_ObjectHideFlags: 0
