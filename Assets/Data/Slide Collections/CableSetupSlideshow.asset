@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924304f7b82b466429d76b8ac9702f2b, type: 3}
+  m_Name: CableSetupSlideshow
+  m_EditorClassIdentifier: 
+  _slideCollectionName: 
+  _slides:
+  - rid: 1236435350479175687
+  - rid: 1236435350479175688
+  - rid: 1236435350479175689
+  references:
+    version: 2
+    RefIds:
+    - rid: 1236435350479175687
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Cable Setup
+        _bodyText: 'The fault locator is designed to be connected at either an LV
+          board/pillar
+
+          or underground linkbox which are being used to
+          feed the phase to phase fault.'
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: d04564f55257cbc4a98ee4b1e7f3cab5, type: 3}
+    - rid: 1236435350479175688
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Inputs
+        _bodyText: 'The live and neutral inputs (labelled L and N) are used to power
+          the device and also to apply test loads to the cable under test. This input
+          is not designed to operate over the 250V RMS max and damage could occur
+          if connected to higher voltages.
+
+
+          The second input is a voltage
+          sensing input (labelled S and S). It is
+
+          used to measure the
+          differential voltage between the 2 ends of the
+
+          cable. They
+          have a 30V RMS max measuring ability.'
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: 5fc2e560234eb104182628b6dd83a9ee, type: 3}
+    - rid: 1236435350479175689
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Cable Connection
+        _bodyText: Drag the connectors from the panel on the right to the correct
+          place on the substation. Once all connectors are in place, the Q2Q device
+          is ready to be used.
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: 3201ce200d7fc0e44a606922244c39a7, type: 3}
