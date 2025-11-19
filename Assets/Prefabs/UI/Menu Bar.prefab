@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2926000470327769419}
   - component: {fileID: 7850389716128494923}
+  - component: {fileID: 1737323326931307900}
   m_Layer: 5
   m_Name: Menu Bar
   m_TagString: Untagged
@@ -45,6 +46,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2560719335342267461}
   m_CullTransparentMesh: 1
+--- !u!114 &1737323326931307900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560719335342267461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42789b9461eb7464ebcc6f3cef0f847d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons:
+  - {fileID: 4049777430448780970}
 --- !u!1 &5024851781722918110
 GameObject:
   m_ObjectHideFlags: 0

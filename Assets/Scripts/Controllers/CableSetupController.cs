@@ -13,7 +13,7 @@ public class CableSetupController : MonoBehaviour
     [SerializeField] private List<DraggableConnector> _grabbableConnectors;
     [SerializeField] private List<ConnectorPoint> _connectorPoints;
 
-    [SerializeField] private AudioSource _connectionAudioSource;
+    [SerializeField] private AudioClip _connectionAudioClip;
     private int _cableIndex;
 
     private void OnEnable()
@@ -119,7 +119,7 @@ public class CableSetupController : MonoBehaviour
 
     private void EvaluateConnectorPoints()
     {
-        _connectionAudioSource.Play();
+        ApplicationEvents.InvokeOnSoundEffect(SoundEffectType.CLIP_ATTACH);
 
         if (CheckSetupCompletion())
         {

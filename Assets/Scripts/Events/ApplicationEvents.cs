@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -55,5 +56,17 @@ public static class ApplicationEvents
     public static void InvokeMusicStateChange(bool musicOn)
     {
         MusicStateChange?.Invoke(musicOn);
+    }
+
+    public static UnityAction OnButtonSoundEffect;
+    public static void InvokeOnButtonSoundEffect()
+    {
+        OnButtonSoundEffect?.Invoke();
+    }
+
+    public static UnityAction<SoundEffectType> OnSoundEffect;
+    public static void InvokeOnSoundEffect(SoundEffectType soundEffectType)
+    { 
+        OnSoundEffect?.Invoke(soundEffectType);
     }
 }
