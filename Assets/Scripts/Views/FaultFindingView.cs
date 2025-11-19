@@ -24,8 +24,8 @@ public class FaultFindingView : MonoBehaviour
 
     public void ToggleIntroWindow(bool state)
     {
-        if (state) _introWindow.ResetSlideshow();
         _introWindow.gameObject.SetActive(state);
+        if (state) _introWindow.ResetSlideshow();
     }
 
     public void SetDate(string newDate)
