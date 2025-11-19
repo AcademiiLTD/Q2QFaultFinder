@@ -56,4 +56,16 @@ public static class ApplicationEvents
     {
         MusicStateChange?.Invoke(musicOn);
     }
+
+    public static UnityAction OnButtonSoundEffect;
+    public static void InvokeOnButtonSoundEffect()
+    {
+        OnButtonSoundEffect?.Invoke();
+    }
+
+    public static UnityAction<AudioClip> OnSoundEffect;
+    public static void InvokeOnSoundEffect(AudioClip audioClip)
+    { 
+        OnSoundEffect?.Invoke(audioClip);
+    }
 }
