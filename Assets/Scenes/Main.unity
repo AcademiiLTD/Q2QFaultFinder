@@ -4997,6 +4997,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: Play
       objectReference: {fileID: 0}
+    - target: {fileID: 3932585004671090573, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 29251295}
+    - target: {fileID: 3932585004671090573, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
     - target: {fileID: 3981486651661343427, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
       propertyPath: m_Pivot.x
       value: 1
