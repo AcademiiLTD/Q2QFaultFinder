@@ -4989,6 +4989,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 366908795}
+    - target: {fileID: 2786365637685000607, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 366908795}
+    - target: {fileID: 2786365637685000607, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
     - target: {fileID: 3981486651661343427, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -5077,6 +5085,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 29251295}
+    - target: {fileID: 4563209902966840991, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3923409893807330111}
+    - target: {fileID: 4563209902966840991, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 29251295}
+    - target: {fileID: 4563209902966840991, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ExitApplication
+      objectReference: {fileID: 0}
+    - target: {fileID: 4563209902966840991, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 4563209902966840991, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5491228472092122248, guid: e40bc90cfaec51342a17d276018e0ea3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
