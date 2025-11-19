@@ -8,7 +8,7 @@ public class MainMenuView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scenarioDescriptionText, _scenarioDateText, _scenarioNameText;
     [SerializeField] private List<ScenarioListItem> _scenarioListItems;
-    [SerializeField] private GameObject _setupMenu, _faultFindingListMenu, _faultFindingDetailsMenu;
+    [SerializeField] private GameObject _landingMenu, _faultFindingListMenu, _faultFindingDetailsMenu;
 
 
     public void PopulateDescriptionWindow(FaultFindingScenario scenario)
@@ -37,7 +37,8 @@ public class MainMenuView : MonoBehaviour
 
     public void ResetMainMenu()
     {
-        _faultFindingListMenu.SetActive(true);
+        _landingMenu.SetActive(true);
+        _faultFindingListMenu.SetActive(false);
         _faultFindingDetailsMenu.SetActive(false);
     }
 }
