@@ -2699,7 +2699,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _helpContainer: {fileID: 6513536806959819369}
-  _landingPopup: {fileID: 6915436702053241005}
   _guessConfirmationPopup: {fileID: 0}
   _faultCheckingPopup: {fileID: 8169860150047786946}
   _dateText: {fileID: 5835954082685719733}
@@ -2710,6 +2709,7 @@ MonoBehaviour:
   - {fileID: 6718520927760026428}
   - {fileID: 8108468117697492482}
   - {fileID: 63002532552867594}
+  _introWindow: {fileID: 3571265574237764316}
 --- !u!95 &6473863692717196354
 Animator:
   serializedVersion: 5
@@ -12160,11 +12160,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a624ec8c1eb904d4e87b4f012e9fd409, type: 3}
---- !u!1 &6915436702053241005 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2226036648649029878, guid: a624ec8c1eb904d4e87b4f012e9fd409, type: 3}
+--- !u!114 &3571265574237764316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8111904996098380423, guid: a624ec8c1eb904d4e87b4f012e9fd409, type: 3}
   m_PrefabInstance: {fileID: 4691881664139028571}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7effb7f32c049574da402a8872f1a2a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7142833805239606738 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2467013837461239177, guid: a624ec8c1eb904d4e87b4f012e9fd409, type: 3}

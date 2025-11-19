@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class FaultFindingView : MonoBehaviour
 {
-    [SerializeField] private GameObject _helpContainer, _landingPopup, _guessConfirmationPopup, _faultCheckingPopup;
+    [SerializeField] private GameObject _helpContainer, _guessConfirmationPopup, _faultCheckingPopup;
     [SerializeField] private TextMeshProUGUI _dateText;
     [SerializeField] private List<GameObject> _walkthroughContainers;
+    [SerializeField] private Slideshow _introWindow;
 
     public void ToggleHelpContainer()
     {
@@ -21,9 +22,10 @@ public class FaultFindingView : MonoBehaviour
         }
     }
 
-    public void EnableLandingPopup()
+    public void ToggleIntroWindow(bool state)
     {
-        _landingPopup.SetActive(true);
+        if (state) _introWindow.ResetSlideshow();
+        _introWindow.gameObject.SetActive(state);
     }
 
     public void SetDate(string newDate)

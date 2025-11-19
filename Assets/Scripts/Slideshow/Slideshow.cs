@@ -47,6 +47,13 @@ public class Slideshow : MonoBehaviour
         StartCoroutine(PopulateCurrentSlide());
     }
 
+    public void ResetSlideshow()
+    {
+        _currentSlideIndex = 0;
+        StartCoroutine(PopulateCurrentSlide());
+        Debug.Log("Reset");
+    }
+
     [ContextMenu("Next slide")]
     public void NextSlide()
     {

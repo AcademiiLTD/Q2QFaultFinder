@@ -43,7 +43,7 @@ public class FaultFindingController : MonoBehaviour
     private void OnFaultFindingStarted()
     {
         Debug.Log("Fault finding started");
-        _faultFindingView.EnableLandingPopup();
+        _faultFindingView.ToggleIntroWindow(true);
         _faultFindingCanvasToggler.ToggleView(true);
         _finalResultPopupView.gameObject.SetActive(false); //Doing Setactive(false) on this right now because it has an entry animation
     }

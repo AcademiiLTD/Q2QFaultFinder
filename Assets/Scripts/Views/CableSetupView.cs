@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class CableSetupView : MonoBehaviour
 {
-    [SerializeField] private GameObject _introWindow, _completionWindow;
+    [SerializeField] private GameObject _completionWindow;
     [SerializeField] private TextMeshProUGUI _walkthroughText;
+    [SerializeField] private Slideshow _introWindow;
 
     public void ToggleIntroWindow(bool state)
     {
-        _introWindow.SetActive(state);
+        _introWindow.gameObject.SetActive(state);
+        if (state) _introWindow.ResetSlideshow();
     }
 
     public void ToggleCompletionWindow(bool state)
