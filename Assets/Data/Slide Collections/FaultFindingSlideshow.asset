@@ -50,7 +50,12 @@ MonoBehaviour:
           For this
           simulation, the month is displayed as a date at the bottom right of the
           screen and, for real world simulations, this reflects the date on which
-          this test simulation was originally undertaken.'
+          this test simulation was originally undertaken.
+
+
+          Cables expand
+          and contract with different temperatures, so it is important to input the
+          month for accuracy.'
         _text2SpeechClip: {fileID: 0}
         _image: {fileID: 21300000, guid: cb41c398dfbf8eb4bbaefdcc89817662, type: 3}
     - rid: 1236435350479175683
@@ -75,8 +80,12 @@ MonoBehaviour:
       type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
       data:
         _titleText: Line Placement
-        _bodyText: To start, click on the map to start placing a line segment along
-          the network. You will need to map a path to the estimated fault area.
+        _bodyText: 'To start, click on the map to start placing a line segment along
+          the network. By default this will always start from the substation''s location.
+
+
+          You
+          will need to map a path to the estimated fault area.'
         _text2SpeechClip: {fileID: 0}
         _image: {fileID: 21300000, guid: d7f8a39a51dd6be47ace0c679621527b, type: 3}
     - rid: 1236435350479175686
