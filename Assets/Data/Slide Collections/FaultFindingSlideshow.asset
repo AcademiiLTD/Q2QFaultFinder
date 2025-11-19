@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924304f7b82b466429d76b8ac9702f2b, type: 3}
+  m_Name: FaultFindingSlideshow
+  m_EditorClassIdentifier: 
+  _slideCollectionName: Fault Finding Slides
+  _slides:
+  - rid: 1236435350479175681
+  - rid: 1236435350479175685
+  - rid: 1236435350479175686
+  - rid: 1236435350479175682
+  - rid: 1236435350479175683
+  - rid: 1236435350479175684
+  references:
+    version: 2
+    RefIds:
+    - rid: 1236435350479175681
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Fault Finding
+        _bodyText: 'The Q2Q device pinpoints the location of a fault on the network
+          where two phases are welded together, by taking readings whilst switching
+          loads in and out.
+
+
+          From the on load testing it calculates distance
+          to fault. The user inputs cable information on the touch screen until the
+          device offers a geographical location of the fault. Step by step instructions
+          for operation are presented on the display screen. Follow these instructions
+          and answer the on-screen questions.'
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: e2db89ebaeb22fc4db27d3ced28ebc5c, type: 3}
+    - rid: 1236435350479175682
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Month Input
+        _bodyText: 'The device will initially prompt you to input a month. This is
+          the month in which you are doing the fault testing.
+
+
+          For this
+          simulation, the month is displayed as a date at the bottom right of the
+          screen and, for real world simulations, this reflects the date on which
+          this test simulation was originally undertaken.'
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: cb41c398dfbf8eb4bbaefdcc89817662, type: 3}
+    - rid: 1236435350479175683
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Cable Input
+        _bodyText: You will then input the type, thickness and length of the section
+          of cable that you have traced out using the map overlay.
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: fe5a9927ee314c2428f7dd546dd9fd92, type: 3}
+    - rid: 1236435350479175684
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Final Result
+        _bodyText: 'You will repeat this process until prompted by the device that
+          you have traced past the location of the fault. At this point you will
+          be provided with a distance, in metres, indicating the position of the
+          fault within the most recently entered section of cable you traced. '
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: 82028db5c24c5384080aaa3c1a886180, type: 3}
+    - rid: 1236435350479175685
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Line Placement
+        _bodyText: To start, click on the map to start placing a line segment along
+          the network. You will need to map a path to the estimated fault area.
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: d7f8a39a51dd6be47ace0c679621527b, type: 3}
+    - rid: 1236435350479175686
+      type: {class: ImageSlide, ns: , asm: Assembly-CSharp}
+      data:
+        _titleText: Opening the Device
+        _bodyText: Once you have placed a line segment for a type of cable, press
+          the button near the top left to open the Q2Q device.
+        _text2SpeechClip: {fileID: 0}
+        _image: {fileID: 21300000, guid: 024b281c187228d40aad2d0218adf1f4, type: 3}
