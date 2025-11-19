@@ -32,4 +32,9 @@ public class MainMenuController : MonoBehaviour
         _mainMenuCanvasToggler.ToggleView(false);
         ApplicationEvents.InvokeOnStartScenario();
     }
+
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
 }
