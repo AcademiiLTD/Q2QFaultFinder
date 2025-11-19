@@ -98,14 +98,14 @@ public class MapView : MonoBehaviour
         }
         else
         {
-            LineSegmentView previousLineSegment = PreviousLineSegment();
+            LineSegmentView previousLineSegment = MostRecentLineSegment();
             previousLineSegment.EndPointShowState(false);
 
             newLineSegment.SetFirstPosition(previousLineSegment.EndPoisition(), _mapMetersPerPixel);
             newLineSegment.SetSecondPosition(tapPosition);
         }
 
-        PreviousColourSection().Add(newLineSegment);
+        CurrentColourSection().Add(newLineSegment);
         ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
         EvaluateSegmentLengths();
     }
@@ -123,7 +123,7 @@ public class MapView : MonoBehaviour
         float previousColourSectionLength = 0f;
         if (_line.Count > 0)
         {
-            List<LineSegmentView> previousLineColourSection = PreviousColourSection();
+            List<LineSegmentView> previousLineColourSection = CurrentColourSection();
 
             foreach (LineSegmentView lineSegment in previousLineColourSection)
             {
@@ -157,9 +157,28 @@ public class MapView : MonoBehaviour
         }
     }
 
+    public void UndoLineSegment()
+    {
+        if (CurrentColourSectionEmpty())
+        {
+            return;
+        }
+
+        LineSegmentView mostRecentLineSegment = MostRecentLineSegment();
+        CurrentColourSection().Remove(mostRecentLineSegment);
+        Destroy(mostRecentLineSegment.gameObject);
+
+        if (AllSegments().Count == 0)
+        {
+            return;
+        }
+
+        MostRecentLineSegment().EndPointShowState(true);
+    }
+
     public void ClearCurrentColourSection()
     {
-        List<LineSegmentView> currentSection = PreviousColourSection();
+        List<LineSegmentView> currentSection = CurrentColourSection();
 
         foreach (LineSegmentView lineSegmentView in currentSection)
         {
@@ -170,7 +189,7 @@ public class MapView : MonoBehaviour
 
         if (AllSegments().Count > 0)
         {
-            PreviousLineSegment().EndPointShowState(true);
+            MostRecentLineSegment().EndPointShowState(true);
         }
 
         ApplicationEvents.InvokeOnLineSectionEmpty(CurrentColourSectionEmpty());
@@ -238,13 +257,13 @@ public class MapView : MonoBehaviour
         return allSegments;
     }
 
-    private LineSegmentView PreviousLineSegment()
+    private LineSegmentView MostRecentLineSegment()
     {
         List<LineSegmentView> allSegments = AllSegments();
         return allSegments[allSegments.Count - 1];
     }
 
-    private List<LineSegmentView> PreviousColourSection()
+    private List<LineSegmentView> CurrentColourSection()
     {
         if (_line.Count > 0)
         {
@@ -258,7 +277,7 @@ public class MapView : MonoBehaviour
 
     private bool CurrentColourSectionEmpty()
     {
-        return PreviousColourSection().Count == 0;
+        return CurrentColourSection().Count == 0;
     }
 
     public void SetTappable(bool tappable)
