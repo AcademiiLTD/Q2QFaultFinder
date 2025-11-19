@@ -1,21 +1,34 @@
 using UnityEngine;
 
-public class SoundEffectListener : MonoBehaviour
+namespace AYellowpaper.SerializedCollections
 {
-    [SerializeField] private AudioSource _audioSource;
-
-    private void OnEnable()
+    public class SoundEffectListener : MonoBehaviour
     {
-        ApplicationEvents.OnSoundEffect += OnSoundEffect;
-    }
+        [SerializedDictionary("SFX Type", "SFX File")]
+        public SerializedDictionary<SoundEffectType, AudioClip> SoundEffects;
 
-    private void OnDisable()
-    {
-        ApplicationEvents.OnSoundEffect -= OnSoundEffect;
-    }
+        [SerializeField] private AudioSource _audioSource;
 
-    private void OnSoundEffect(AudioClip soundEffect)
-    {
-        _audioSource.PlayOneShot(soundEffect);
+        private void OnEnable()
+        {
+            ApplicationEvents.OnSoundEffect += OnSoundEffect;
+        }
+
+        private void OnDisable()
+        {
+            ApplicationEvents.OnSoundEffect -= OnSoundEffect;
+        }
+
+        private void OnSoundEffect(SoundEffectType soundEffectType)
+        {
+            _audioSource.PlayOneShot(SoundEffects[soundEffectType]);
+        }
     }
+}
+
+public enum SoundEffectType
+{
+    BUTTON_CLICK,
+    SCREEN_TAP,
+    CLIP_ATTACH
 }

@@ -119,7 +119,7 @@ public class CableSetupController : MonoBehaviour
 
     private void EvaluateConnectorPoints()
     {
-        ApplicationEvents.InvokeOnSoundEffect(_connectionAudioClip);
+        ApplicationEvents.InvokeOnSoundEffect(SoundEffectType.CLIP_ATTACH);
 
         if (CheckSetupCompletion())
         {

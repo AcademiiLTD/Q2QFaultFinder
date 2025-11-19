@@ -49,6 +49,6 @@ public class MapController : MonoBehaviour
         }
 
         _mapView.PlaceLineSegment(tapPosition);
-        ApplicationEvents.InvokeOnSoundEffect(_touchscreenTapAudioClip);
+        ApplicationEvents.InvokeOnSoundEffect(SoundEffectType.SCREEN_TAP);
     }
 }

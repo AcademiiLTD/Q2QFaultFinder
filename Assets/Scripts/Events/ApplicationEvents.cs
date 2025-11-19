@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -63,9 +64,9 @@ public static class ApplicationEvents
         OnButtonSoundEffect?.Invoke();
     }
 
-    public static UnityAction<AudioClip> OnSoundEffect;
-    public static void InvokeOnSoundEffect(AudioClip audioClip)
+    public static UnityAction<SoundEffectType> OnSoundEffect;
+    public static void InvokeOnSoundEffect(SoundEffectType soundEffectType)
     { 
-        OnSoundEffect?.Invoke(audioClip);
+        OnSoundEffect?.Invoke(soundEffectType);
     }
 }

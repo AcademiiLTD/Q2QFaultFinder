@@ -4,27 +4,20 @@ using UnityEngine.UI;
 
 public class ButtonSpecificSoundEffectBroadcaster : MonoBehaviour
 {
-    [SerializeField] private AudioClip _soundEffect;
-    [SerializeField] private List<Button> _buttons;
+    [SerializeField] private SoundEffectType soundEffectType;
 
     private void OnEnable()
     {
-        foreach (Button button in _buttons)
-        {
-            button.onClick.AddListener(ButtonClicked);
-        }
+        GetComponent<Button>().onClick.AddListener(PlayButtonClick); 
     }
 
     private void OnDisable()
     {
-        foreach (Button button in _buttons)
-        {
-            button.onClick.RemoveAllListeners();
-        }
+        GetComponent<Button>().onClick.RemoveAllListeners(); 
     }
 
-    public void ButtonClicked()
+    public void PlayButtonClick()
     {
-        ApplicationEvents.InvokeOnSoundEffect(_soundEffect);
+        ApplicationEvents.InvokeOnSoundEffect(soundEffectType);
     }
 }
