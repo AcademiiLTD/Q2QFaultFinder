@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2095816210992119560}
   - component: {fileID: 3610890906315708669}
   - component: {fileID: 8678014113425996753}
+  - component: {fileID: 7284140234137631258}
   m_Layer: 5
   m_Name: Q2Q Button Blue
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7284140234137631258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4694651194143380388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233939f032055194f88265476f187a5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffectType: 1
 --- !u!1 &5956363766999743723
 GameObject:
   m_ObjectHideFlags: 0
